@@ -1,0 +1,166 @@
+---
+const currentYear = new Date().getFullYear();
+---
+
+<!-- Footer Component -->
+<footer class="bg-[#FAF6F0] border-t border-brand-gold/15 py-16 text-[#5A4535]">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Main Content Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8 pb-12 border-b border-brand-gold/15">
+      
+      <!-- Column 1: Brand Info -->
+      <div class="lg:col-span-4 flex flex-col gap-6">
+        <a href="/" class="flex items-center gap-3 group">
+          <div class="w-14 h-14 rounded-full bg-white border border-brand-gold flex flex-col items-center justify-center shadow-sm relative overflow-hidden px-1 shrink-0">
+            <span class="font-cursive text-brand-dark text-base leading-none pt-1">Montalvo</span>
+            <div class="w-10 h-[0.5px] bg-brand-gold my-0.5"></div>
+            <span class="font-sans text-[5px] tracking-[0.2em] text-brand-dark font-extrabold leading-none uppercase">Catering</span>
+          </div>
+          <span class="font-serif font-bold text-xl text-brand-dark tracking-wide">Montalvo Catering</span>
+        </a>
+        <p class="text-sm text-gray-600 leading-relaxed font-medium">
+          Alta cocina gourmet y ensaladas de autor frescas. Llevamos sabor, distinción y nutrición balanceada hasta tu oficina o domicilio en Cochabamba.
+        </p>
+        <!-- Social Icons -->
+        <div class="flex items-center gap-4">
+          <!-- Facebook -->
+          <a 
+            href="https://www.facebook.com/montalvo.catering" 
+            target="_blank" 
+            class="w-10 h-10 rounded-full border border-[#5A4535]/20 flex items-center justify-center text-[#5A4535] hover:text-[#FAF6F0] hover:bg-[#5A4535] hover:border-[#5A4535] transition-all duration-300"
+            aria-label="Facebook"
+          >
+            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c4.56-.93 8-4.96 8-9.75z"/>
+            </svg>
+          </a>
+          <!-- Instagram -->
+          <a 
+            href="https://www.instagram.com/montalvo_catering?igsh=MTlpMDZrc2NqdGQ3dQ%3D%3D" 
+            target="_blank" 
+            class="w-10 h-10 rounded-full border border-[#5A4535]/20 flex items-center justify-center text-[#5A4535] hover:text-[#FAF6F0] hover:bg-[#5A4535] hover:border-[#5A4535] transition-all duration-300"
+            aria-label="Instagram"
+          >
+            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+            </svg>
+          </a>
+          <!-- TikTok -->
+          <a 
+            href="https://www.tiktok.com/@montalvo.catering?_r=1&_t=zs-94qu9f3wbf2" 
+            target="_blank" 
+            class="w-10 h-10 rounded-full border border-[#5A4535]/20 flex items-center justify-center text-[#5A4535] hover:text-[#FAF6F0] hover:bg-[#5A4535] hover:border-[#5A4535] transition-all duration-300"
+            aria-label="TikTok"
+          >
+            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12.525.02c1.31 0 2.568.32 3.684.887a7.994 7.994 0 002.836 2.835 7.994 7.994 0 001.077 1.077l-.022 3.51a11.11 11.11 0 01-3.64-1.202 11.233 11.233 0 01-2.585-2.072v8.945c0 1.258-.292 2.47-.84 3.565A7.993 7.993 0 0110.24 21.4a7.99 7.99 0 01-3.766-.188 7.992 7.992 0 01-3.155-2.155 7.99 7.99 0 01-1.76-4.238 7.994 7.994 0 012.836-6.404c1.116-.888 2.5-.964 3.765-.964.385 0 .762.03 1.134.09v3.665c-.372-.06-.749-.09-1.134-.09-.646 0-1.255.15-1.782.417a4.015 4.015 0 00-1.782 1.782A4.012 4.012 0 005.41 15c0 .647.15 1.256.417 1.783a4.015 4.015 0 001.782 1.782A4.012 4.012 0 009.39 19c.647 0 1.256-.15 1.783-.417a4.015 4.015 0 001.782-1.782A4.012 4.012 0 0013.372 15V0h-.847z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Column 2: Service Details -->
+      <div class="lg:col-span-3 flex flex-col gap-4">
+        <span class="text-xs font-bold uppercase tracking-widest text-[#8A6F56]">Servicio</span>
+        <div class="flex flex-col gap-3 text-sm text-gray-600 font-medium">
+          <div>
+            <span class="block text-xs font-bold uppercase text-[#8A6F56]/80 mb-0.5">Dirección:</span>
+            <a 
+              href="https://www.google.com/maps/search/?api=1&query=Gral.+Ach%C3%A1+739,+Cochabamba,+Bolivia"
+              target="_blank"
+              class="leading-relaxed hover:text-brand-gold-dark transition-colors inline-block"
+            >
+              Gral. Achá 739<br>Cochabamba, Bolivia
+            </a>
+          </div>
+          <div>
+            <span class="block text-xs font-bold uppercase text-[#8A6F56]/80 mb-0.5">Tipos de Servicio:</span>
+            <ul class="list-disc pl-4 space-y-0.5">
+              <li>A domicilio</li>
+              <li>Para llevar</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Column 3: Schedule -->
+      <div class="lg:col-span-3 flex flex-col gap-4">
+        <span class="text-xs font-bold uppercase tracking-widest text-[#8A6F56]">Horarios de Atención</span>
+        <div class="grid grid-cols-2 gap-x-2 gap-y-1.5 text-sm text-gray-600 font-medium">
+          <span class="text-gray-400">Martes:</span>
+          <span>08:00 - 09:30</span>
+          
+          <span class="text-gray-400">Miércoles:</span>
+          <div class="flex flex-col">
+            <span>08:00 - 09:00</span>
+            <span>11:30 - 12:30</span>
+          </div>
+          
+          <span class="text-gray-400">Jueves:</span>
+          <span>08:00 - 09:30</span>
+          
+          <span class="text-gray-400">Viernes:</span>
+          <span>08:00 - 09:00</span>
+
+          <span class="text-gray-400">Sab - Lun:</span>
+          <span class="text-gray-400 italic">Cerrado</span>
+        </div>
+      </div>
+
+      <!-- Column 4: Links -->
+      <div class="lg:col-span-2 flex flex-col gap-4">
+        <span class="text-xs font-bold uppercase tracking-widest text-[#8A6F56]">Navegación</span>
+        <ul class="flex flex-col gap-2 text-sm font-semibold">
+          <li><a href="/#hero" class="text-gray-600 hover:text-brand-gold-dark transition-colors">Inicio</a></li>
+          <li><a href="/#nosotros" class="text-gray-600 hover:text-brand-gold-dark transition-colors">Nosotros</a></li>
+          <li><a href="/#nuestros-bowls" class="text-gray-600 hover:text-brand-gold-dark transition-colors">Bowls Insignia</a></li>
+          <li><a href="/#carbs" class="text-gray-600 hover:text-brand-gold-dark transition-colors">Carbohidratos</a></li>
+          <li><a href="/#planes" class="text-gray-600 hover:text-brand-gold-dark transition-colors">Planes</a></li>
+          <li><a href="/armar-plan" class="text-brand-gold-dark hover:underline transition-colors font-bold">Armar Plan</a></li>
+          <li><a href="/#equipo" class="text-gray-600 hover:text-brand-gold-dark transition-colors">Equipo</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="pt-8 flex flex-col md:flex-row justify-between items-center gap-6 text-xs font-semibold text-gray-500">
+      <p>© {currentYear} Montalvo Catering. Todos los derechos reservados.</p>
+      
+      <!-- Pegasus Nexus Signature -->
+      <div class="flex flex-wrap items-center justify-center gap-3.5 text-[11px] text-gray-500 font-semibold">
+        <span class="text-gray-400">Creado por:</span>
+        <a 
+          href="https://pegasus-nexus.com" 
+          target="_blank" 
+          class="inline-flex items-center transition-all duration-300 hover:-translate-y-0.5 group shrink-0"
+          title="Visitar Pegasus Nexus"
+        >
+          <img 
+            src="/pegasus_nexus_logo.png" 
+            alt="Pegasus Nexus Logo" 
+            class="h-20 w-auto transition-all duration-300 opacity-95 hover:opacity-100 mix-blend-multiply"
+            style="filter: sepia(1) hue-rotate(350deg) saturate(250%) brightness(45%) contrast(180%) blur(0.25px) contrast(200%);"
+          />
+        </a>
+        <span class="text-gray-300">|</span>
+        <a 
+          href="https://wa.me/59179786916" 
+          target="_blank" 
+          class="inline-flex items-center gap-1.5 text-gray-500 hover:text-[#25D366] font-semibold transition-colors duration-300"
+          title="Contacto WhatsApp de Soporte"
+        >
+          <svg class="w-3.5 h-3.5 fill-current text-green-600/80 hover:text-[#25D366] transition-colors" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm5.79-3.554c1.666.988 3.536 1.509 5.44 1.51h.005c5.772 0 10.468-4.697 10.472-10.47 0-2.796-1.09-5.429-3.07-7.41-1.98-1.981-4.61-3.068-7.405-3.069C6.262 1.01 1.566 5.706 1.561 11.479c0 1.995.525 3.943 1.523 5.656l-.982 3.585 3.675-.964zm11.758-5.326c-.302-.15-.178-.225.405-1.026.482-.663.602-.753.844-1.115.195-.29.098-.56-.05-.71-.148-.15-1.48-3.567-1.88-4.526-.226-.543-.45-.47-.622-.48l-.532-.012c-.185 0-.485.07-.74.352-.254.282-.97.948-.97 2.31 0 1.363.99 2.68 1.13 2.868.138.188 1.95 2.977 4.727 4.174.66.285 1.176.455 1.578.583.663.21 1.267.18 1.744.11.53-.08 1.63-.667 1.86-1.282.23-.615.23-1.143.16-1.253-.07-.11-.253-.185-.555-.335z"/>
+          </svg>
+          <span>+591 79786916</span>
+        </a>
+      </div>
+
+      <div class="flex items-center gap-6">
+        <a href="#" class="hover:text-brand-gold-dark transition-colors">Políticas de Privacidad</a>
+        <a href="#" class="hover:text-brand-gold-dark transition-colors">Términos del Servicio</a>
+      </div>
+    </div>
+  </div>
+</footer>

@@ -1,5 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
 
 const whatsappNumber = "59172227461";
 const baseWhatsappLink = `https://api.whatsapp.com/send?phone=${whatsappNumber}`;
@@ -10,14 +12,14 @@ const availableBowls = [
     id: "salteado",
     name: "Bowl Salteado",
     tagline: "Wok caliente y reconfortante",
-    icon: `<svg class="w-5 h-5 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" /><path stroke-linecap="round" stroke-linejoin="round" d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z" /></svg>`,
+    icon: `<svg class="w-5 h-5 text-[#B8935B]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" /><path stroke-linecap="round" stroke-linejoin="round" d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z" /></svg>`,
     carb: "Quinua con sofrito de cebolla y pimentón",
     veg: "Cebolla, pimentón, calabacín y zanahoria salteados al wok"
   },
   {
     id: "fresco",
     name: "Bowl Fresco",
-    tagline: "Fresco, ligero y nutritivo",
+    tagline: "Fresco, ligero y crujiente",
     icon: `<svg class="w-5 h-5 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>`,
     carb: "Carbohidrato del día (según menú semanal)",
     veg: "Lechuga, zanahoria, tomate, apio y pepino con hierbabuena"
@@ -26,9 +28,9 @@ const availableBowls = [
 
 // Opciones de proteína
 const availableProteins = [
-  { id: "pollo", name: "Pollo a la plancha", desc: "Pechuga magra marinada con finas hierbas" },
-  { id: "albondigas", name: "Albóndigas de carne", desc: "Preparadas al Air Fryer sin exceso de grasas" },
-  { id: "huevos", name: "Huevos hervidos", desc: "2 unidades cocidas en punto exacto" }
+  { id: "Pollo a la Plancha", name: "Pollo a la Plancha", desc: "Pechuga magra marinada con finas hierbas" },
+  { id: "Albóndigas de Carne (Air Fryer)", name: "Albóndigas de Carne (Air Fryer)", desc: "Preparadas al aire caliente sin exceso de grasas" },
+  { id: "Huevos Hervidos", name: "Huevos Hervidos", desc: "2 unidades en punto exacto de cocción" }
 ];
 
 // Días del plan semanal
@@ -42,355 +44,381 @@ const daysOfWeek = [
 ---
 
 <Layout title="Arma tus Bowls - Plan Semanal | Montalvo Catering">
-  <div class="min-h-screen bg-[#FDFBF7] text-[#1e1912] selection:bg-brand-gold-light selection:text-brand-dark pb-24">
-    
-    <!-- Top Header Bar -->
-    <header class="bg-white/80 backdrop-blur-md border-b border-gray-100 sticky top-0 z-30 shadow-2xs">
-      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-        <a href="/" class="flex items-center gap-2.5 group">
-          <div class="w-10 h-10 rounded-full bg-[#FAF6F0] border border-brand-gold/40 flex flex-col items-center justify-center p-0.5 shadow-2xs group-hover:scale-105 transition-transform">
-            <span class="font-cursive text-brand-dark text-xs leading-none">M</span>
-            <span class="font-sans text-[3.5px] tracking-widest text-brand-gold font-bold uppercase">Catering</span>
-          </div>
-          <div>
-            <span class="font-serif font-bold text-base text-brand-dark block leading-none">Montalvo</span>
-            <span class="text-[9px] uppercase tracking-wider text-gray-400 font-semibold">Catering Gourmet</span>
-          </div>
-        </a>
+  <!-- Reusable Global Navbar -->
+  <Navbar currentPath="/armar-plan" />
 
-        <div class="flex items-center gap-3">
-          <span class="hidden sm:inline-block text-xs font-semibold text-gray-500">¿Dudas con tu pedido?</span>
+  <div class="min-h-screen bg-[#FDFBF7] text-[#1e1912] pt-24 md:pt-28 pb-20 selection:bg-brand-gold-light selection:text-brand-dark">
+    
+    <!-- Main Form Container (Card Container matching the screenshot aesthetic) -->
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      
+      <!-- Top Card Wrapper -->
+      <div class="bg-white rounded-3xl sm:rounded-[32px] border border-gray-200/80 shadow-xl overflow-hidden">
+        
+        <!-- Header: Ficha & Pedido -->
+        <div class="px-6 sm:px-10 pt-8 pb-4 border-b border-gray-100 flex items-start justify-between">
+          <div>
+            <span class="block text-xs font-extrabold uppercase tracking-widest text-[#8A6F56] mb-1">
+              Ficha & Pedido
+            </span>
+            <h1 class="font-serif font-black text-2xl sm:text-3xl lg:text-4xl text-gray-900 tracking-tight">
+              Arma tus Bowls · Plan Semanal
+            </h1>
+            <p class="text-xs sm:text-sm text-gray-500 font-medium mt-1">
+              Personaliza el menú de tus 5 días de la semana
+            </p>
+          </div>
+
           <a 
-            href={baseWhatsappLink}
-            target="_blank" 
-            class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold hover:bg-emerald-100 border border-emerald-200 transition-colors"
+            href="/" 
+            class="text-gray-400 hover:text-gray-700 p-2 rounded-full hover:bg-gray-100 transition-colors"
+            title="Volver al inicio"
           >
-            <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm5.79-3.554c1.666.988 3.536 1.509 5.44 1.51h.005c5.772 0 10.468-4.697 10.472-10.47 0-2.796-1.09-5.429-3.07-7.41-1.98-1.981-4.61-3.068-7.405-3.069C6.262 1.01 1.566 5.706 1.561 11.479c0 1.995.525 3.943 1.523 5.656l-.982 3.585 3.675-.964zm11.758-5.326c-.302-.15-.178-.225.405-1.026.482-.663.602-.753.844-1.115.195-.29.098-.56-.05-.71-.148-.15-1.48-3.567-1.88-4.526-.226-.543-.45-.47-.622-.48l-.532-.012c-.185 0-.485.07-.74.352-.254.282-.97.948-.97 2.31 0 1.363.99 2.68 1.13 2.868.138.188 1.95 2.977 4.727 4.174.66.285 1.176.455 1.578.583.663.21 1.267.18 1.744.11.53-.08 1.63-.667 1.86-1.282.23-.615.23-1.143.16-1.253-.07-.11-.253-.185-.555-.335z"/></svg>
-            <span>WhatsApp</span>
+            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
           </a>
         </div>
-      </div>
-    </header>
 
-    <!-- Main Container -->
-    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 sm:pt-10">
-      
-      <!-- Top Title & Size Badge -->
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-gray-200/80">
-        <div>
-          <span class="inline-block text-xs font-bold uppercase tracking-widest text-brand-gold-dark bg-brand-gold/10 px-3 py-1 rounded-full mb-2">
-            Personalizador de Menú
-          </span>
-          <h1 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-extrabold text-gray-950 tracking-tight">
-            Arma tus bowls
-          </h1>
-          <p class="text-sm sm:text-base text-gray-500 font-medium mt-1">
-            Plan semanal <span class="text-gray-300">•</span> 5 bowls balanceados para tu semana
-          </p>
-        </div>
-
-        <!-- Size Info Badge -->
-        <div class="self-start sm:self-auto flex items-center gap-3 bg-[#FAF6F0] border border-brand-gold/30 rounded-2xl p-3 sm:px-4 sm:py-3 shadow-xs">
-          <div class="w-9 h-9 rounded-xl bg-brand-gold/15 text-brand-gold-dark flex items-center justify-center shrink-0">
-            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+        <!-- Navigation Tabs: Personalizar / Nutrición -->
+        <div class="px-6 sm:px-10 flex border-b border-gray-200 text-xs sm:text-sm font-bold uppercase tracking-wider">
+          <button 
+            type="button" 
+            id="tab-btn-personalizar" 
+            class="py-4 px-4 sm:px-6 text-[#8A6F56] border-b-2 border-[#B8935B] flex items-center gap-2 cursor-pointer transition-colors"
+          >
+            <!-- Sliders / Controls Icon -->
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
             </svg>
-          </div>
-          <div>
-            <div class="flex items-center gap-2">
-              <span class="font-bold text-sm text-gray-900" id="current-size-label">Mediano · ~400 g</span>
-            </div>
-            <span class="text-[11px] text-gray-500 block font-medium">Incluido en tu suscripción semanal</span>
-          </div>
-        </div>
-      </div>
+            <span>Personalizar</span>
+          </button>
 
-      <!-- Customer Name & Details Input Bar -->
-      <div class="my-6 bg-white p-4 sm:p-5 rounded-2xl border border-gray-200 shadow-xs flex flex-col sm:flex-row sm:items-center gap-4">
-        <div class="flex-1">
-          <label for="customer-name" class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">
-            Nombre del Cliente <span class="text-rose-500">*</span>
-          </label>
-          <input 
-            type="text" 
-            id="customer-name" 
-            placeholder="Ej. Rodrigo Rayo" 
-            class="w-full bg-[#FAF6F0]/60 border border-gray-300 focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 rounded-xl px-4 py-2.5 text-sm text-gray-900 font-medium placeholder:text-gray-400 outline-none transition-all"
-            required
-          />
+          <button 
+            type="button" 
+            id="tab-btn-nutricion" 
+            class="py-4 px-4 sm:px-6 text-gray-400 hover:text-gray-600 border-b-2 border-transparent flex items-center gap-2 cursor-pointer transition-colors"
+          >
+            <!-- Chart / Nutrition Icon -->
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            </svg>
+            <span>Nutrición</span>
+          </button>
         </div>
-        <div class="flex-1">
-          <label for="customer-address" class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">
-            Dirección / Oficina de Entrega <span class="text-gray-400 text-[10px] font-normal">(Opcional)</span>
-          </label>
-          <input 
-            type="text" 
-            id="customer-address" 
-            placeholder="Ej. Calle Gral. Achá #739, Oficina 4B" 
-            class="w-full bg-[#FAF6F0]/60 border border-gray-300 focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 rounded-xl px-4 py-2.5 text-sm text-gray-900 font-medium placeholder:text-gray-400 outline-none transition-all"
-          />
-        </div>
-      </div>
 
-      <!-- Main 2-Columns Grid Layout (Builder + Sidebar) -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        
-        <!-- LEFT COLUMN: Step by step Builder (8 cols) -->
-        <div class="lg:col-span-7 xl:col-span-8 space-y-8">
+        <!-- Customer Identification Inputs -->
+        <div class="px-6 sm:px-10 py-5 bg-[#FAF6F0]/60 border-b border-gray-100 flex flex-col sm:flex-row gap-4">
+          <div class="flex-1">
+            <label for="customer-name" class="block text-xs font-bold uppercase tracking-wider text-[#8A6F56] mb-1">
+              Nombre del Cliente <span class="text-rose-500">*</span>
+            </label>
+            <input 
+              type="text" 
+              id="customer-name" 
+              placeholder="Ingresa tu nombre y apellido" 
+              class="w-full bg-white border border-gray-300 focus:border-[#B8935B] focus:ring-2 focus:ring-[#B8935B]/20 rounded-xl px-4 py-2.5 text-sm text-gray-900 font-medium placeholder:text-gray-400 outline-none transition-all shadow-2xs"
+              required
+            />
+          </div>
+          <div class="flex-1">
+            <label for="customer-address" class="block text-xs font-bold uppercase tracking-wider text-[#8A6F56] mb-1">
+              Dirección de Entrega <span class="text-gray-400 text-[10px] font-normal">(Opcional)</span>
+            </label>
+            <input 
+              type="text" 
+              id="customer-address" 
+              placeholder="Ej. Calle Gral. Achá #739, Oficina 4B" 
+              class="w-full bg-white border border-gray-300 focus:border-[#B8935B] focus:ring-2 focus:ring-[#B8935B]/20 rounded-xl px-4 py-2.5 text-sm text-gray-900 font-medium placeholder:text-gray-400 outline-none transition-all shadow-2xs"
+            />
+          </div>
+        </div>
+
+        <!-- Content Area (Grid with Form + Sidebar) -->
+        <div class="p-6 sm:p-10">
           
-          <!-- STEP 1: Choose Day -->
-          <section class="bg-white p-6 sm:p-7 rounded-3xl border border-gray-200/90 shadow-xs space-y-5">
-            <div class="flex items-center justify-between">
-              <div>
-                <h2 class="text-lg font-bold text-gray-900 flex items-center gap-2">
-                  <span class="w-6 h-6 rounded-full bg-brand-gold/15 text-brand-gold-dark text-xs flex items-center justify-center font-bold">1</span>
-                  Elige el día
-                </h2>
-                <p class="text-xs text-gray-500 mt-0.5">Selecciona el día de la semana para configurar tu bowl</p>
-              </div>
-              <span id="day-selection-badge" class="text-xs font-bold text-brand-gold-dark bg-[#FAF6F0] px-3 py-1 rounded-full border border-brand-gold/20">
-                Lunes seleccionado
-              </span>
-            </div>
-
-            <!-- Days Grid Selector -->
-            <div class="grid grid-cols-5 gap-2 sm:gap-3">
-              {daysOfWeek.map((day, idx) => (
-                <button
-                  type="button"
-                  class="day-tab-btn relative flex flex-col items-center justify-center p-3 sm:p-4 rounded-2xl border border-gray-200 bg-white hover:border-brand-gold cursor-pointer transition-all duration-200 group"
-                  data-day-key={day.key}
-                  data-day-label={day.label}
-                  data-day-num={day.num}
-                  data-day-index={idx}
-                >
-                  <!-- Day Short -->
-                  <span class="day-short text-xs font-bold text-gray-500 uppercase group-hover:text-gray-900 transition-colors">
-                    {day.short}
-                  </span>
-                  <!-- Day Number -->
-                  <span class="day-number text-xl sm:text-2xl font-extrabold text-gray-900 my-0.5">
-                    {day.num}
-                  </span>
-                  <!-- Status Indicator -->
-                  <span class="day-status-text text-[10px] font-semibold text-gray-400 group-hover:text-brand-gold-dark">
-                    Elegir
-                  </span>
-
-                  <!-- Saved Indicator Pill -->
-                  <div class="day-saved-indicator hidden absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-emerald-600 text-white flex items-center justify-center shadow-xs text-[10px] font-bold">
-                    ✓
-                  </div>
-                </button>
-              ))}
-            </div>
-          </section>
-
-          <!-- STEP 2 & 3: Configuration for Selected Day -->
-          <section id="day-config-card" class="bg-white p-6 sm:p-7 rounded-3xl border border-brand-gold/30 shadow-xs space-y-7 relative overflow-hidden">
+          <!-- TAB 1: PERSONALIZADOR VIEW -->
+          <div id="tab-content-personalizar" class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             
-            <!-- Active Day Banner -->
-            <div class="flex items-center justify-between pb-4 border-b border-gray-100">
-              <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-2xl bg-[#2D4A3E] text-white flex items-center justify-center font-bold text-sm shadow-xs" id="active-day-icon-box">
-                  LUN
+            <!-- LEFT: Day-by-day Builder (8 cols) -->
+            <div class="lg:col-span-7 xl:col-span-8 space-y-8">
+              
+              <!-- SECTION 1: ELIGE EL DÍA -->
+              <div class="space-y-3">
+                <div class="flex items-center justify-between">
+                  <span class="block text-xs font-extrabold uppercase tracking-wider text-gray-700">
+                    1. Elige el día
+                  </span>
+                  <span id="day-selection-badge" class="text-xs font-bold text-[#8A6F56] bg-[#FAF6F0] px-3 py-1 rounded-full border border-brand-gold/20">
+                    Lunes seleccionado
+                  </span>
                 </div>
-                <div>
-                  <h3 class="text-base sm:text-lg font-bold text-gray-900" id="active-day-heading">
-                    Lunes - Día 01
-                  </h3>
-                  <p class="text-xs text-gray-500" id="active-day-subheading">Personaliza tu comida para este día</p>
+
+                <!-- Days 5 Tabs Selector -->
+                <div class="grid grid-cols-5 gap-2 sm:gap-3">
+                  {daysOfWeek.map((day, idx) => (
+                    <button
+                      type="button"
+                      class="day-tab-btn relative flex flex-col items-center justify-center p-3 sm:p-4 rounded-2xl border border-gray-200 bg-white hover:border-[#B8935B] cursor-pointer transition-all duration-200"
+                      data-day-key={day.key}
+                      data-day-label={day.label}
+                      data-day-num={day.num}
+                      data-day-index={idx}
+                    >
+                      <span class="day-short text-xs font-bold text-gray-500 uppercase">
+                        {day.short}
+                      </span>
+                      <span class="day-number text-lg sm:text-2xl font-black text-gray-900 my-0.5">
+                        {day.num}
+                      </span>
+                      <span class="day-status-text text-[10px] font-semibold text-gray-400">
+                        Elegir
+                      </span>
+
+                      <!-- Check badge if saved -->
+                      <div class="day-saved-indicator hidden absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-[#B8935B] text-white flex items-center justify-center shadow-xs text-[10px] font-bold">
+                        ✓
+                      </div>
+                    </button>
+                  ))}
                 </div>
               </div>
 
-              <span id="active-day-status-pill" class="text-xs font-bold px-3 py-1 rounded-full bg-amber-50 text-amber-800 border border-amber-200">
-                Por elegir
-              </span>
-            </div>
+              <!-- SECTION 2: ELIGE EL TIPO DE BOWL -->
+              <div class="space-y-3 pt-2">
+                <span class="block text-xs font-extrabold uppercase tracking-wider text-gray-700">
+                  2. Elige el tipo de bowl
+                </span>
 
-            <!-- 2. Choose Bowl -->
-            <div class="space-y-3">
-              <label class="text-sm font-bold text-gray-900 flex items-center gap-2">
-                <span class="w-5 h-5 rounded-full bg-brand-gold/15 text-brand-gold-dark text-xs flex items-center justify-center font-bold">2</span>
-                Elige tu bowl
-              </label>
-
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                {availableBowls.map((bowl) => (
-                  <label class="bowl-option-card relative flex flex-col justify-between p-4 rounded-2xl border-2 border-gray-200 hover:border-brand-gold/60 bg-white cursor-pointer transition-all group">
-                    <input 
-                      type="radio" 
-                      name="selected-bowl" 
-                      value={bowl.id} 
-                      class="bowl-radio absolute opacity-0" 
-                    />
-                    
-                    <div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                  {availableBowls.map((bowl) => (
+                    <label class="bowl-option-card relative flex flex-col justify-between p-4 sm:p-5 rounded-2xl border-2 border-gray-200 hover:border-[#B8935B]/60 bg-white cursor-pointer transition-all group">
+                      <input 
+                        type="radio" 
+                        name="selected-bowl" 
+                        value={bowl.id} 
+                        class="bowl-radio absolute opacity-0" 
+                      />
+                      
                       <div class="flex items-center justify-between mb-2">
-                        <div class="flex items-center gap-2">
-                          <div class="w-8 h-8 rounded-xl bg-[#FAF6F0] flex items-center justify-center">
+                        <div class="flex items-center gap-3">
+                          <div class="w-9 h-9 rounded-xl bg-[#FAF6F0] flex items-center justify-center shrink-0">
                             <Fragment set:html={bowl.icon} />
                           </div>
-                          <span class="font-bold text-base text-gray-900">{bowl.name}</span>
+                          <div>
+                            <span class="font-extrabold text-base text-gray-900 block">{bowl.name}</span>
+                            <span class="text-xs text-gray-400 font-medium block">{bowl.tagline}</span>
+                          </div>
+                        </div>
+
+                        <!-- Check Circle matching image design -->
+                        <div class="bowl-check-circle w-6 h-6 rounded-full border-2 border-gray-300 group-hover:border-[#B8935B] flex items-center justify-center text-white text-xs font-bold transition-all shrink-0">
+                          <span class="hidden">✓</span>
+                        </div>
+                      </div>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              <!-- SECTION 3: ELIGE TU PROTEÍNA (Matching the exact list style in the image) -->
+              <div class="space-y-3 pt-2">
+                <span class="block text-xs font-extrabold uppercase tracking-wider text-gray-700">
+                  3. Elige tu proteína
+                </span>
+
+                <div class="space-y-2.5">
+                  {availableProteins.map((protein) => (
+                    <label class="protein-option-card relative flex items-center justify-between p-4 rounded-2xl border-2 border-gray-200 hover:border-[#B8935B]/60 bg-white cursor-pointer transition-all group">
+                      <input 
+                        type="radio" 
+                        name="selected-protein" 
+                        value={protein.id} 
+                        class="protein-radio absolute opacity-0" 
+                      />
+
+                      <div class="flex items-center gap-3.5">
+                        <!-- Check Circle matching image -->
+                        <div class="protein-check-circle w-6 h-6 rounded-full border-2 border-gray-300 group-hover:border-[#B8935B] flex items-center justify-center text-white text-xs font-bold transition-all shrink-0">
+                          <span class="hidden">✓</span>
                         </div>
                         
-                        <!-- Radio Custom Check Circle -->
-                        <div class="bowl-check-circle w-5 h-5 rounded-full border-2 border-gray-300 group-hover:border-brand-gold flex items-center justify-center transition-all">
-                          <div class="w-2.5 h-2.5 rounded-full bg-transparent transition-all"></div>
+                        <div>
+                          <span class="font-extrabold text-sm sm:text-base text-gray-900 block">{protein.name}</span>
+                          <span class="text-xs text-gray-400 font-medium block">{protein.desc}</span>
+                        </div>
+                      </div>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              <!-- INGREDIENTES BASE INCLUIDOS BOX (Matching the exact beige callout box from the screenshot) -->
+              <div class="p-5 sm:p-6 rounded-2xl bg-[#FAF6F0] border border-brand-gold/20 space-y-3">
+                <span class="block text-xs font-black uppercase tracking-wider text-[#8A6F56]">
+                  Ingredientes Base Incluidos:
+                </span>
+                
+                <div class="space-y-2 text-xs sm:text-sm text-gray-700">
+                  <div class="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-2">
+                    <strong class="text-gray-900 shrink-0">Carbohidrato del día:</strong>
+                    <span id="base-carb-desc" class="font-bold text-gray-900">(Depende según el menú semanal)</span>
+                  </div>
+                  <div class="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-2">
+                    <strong class="text-gray-900 shrink-0">Ensalada / Vegetales:</strong>
+                    <span id="base-veg-desc" class="text-gray-600 font-medium">Lechuga, zanahoria, tomate, apio y pepino con hierbabuena</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Day Save and Advance Button -->
+              <div class="flex justify-end pt-2">
+                <button
+                  type="button"
+                  id="btn-save-day"
+                  class="w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-[#B8935B] hover:bg-[#917237] text-white font-bold text-xs uppercase tracking-wider transition-all duration-200 shadow-md hover:-translate-y-0.5 active:scale-98 cursor-pointer flex items-center justify-center gap-2 shrink-0 opacity-50 pointer-events-none"
+                >
+                  <span id="btn-save-day-text">Guardar elección del lunes</span>
+                  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                  </svg>
+                </button>
+              </div>
+
+            </div>
+
+            <!-- RIGHT: Sidebar Summary & Final WhatsApp CTA (4 cols) -->
+            <div class="lg:col-span-5 xl:col-span-4 sticky top-28 space-y-6">
+              
+              <div class="bg-[#FAF6F0] p-6 rounded-3xl border border-brand-gold/25 space-y-6 shadow-xs">
+                
+                <!-- Summary Header -->
+                <div class="flex items-center justify-between pb-4 border-b border-brand-gold/20">
+                  <div>
+                    <h3 class="font-serif text-xl font-bold text-gray-900">Mis elecciones</h3>
+                    <span class="text-xs text-gray-500 font-medium">Plan semanal 5 bowls</span>
+                  </div>
+                  <span id="progress-counter-badge" class="text-xs font-black px-3 py-1 rounded-full bg-white text-[#8A6F56] border border-brand-gold/30 shadow-2xs">
+                    0 de 5
+                  </span>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="w-full bg-white rounded-full h-2 overflow-hidden border border-brand-gold/15">
+                  <div id="progress-bar-fill" class="bg-[#B8935B] h-full rounded-full transition-all duration-500 w-0"></div>
+                </div>
+
+                <!-- Days List Summary -->
+                <div class="space-y-2" id="summary-days-list">
+                  {daysOfWeek.map((day, idx) => (
+                    <div 
+                      class="summary-day-row p-3 rounded-xl bg-white border border-gray-200/80 hover:border-[#B8935B] cursor-pointer transition-all flex items-center justify-between gap-3 group shadow-2xs"
+                      data-day-key={day.key}
+                      data-day-index={idx}
+                    >
+                      <div class="flex items-center gap-2.5 min-w-0">
+                        <span class="w-6 h-6 rounded-lg bg-[#FAF6F0] text-gray-700 font-bold text-xs flex items-center justify-center shrink-0 group-hover:bg-[#B8935B] group-hover:text-white transition-colors">
+                          {day.short}
+                        </span>
+                        <div class="min-w-0">
+                          <span class="text-xs font-bold text-gray-900 block truncate">{day.label}</span>
+                          <span class="text-[11px] text-gray-400 block truncate summary-day-desc" id={`summary-desc-${day.key}`}>Por elegir</span>
                         </div>
                       </div>
 
-                      <p class="text-xs text-gray-500 font-medium mb-3">{bowl.tagline}</p>
+                      <span class="text-[11px] font-bold text-[#8A6F56] shrink-0 group-hover:underline">
+                        Editar
+                      </span>
                     </div>
+                  ))}
+                </div>
 
-                    <div class="text-[11px] text-gray-600 bg-[#FAF6F0] p-2.5 rounded-xl space-y-1 border border-brand-gold/10">
-                      <div><strong class="text-gray-800">Carbohidrato:</strong> {bowl.carb}</div>
-                      <div><strong class="text-gray-800">Vegetales:</strong> {bowl.veg}</div>
-                    </div>
-                  </label>
-                ))}
-              </div>
-            </div>
-
-            <!-- 3. Choose Protein -->
-            <div class="space-y-3">
-              <label class="text-sm font-bold text-gray-900 flex items-center gap-2">
-                <span class="w-5 h-5 rounded-full bg-brand-gold/15 text-brand-gold-dark text-xs flex items-center justify-center font-bold">3</span>
-                Elige tu proteína
-              </label>
-
-              <div class="space-y-2.5">
-                {availableProteins.map((protein) => (
-                  <label class="protein-option-card relative flex items-center justify-between p-3.5 rounded-2xl border-2 border-gray-200 hover:border-brand-gold/60 bg-white cursor-pointer transition-all group">
-                    <input 
-                      type="radio" 
-                      name="selected-protein" 
-                      value={protein.name} 
-                      class="protein-radio absolute opacity-0" 
-                    />
-
-                    <div class="flex items-center gap-3">
-                      <!-- Radio Custom Check Circle -->
-                      <div class="protein-check-circle w-5 h-5 rounded-full border-2 border-gray-300 group-hover:border-brand-gold flex items-center justify-center transition-all shrink-0">
-                        <div class="w-2.5 h-2.5 rounded-full bg-transparent transition-all"></div>
-                      </div>
-                      <div>
-                        <span class="font-bold text-sm text-gray-900 block">{protein.name}</span>
-                        <span class="text-xs text-gray-500 block">{protein.desc}</span>
-                      </div>
-                    </div>
-                  </label>
-                ))}
-              </div>
-            </div>
-
-            <!-- Bottom Action for Current Day -->
-            <div class="pt-5 border-t border-gray-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-[#FAF6F0]/60 p-4 rounded-2xl border border-brand-gold/15">
-              <div>
-                <span class="text-[11px] font-bold uppercase tracking-wider text-gray-400 block">Tu bowl para este día:</span>
-                <span id="active-day-summary-text" class="text-sm font-bold text-gray-900 block mt-0.5">
-                  Elige el tipo de bowl y la proteína
-                </span>
-                <span class="text-xs text-gray-500 font-medium">Mediano · ~400 g · Incluido en el plan</span>
-              </div>
-
-              <button
-                type="button"
-                id="btn-save-day"
-                class="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-brand-dark hover:bg-[#2D4A3E] text-white font-bold text-xs uppercase tracking-wider transition-all duration-200 shadow-md hover:-translate-y-0.5 active:scale-98 cursor-pointer flex items-center justify-center gap-2 shrink-0 opacity-50 pointer-events-none"
-              >
-                <span id="btn-save-day-text">Guardar elección del lunes</span>
-                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                </svg>
-              </button>
-            </div>
-          </section>
-
-        </div>
-
-        <!-- RIGHT COLUMN: Summary & WhatsApp Confirmation (4 cols) -->
-        <div class="lg:col-span-5 xl:col-span-4 sticky top-24 space-y-6">
-          
-          <div class="bg-white p-6 sm:p-7 rounded-3xl border border-brand-gold/30 shadow-md space-y-6">
-            
-            <!-- Summary Header -->
-            <div class="flex items-center justify-between pb-4 border-b border-gray-100">
-              <div>
-                <h3 class="font-serif text-xl font-bold text-gray-950">Mis elecciones</h3>
-                <span class="text-xs text-gray-500 font-medium">Resumen de tu semana</span>
-              </div>
-              <span id="progress-counter-badge" class="text-xs font-extrabold px-3 py-1 rounded-full bg-brand-gold/15 text-brand-gold-dark border border-brand-gold/30">
-                0 de 5
-              </span>
-            </div>
-
-            <!-- Progress Bar -->
-            <div class="w-full bg-gray-100 rounded-full h-2 overflow-hidden">
-              <div id="progress-bar-fill" class="bg-brand-gold h-full rounded-full transition-all duration-500 w-0"></div>
-            </div>
-
-            <!-- Days List Summary -->
-            <div class="space-y-2.5" id="summary-days-list">
-              {daysOfWeek.map((day, idx) => (
-                <div 
-                  class="summary-day-row p-3 rounded-2xl bg-[#FAF6F0]/60 border border-gray-200 hover:border-brand-gold/40 cursor-pointer transition-all flex items-center justify-between gap-3 group"
-                  data-day-key={day.key}
-                  data-day-index={idx}
-                >
-                  <div class="flex items-center gap-2.5 min-w-0">
-                    <span class="w-7 h-7 rounded-lg bg-white border border-gray-200 text-gray-700 font-bold text-xs flex items-center justify-center shrink-0 group-hover:border-brand-gold group-hover:text-brand-dark">
-                      {day.short}
-                    </span>
-                    <div class="min-w-0">
-                      <span class="text-xs font-bold text-gray-900 block truncate summary-day-title">{day.label}</span>
-                      <span class="text-[11px] text-gray-400 block truncate summary-day-desc" id={`summary-desc-${day.key}`}>Por elegir</span>
-                    </div>
+                <!-- Total a Pagar & WhatsApp CTA (Matching the exact bottom bar in the image) -->
+                <div class="pt-4 border-t border-brand-gold/20 space-y-4">
+                  <div>
+                    <span class="block text-xs font-bold uppercase tracking-wider text-gray-400">Total a pagar:</span>
+                    <span class="font-black text-3xl sm:text-4xl text-gray-950 block mt-0.5">Bs. 110</span>
+                    <span class="text-[11px] text-gray-500 font-medium">Incluye los 5 bowls medianos (~400g c/u)</span>
                   </div>
 
-                  <span class="text-[11px] font-bold text-brand-gold-dark shrink-0 summary-day-action">
-                    Editar
-                  </span>
+                  <a 
+                    id="btn-confirm-whatsapp"
+                    href="#"
+                    target="_blank"
+                    class="w-full bg-[#B8935B] hover:bg-[#917237] text-white text-center py-4 rounded-2xl font-extrabold uppercase tracking-wider text-xs transition-all duration-300 shadow-md flex items-center justify-center gap-2 opacity-50 pointer-events-none cursor-not-allowed"
+                  >
+                    <span>Pedir por WhatsApp</span>
+                    <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm5.79-3.554c1.666.988 3.536 1.509 5.44 1.51h.005c5.772 0 10.468-4.697 10.472-10.47 0-2.796-1.09-5.429-3.07-7.41-1.98-1.981-4.61-3.068-7.405-3.069C6.262 1.01 1.566 5.706 1.561 11.479c0 1.995.525 3.943 1.523 5.656l-.982 3.585 3.675-.964zm11.758-5.326c-.302-.15-.178-.225.405-1.026.482-.663.602-.753.844-1.115.195-.29.098-.56-.05-.71-.148-.15-1.48-3.567-1.88-4.526-.226-.543-.45-.47-.622-.48l-.532-.012c-.185 0-.485.07-.74.352-.254.282-.97.948-.97 2.31 0 1.363.99 2.68 1.13 2.868.138.188 1.95 2.977 4.727 4.174.66.285 1.176.455 1.578.583.663.21 1.267.18 1.744.11.53-.08 1.63-.667 1.86-1.282.23-.615.23-1.143.16-1.253-.07-.11-.253-.185-.555-.335z"/></svg>
+                  </a>
+
+                  <p id="validation-help-text" class="text-[11px] text-center text-gray-500 font-medium">
+                    Completa los 5 días y tu nombre para continuar.
+                  </p>
                 </div>
-              ))}
-            </div>
 
-            <!-- Plan Badge info -->
-            <div class="p-3.5 rounded-2xl bg-[#FAF6F0] border border-brand-gold/20 flex items-center gap-2.5 text-xs text-gray-700">
-              <svg class="w-4 h-4 text-brand-gold-dark shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-              </svg>
-              <span>Todos tus bowls: <strong>Mediano (~400g)</strong> • Bs. 110/plan</span>
-            </div>
+              </div>
 
-            <!-- Confirmation Button -->
-            <div class="space-y-3 pt-2">
-              <a 
-                id="btn-confirm-whatsapp"
-                href="#"
-                target="_blank"
-                class="w-full bg-emerald-600 hover:bg-emerald-700 text-white text-center py-4 rounded-2xl font-bold uppercase tracking-wider text-xs transition-all duration-300 shadow-md flex items-center justify-center gap-2 opacity-50 pointer-events-none cursor-not-allowed"
-              >
-                <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm5.79-3.554c1.666.988 3.536 1.509 5.44 1.51h.005c5.772 0 10.468-4.697 10.472-10.47 0-2.796-1.09-5.429-3.07-7.41-1.98-1.981-4.61-3.068-7.405-3.069C6.262 1.01 1.566 5.706 1.561 11.479c0 1.995.525 3.943 1.523 5.656l-.982 3.585 3.675-.964zm11.758-5.326c-.302-.15-.178-.225.405-1.026.482-.663.602-.753.844-1.115.195-.29.098-.56-.05-.71-.148-.15-1.48-3.567-1.88-4.526-.226-.543-.45-.47-.622-.48l-.532-.012c-.185 0-.485.07-.74.352-.254.282-.97.948-.97 2.31 0 1.363.99 2.68 1.13 2.868.138.188 1.95 2.977 4.727 4.174.66.285 1.176.455 1.578.583.663.21 1.267.18 1.744.11.53-.08 1.63-.667 1.86-1.282.23-.615.23-1.143.16-1.253-.07-.11-.253-.185-.555-.335z"/></svg>
-                <span>Confirmar y Enviar a WhatsApp</span>
-              </a>
+              <!-- Reset Button -->
+              <div class="text-center">
+                <button 
+                  type="button" 
+                  id="btn-reset-plan"
+                  class="text-xs text-gray-400 hover:text-rose-600 underline font-semibold transition-colors cursor-pointer"
+                >
+                  Reiniciar selección de la semana
+                </button>
+              </div>
 
-              <p id="validation-help-text" class="text-[11px] text-center text-gray-400 font-medium">
-                Completa los 5 días pendientes para continuar.
-              </p>
             </div>
 
           </div>
 
-          <!-- Quick restart button -->
-          <div class="text-center">
-            <button 
-              type="button" 
-              id="btn-reset-plan"
-              class="text-xs text-gray-400 hover:text-rose-600 underline font-semibold transition-colors cursor-pointer"
-            >
-              Reiniciar selección de la semana
-            </button>
+          <!-- TAB 2: NUTRICIÓN VIEW -->
+          <div id="tab-content-nutricion" class="hidden space-y-8">
+            <div class="max-w-3xl mx-auto space-y-6">
+              <div class="text-center space-y-2">
+                <h3 class="font-serif font-bold text-2xl text-gray-900">Tabla Nutricional & Balance</h3>
+                <p class="text-sm text-gray-500">Nuestros bowls están formulados por profesionales de la nutrición para aportar energía limpia y saciedad.</p>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Salteado info -->
+                <div class="p-6 rounded-3xl bg-[#FAF6F0] border border-brand-gold/20 space-y-4">
+                  <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-2xl bg-[#B8935B] text-white flex items-center justify-center font-bold">
+                      🔥
+                    </div>
+                    <div>
+                      <h4 class="font-bold text-lg text-gray-900">Bowl Salteado</h4>
+                      <span class="text-xs text-gray-500">Aporte calórico aprox: ~480 kcal</span>
+                    </div>
+                  </div>
+                  <ul class="space-y-2 text-xs text-gray-700">
+                    <li>• <strong>Proteína de alto valor biológico:</strong> ~35g</li>
+                    <li>• <strong>Carbohidratos complejos (Quinua Real):</strong> ~55g</li>
+                    <li>• <strong>Grasas saludables & fibra:</strong> ~12g</li>
+                  </ul>
+                </div>
+
+                <!-- Fresco info -->
+                <div class="p-6 rounded-3xl bg-[#FAF6F0] border border-brand-gold/20 space-y-4">
+                  <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-2xl bg-emerald-600 text-white flex items-center justify-center font-bold">
+                      🍃
+                    </div>
+                    <div>
+                      <h4 class="font-bold text-lg text-gray-900">Bowl Fresco</h4>
+                      <span class="text-xs text-gray-500">Aporte calórico aprox: ~420 kcal</span>
+                    </div>
+                  </div>
+                  <ul class="space-y-2 text-xs text-gray-700">
+                    <li>• <strong>Proteína magra:</strong> ~34g</li>
+                    <li>• <strong>Carbohidratos & fibra digestiva:</strong> ~45g</li>
+                    <li>• <strong>Micronutrientes & antioxidantes:</strong> Alto contenido en Vitamina A, C y K</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
           </div>
 
         </div>
@@ -400,15 +428,16 @@ const daysOfWeek = [
     </main>
 
   </div>
+
+  <!-- Reusable Global Footer -->
+  <Footer />
 </Layout>
 
 <script is:inline define:vars={{ baseWhatsappLink, availableBowls, availableProteins, daysOfWeek }}>
-  // State variables
   const isMobileDev = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
   
   let currentActiveDayIndex = 0;
   
-  // Weekly choices storage
   let weeklyChoices = {
     lun: { bowlId: '', bowlName: '', protein: '' },
     mar: { bowlId: '', bowlName: '', protein: '' },
@@ -421,15 +450,12 @@ const daysOfWeek = [
   const customerNameInput = document.getElementById('customer-name');
   const customerAddressInput = document.getElementById('customer-address');
   
-  const activeDayIconBox = document.getElementById('active-day-icon-box');
-  const activeDayHeading = document.getElementById('active-day-heading');
-  const activeDaySubheading = document.getElementById('active-day-subheading');
-  const activeDayStatusPill = document.getElementById('active-day-status-pill');
   const daySelectionBadge = document.getElementById('day-selection-badge');
-  const activeDaySummaryText = document.getElementById('active-day-summary-text');
-  
   const btnSaveDay = document.getElementById('btn-save-day');
   const btnSaveDayText = document.getElementById('btn-save-day-text');
+  
+  const baseCarbDesc = document.getElementById('base-carb-desc');
+  const baseVegDesc = document.getElementById('base-veg-desc');
   
   const progressCounterBadge = document.getElementById('progress-counter-badge');
   const progressBarFill = document.getElementById('progress-bar-fill');
@@ -437,9 +463,29 @@ const daysOfWeek = [
   const validationHelpText = document.getElementById('validation-help-text');
   const btnResetPlan = document.getElementById('btn-reset-plan');
 
-  // Load from local storage if available
+  // Tabs
+  const tabBtnPersonalizar = document.getElementById('tab-btn-personalizar');
+  const tabBtnNutricion = document.getElementById('tab-btn-nutricion');
+  const tabContentPersonalizar = document.getElementById('tab-content-personalizar');
+  const tabContentNutricion = document.getElementById('tab-content-nutricion');
+
+  tabBtnPersonalizar?.addEventListener('click', () => {
+    tabBtnPersonalizar.className = "py-4 px-4 sm:px-6 text-[#8A6F56] border-b-2 border-[#B8935B] flex items-center gap-2 cursor-pointer transition-colors";
+    tabBtnNutricion.className = "py-4 px-4 sm:px-6 text-gray-400 hover:text-gray-600 border-b-2 border-transparent flex items-center gap-2 cursor-pointer transition-colors";
+    tabContentPersonalizar?.classList.remove('hidden');
+    tabContentNutricion?.classList.add('hidden');
+  });
+
+  tabBtnNutricion?.addEventListener('click', () => {
+    tabBtnNutricion.className = "py-4 px-4 sm:px-6 text-[#8A6F56] border-b-2 border-[#B8935B] flex items-center gap-2 cursor-pointer transition-colors";
+    tabBtnPersonalizar.className = "py-4 px-4 sm:px-6 text-gray-400 hover:text-gray-600 border-b-2 border-transparent flex items-center gap-2 cursor-pointer transition-colors";
+    tabContentPersonalizar?.classList.add('hidden');
+    tabContentNutricion?.classList.remove('hidden');
+  });
+
+  // Load from local storage
   try {
-    const saved = localStorage.getItem('montalvo_weekly_plan');
+    const saved = localStorage.getItem('montalvo_weekly_plan_v2');
     if (saved) {
       const parsed = JSON.parse(saved);
       if (parsed.weeklyChoices) weeklyChoices = parsed.weeklyChoices;
@@ -447,19 +493,15 @@ const daysOfWeek = [
       if (parsed.address && customerAddressInput) customerAddressInput.value = parsed.address;
     }
   } catch (e) {
-    console.error("Local storage error", e);
+    console.error(e);
   }
 
-  // Switch to a specific Day tab
   function selectDay(index) {
     currentActiveDayIndex = index;
     const day = daysOfWeek[index];
     const key = day.key;
     const choice = weeklyChoices[key];
 
-    // Update Header banner
-    if (activeDayIconBox) activeDayIconBox.textContent = day.short.toUpperCase();
-    if (activeDayHeading) activeDayHeading.textContent = `${day.label} - Día ${day.num}`;
     if (daySelectionBadge) daySelectionBadge.textContent = `${day.label} seleccionado`;
     if (btnSaveDayText) btnSaveDayText.textContent = `Guardar elección del ${day.label.toLowerCase()}`;
 
@@ -475,18 +517,16 @@ const daysOfWeek = [
       }
 
       if (idx === index) {
-        // Active selected day
-        btn.className = "day-tab-btn relative flex flex-col items-center justify-center p-3 sm:p-4 rounded-2xl border-2 border-brand-dark bg-[#2D4A3E] text-white shadow-md cursor-pointer transition-all duration-200 transform scale-102";
-        btn.querySelector('.day-short').className = "day-short text-xs font-bold text-emerald-200 uppercase";
-        btn.querySelector('.day-number').className = "day-number text-xl sm:text-2xl font-extrabold text-white my-0.5";
-        btn.querySelector('.day-status-text').className = "day-status-text text-[10px] font-semibold text-emerald-100";
-        btn.querySelector('.day-status-text').textContent = isSaved ? "Configurado" : "Eligiendo";
+        btn.className = "day-tab-btn relative flex flex-col items-center justify-center p-3 sm:p-4 rounded-2xl border-2 border-[#B8935B] bg-[#FAF6F0] shadow-sm cursor-pointer transition-all duration-200 transform scale-102";
+        btn.querySelector('.day-short').className = "day-short text-xs font-black text-[#8A6F56] uppercase";
+        btn.querySelector('.day-number').className = "day-number text-lg sm:text-2xl font-black text-gray-950 my-0.5";
+        btn.querySelector('.day-status-text').className = "day-status-text text-[10px] font-bold text-[#B8935B]";
+        btn.querySelector('.day-status-text').textContent = isSaved ? "Listo ✓" : "Eligiendo";
       } else {
-        // Inactive day
-        btn.className = "day-tab-btn relative flex flex-col items-center justify-center p-3 sm:p-4 rounded-2xl border border-gray-200 bg-white hover:border-brand-gold cursor-pointer transition-all duration-200 group";
-        btn.querySelector('.day-short').className = "day-short text-xs font-bold text-gray-500 uppercase group-hover:text-gray-900 transition-colors";
-        btn.querySelector('.day-number').className = "day-number text-xl sm:text-2xl font-extrabold text-gray-900 my-0.5";
-        btn.querySelector('.day-status-text').className = "day-status-text text-[10px] font-semibold text-gray-400 group-hover:text-brand-gold-dark";
+        btn.className = "day-tab-btn relative flex flex-col items-center justify-center p-3 sm:p-4 rounded-2xl border border-gray-200 bg-white hover:border-[#B8935B] cursor-pointer transition-all duration-200";
+        btn.querySelector('.day-short').className = "day-short text-xs font-bold text-gray-500 uppercase";
+        btn.querySelector('.day-number').className = "day-number text-lg sm:text-2xl font-black text-gray-900 my-0.5";
+        btn.querySelector('.day-status-text').className = "day-status-text text-[10px] font-semibold text-gray-400";
         btn.querySelector('.day-status-text').textContent = isSaved ? "Listo ✓" : "Elegir";
       }
     });
@@ -505,77 +545,70 @@ const daysOfWeek = [
     updateSidebarSummary();
   }
 
-  // Update visual appearance of Bowl cards
+  // Visual appearance of Bowl cards
   function updateBowlCardsUI() {
     document.querySelectorAll('.bowl-option-card').forEach(card => {
       const radio = card.querySelector('.bowl-radio');
       const circle = card.querySelector('.bowl-check-circle');
-      const innerDot = circle ? circle.querySelector('div') : null;
+      const checkText = circle ? circle.querySelector('span') : null;
 
       if (radio && radio.checked) {
         card.classList.remove('border-gray-200', 'bg-white');
-        card.classList.add('border-brand-gold', 'bg-[#FAF6F0]', 'ring-2', 'ring-brand-gold/20');
+        card.classList.add('border-[#B8935B]', 'bg-[#FAF6F0]', 'shadow-xs');
         if (circle) {
           circle.classList.remove('border-gray-300');
-          circle.classList.add('border-brand-gold', 'bg-brand-gold');
+          circle.classList.add('border-[#B8935B]', 'bg-[#B8935B]');
         }
-        if (innerDot) {
-          innerDot.classList.remove('bg-transparent');
-          innerDot.classList.add('bg-white');
+        if (checkText) checkText.classList.remove('hidden');
+
+        // Update Base Ingredients box text dynamically
+        const bowlObj = availableBowls.find(b => b.id === radio.value);
+        if (bowlObj) {
+          if (baseCarbDesc) baseCarbDesc.textContent = bowlObj.carb;
+          if (baseVegDesc) baseVegDesc.textContent = bowlObj.veg;
         }
       } else {
-        card.classList.remove('border-brand-gold', 'bg-[#FAF6F0]', 'ring-2', 'ring-brand-gold/20');
+        card.classList.remove('border-[#B8935B]', 'bg-[#FAF6F0]', 'shadow-xs');
         card.classList.add('border-gray-200', 'bg-white');
         if (circle) {
-          circle.classList.remove('border-brand-gold', 'bg-brand-gold');
+          circle.classList.remove('border-[#B8935B]', 'bg-[#B8935B]');
           circle.classList.add('border-gray-300');
         }
-        if (innerDot) {
-          innerDot.classList.remove('bg-white');
-          innerDot.classList.add('bg-transparent');
-        }
+        if (checkText) checkText.classList.add('hidden');
       }
     });
   }
 
-  // Update visual appearance of Protein cards
+  // Visual appearance of Protein cards
   function updateProteinCardsUI() {
     document.querySelectorAll('.protein-option-card').forEach(card => {
       const radio = card.querySelector('.protein-radio');
       const circle = card.querySelector('.protein-check-circle');
-      const innerDot = circle ? circle.querySelector('div') : null;
+      const checkText = circle ? circle.querySelector('span') : null;
 
       if (radio && radio.checked) {
         card.classList.remove('border-gray-200', 'bg-white');
-        card.classList.add('border-brand-gold', 'bg-[#FAF6F0]', 'ring-2', 'ring-brand-gold/20');
+        card.classList.add('border-[#B8935B]', 'bg-[#FAF6F0]', 'shadow-xs');
         if (circle) {
           circle.classList.remove('border-gray-300');
-          circle.classList.add('border-brand-gold', 'bg-brand-gold');
+          circle.classList.add('border-[#B8935B]', 'bg-[#B8935B]');
         }
-        if (innerDot) {
-          innerDot.classList.remove('bg-white');
-          innerDot.classList.add('bg-white');
-        }
+        if (checkText) checkText.classList.remove('hidden');
       } else {
-        card.classList.remove('border-brand-gold', 'bg-[#FAF6F0]', 'ring-2', 'ring-brand-gold/20');
+        card.classList.remove('border-[#B8935B]', 'bg-[#FAF6F0]', 'shadow-xs');
         card.classList.add('border-gray-200', 'bg-white');
         if (circle) {
-          circle.classList.remove('border-brand-gold', 'bg-brand-gold');
+          circle.classList.remove('border-[#B8935B]', 'bg-[#B8935B]');
           circle.classList.add('border-gray-300');
         }
-        if (innerDot) {
-          innerDot.classList.remove('bg-white');
-          innerDot.classList.add('bg-transparent');
-        }
+        if (checkText) checkText.classList.add('hidden');
       }
     });
   }
 
-  // Check if current day has both bowl and protein chosen
   function checkCurrentDayCompleteness() {
     const selectedBowlRadio = document.querySelector('.bowl-radio:checked');
     const selectedProteinRadio = document.querySelector('.protein-radio:checked');
-
     const dayKey = daysOfWeek[currentActiveDayIndex].key;
 
     if (selectedBowlRadio && selectedProteinRadio) {
@@ -588,30 +621,10 @@ const daysOfWeek = [
         protein: selectedProteinRadio.value
       };
 
-      if (activeDaySummaryText) {
-        activeDaySummaryText.textContent = `${bowlName} + ${selectedProteinRadio.value}`;
-        activeDaySummaryText.className = "text-sm font-extrabold text-emerald-800 block mt-0.5";
-      }
-
-      if (activeDayStatusPill) {
-        activeDayStatusPill.className = "text-xs font-bold px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200";
-        activeDayStatusPill.textContent = "Listo para guardar ✓";
-      }
-
       if (btnSaveDay) {
         btnSaveDay.classList.remove('opacity-50', 'pointer-events-none');
       }
     } else {
-      if (activeDaySummaryText) {
-        activeDaySummaryText.textContent = "Elige el tipo de bowl y la proteína";
-        activeDaySummaryText.className = "text-sm font-bold text-gray-900 block mt-0.5";
-      }
-
-      if (activeDayStatusPill) {
-        activeDayStatusPill.className = "text-xs font-bold px-3 py-1 rounded-full bg-amber-50 text-amber-800 border border-amber-200";
-        activeDayStatusPill.textContent = "Por elegir";
-      }
-
       if (btnSaveDay) {
         btnSaveDay.classList.add('opacity-50', 'pointer-events-none');
       }
@@ -620,10 +633,9 @@ const daysOfWeek = [
     saveToLocalStorage();
   }
 
-  // Save current progress to localStorage
   function saveToLocalStorage() {
     try {
-      localStorage.setItem('montalvo_weekly_plan', JSON.stringify({
+      localStorage.setItem('montalvo_weekly_plan_v2', JSON.stringify({
         weeklyChoices,
         name: customerNameInput ? customerNameInput.value : '',
         address: customerAddressInput ? customerAddressInput.value : ''
@@ -633,7 +645,6 @@ const daysOfWeek = [
     }
   }
 
-  // Update Right Sidebar Summary and WhatsApp Link
   function updateSidebarSummary() {
     let completedCount = 0;
 
@@ -645,7 +656,7 @@ const daysOfWeek = [
         completedCount++;
         if (descEl) {
           descEl.textContent = `${choice.bowlName} • ${choice.protein}`;
-          descEl.className = "text-[11px] font-semibold text-emerald-700 block truncate summary-day-desc";
+          descEl.className = "text-[11px] font-bold text-[#8A6F56] block truncate summary-day-desc";
         }
       } else {
         if (descEl) {
@@ -655,11 +666,9 @@ const daysOfWeek = [
       }
     });
 
-    // Update Counter & Progress Bar
     if (progressCounterBadge) progressCounterBadge.textContent = `${completedCount} de 5`;
     if (progressBarFill) progressBarFill.style.width = `${(completedCount / 5) * 100}%`;
 
-    // WhatsApp Button Validation
     const isAllCompleted = (completedCount === 5);
     const customerName = customerNameInput ? customerNameInput.value.trim() : '';
 
@@ -667,10 +676,9 @@ const daysOfWeek = [
       if (isAllCompleted && customerName.length > 0) {
         btnConfirmWhatsapp.classList.remove('opacity-50', 'pointer-events-none', 'cursor-not-allowed');
         btnConfirmWhatsapp.classList.add('hover:-translate-y-0.5', 'active:scale-98');
-        validationHelpText.textContent = "¡Todo listo! Haz clic para enviar tu menú armado a WhatsApp.";
-        validationHelpText.className = "text-[11px] text-center text-emerald-700 font-bold";
+        validationHelpText.textContent = "¡Menú listo! Haz clic en el botón para enviar tu pedido a WhatsApp.";
+        validationHelpText.className = "text-[11px] text-center text-[#8A6F56] font-bold";
 
-        // Generate WhatsApp Link
         const message = buildWhatsappMessage();
         const finalBase = isMobileDev ? baseWhatsappLink : baseWhatsappLink.replace('api.whatsapp.com/send', 'web.whatsapp.com/send');
         btnConfirmWhatsapp.href = `${finalBase}&text=${encodeURIComponent(message)}`;
@@ -690,21 +698,20 @@ const daysOfWeek = [
     }
   }
 
-  // Build clean WhatsApp formatted message
   function buildWhatsappMessage() {
     const customerName = customerNameInput ? customerNameInput.value.trim() : 'Cliente';
     const customerAddress = customerAddressInput ? customerAddressInput.value.trim() : '';
 
-    let msg = `🥗 *¡NUEVO PEDIDO - PLAN SEMANAL (5 BOWLS)!*\n`;
+    let msg = `🥗 *¡FICHA & PEDIDO - PLAN SEMANAL (5 BOWLS)!*\n`;
     msg += `----------------------------------------\n`;
     msg += `👤 *Cliente:* ${customerName}\n`;
     if (customerAddress) {
-      msg += `📍 *Entrega:* ${customerAddress}\n`;
+      msg += `📍 *Dirección de Entrega:* ${customerAddress}\n`;
     }
-    msg += `⚖️ *Tamaño de los bowls:* Mediano (~400g)\n`;
-    msg += `💰 *Precio del Plan:* Bs. 110\n`;
+    msg += `⚖️ *Tamaño de los bowls:* Mediano (~400g de balance)\n`;
+    msg += `💰 *Total a pagar:* Bs. 110\n`;
     msg += `----------------------------------------\n`;
-    msg += `🗓️ *SELECCIÓN DEL MENÚ SEMANAL:*\n\n`;
+    msg += `🗓️ *MENÚ CONFIGURADO PARA LA SEMANA:*\n\n`;
 
     daysOfWeek.forEach(day => {
       const choice = weeklyChoices[day.key];
@@ -714,14 +721,12 @@ const daysOfWeek = [
     });
 
     msg += `----------------------------------------\n`;
-    msg += `_Menú configurado desde Montalvo Catering Web_`;
+    msg += `_Configurado desde Montalvo Catering Web_`;
 
     return msg;
   }
 
-  // EVENT LISTENERS
-
-  // Day buttons click
+  // Event Listeners
   document.querySelectorAll('.day-tab-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const idx = parseInt(btn.dataset.dayIndex, 10);
@@ -729,7 +734,6 @@ const daysOfWeek = [
     });
   });
 
-  // Summary rows click
   document.querySelectorAll('.summary-day-row').forEach(row => {
     row.addEventListener('click', () => {
       const idx = parseInt(row.dataset.dayIndex, 10);
@@ -737,7 +741,6 @@ const daysOfWeek = [
     });
   });
 
-  // Bowl radio selection
   document.querySelectorAll('.bowl-radio').forEach(radio => {
     radio.addEventListener('change', () => {
       updateBowlCardsUI();
@@ -746,7 +749,6 @@ const daysOfWeek = [
     });
   });
 
-  // Protein radio selection
   document.querySelectorAll('.protein-radio').forEach(radio => {
     radio.addEventListener('change', () => {
       updateProteinCardsUI();
@@ -755,12 +757,10 @@ const daysOfWeek = [
     });
   });
 
-  // Save day & advance to next pending day
   btnSaveDay?.addEventListener('click', () => {
     checkCurrentDayCompleteness();
     updateSidebarSummary();
 
-    // Find next uncompleted day
     let nextIdx = -1;
     for (let i = 0; i < daysOfWeek.length; i++) {
       const k = daysOfWeek[i].key;
@@ -773,13 +773,11 @@ const daysOfWeek = [
     if (nextIdx !== -1) {
       selectDay(nextIdx);
     } else {
-      // If all completed, advance or loop
       const next = (currentActiveDayIndex + 1) % daysOfWeek.length;
       selectDay(next);
     }
   });
 
-  // Name & address inputs
   customerNameInput?.addEventListener('input', () => {
     saveToLocalStorage();
     updateSidebarSummary();
@@ -789,7 +787,6 @@ const daysOfWeek = [
     updateSidebarSummary();
   });
 
-  // Reset plan
   btnResetPlan?.addEventListener('click', () => {
     if (confirm('¿Estás seguro de reiniciar la selección de toda la semana?')) {
       weeklyChoices = {
@@ -804,6 +801,6 @@ const daysOfWeek = [
     }
   });
 
-  // Init
+  // Init on load
   selectDay(0);
 </script>
