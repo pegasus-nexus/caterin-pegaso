@@ -81,7 +81,7 @@ import Layout from '../layouts/Layout.astro';
         </div>
       </div>
 
-      <!-- Production Table (Exact format matching user specification) -->
+      <!-- Production Table (Exact format matching user specification with repeating header & page info) -->
       <div class="space-y-3">
         <div>
           <h2 class="text-sm sm:text-base font-bold text-gray-900">
@@ -92,7 +92,24 @@ import Layout from '../layouts/Layout.astro';
         <div class="overflow-x-auto border-y border-gray-200">
           <table class="w-full text-left border-collapse text-xs">
             <thead>
-              <tr class="border-b border-gray-200 text-gray-900 font-bold text-xs bg-gray-50/70">
+              <!-- Repeating identification header on multi-page printouts so sheets never get mixed up -->
+              <tr class="hidden print:table-row bg-[#FAF6F0] border-b-2 border-brand-gold/30 text-[10px]">
+                <td colspan="7" class="py-2 px-3">
+                  <div class="flex items-center justify-between text-gray-800">
+                    <div class="flex items-center gap-2">
+                      <strong class="font-serif font-black text-xs text-gray-950">MONTALVO CATERING</strong>
+                      <span class="text-gray-400">|</span>
+                      <span class="text-[9px] font-bold text-[#8A6F56] uppercase">Alta Cocina Gourmet & Bowls</span>
+                    </div>
+                    <div class="flex items-center gap-3 font-semibold">
+                      <span id="rep-order-folio" class="font-mono font-bold text-gray-950">FOLIO: #MC-2026-0000</span>
+                      <span id="rep-order-date" class="text-gray-600">Fecha: --/--/----</span>
+                      <span id="rep-order-client" class="text-gray-950 font-bold">Cliente: --</span>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr class="border-b border-gray-200 text-gray-900 font-bold text-xs bg-gray-50/80">
                 <th class="py-2.5 px-2.5 sm:px-3 font-bold whitespace-nowrap">Fecha de<br class="hidden sm:inline"> entrega</th>
                 <th class="py-2.5 px-2.5 sm:px-3 font-bold">Cliente</th>
                 <th class="py-2.5 px-2.5 sm:px-3 font-bold">Bol</th>
@@ -105,12 +122,25 @@ import Layout from '../layouts/Layout.astro';
             <tbody id="production-tbody" class="divide-y divide-gray-100 text-gray-800 font-medium text-xs">
               <!-- Dynamically populated rows -->
             </tbody>
+            <tfoot>
+              <tr class="border-t-2 border-gray-200 text-[10px] text-gray-600 bg-gray-50/50">
+                <td colspan="7" class="py-2 px-2.5 sm:px-3">
+                  <div class="flex items-center justify-between font-medium">
+                    <span>Montalvo Catering • WhatsApp: +591 72227461 • Cochabamba, Bolivia</span>
+                    <span id="footer-order-folio" class="font-mono font-bold text-gray-800">FOLIO: #MC-2026-0000</span>
+                    <span class="font-bold text-gray-900">
+                      Página <span class="page-current">1</span> de <span class="page-total">1</span>
+                    </span>
+                  </div>
+                </td>
+              </tr>
+            </tfoot>
           </table>
         </div>
       </div>
 
       <!-- Kitchen Production Notes & Quality Signature -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-3 border-t border-gray-100 text-xs text-gray-500">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-3 border-t border-gray-100 text-xs text-gray-500 print-avoid-break">
         <div class="space-y-1 bg-gray-50 p-3.5 rounded-xl border border-gray-100 text-[11px]">
           <strong class="text-gray-800 font-bold block uppercase text-[10px] tracking-wider">Instrucciones para Cocina & Despacho:</strong>
           <p class="leading-relaxed text-gray-600">
@@ -129,7 +159,7 @@ import Layout from '../layouts/Layout.astro';
       </div>
 
       <!-- Sheet Footer -->
-      <div class="pt-3 border-t border-gray-200 text-center text-[10px] text-gray-400 flex flex-col sm:flex-row items-center justify-between gap-2">
+      <div class="pt-3 border-t border-gray-200 text-center text-[10px] text-gray-400 flex flex-col sm:flex-row items-center justify-between gap-2 print-avoid-break">
         <span>© Montalvo Catering • Cochabamba, Bolivia</span>
         <span class="font-mono">Documento digital generado automáticamente desde la web</span>
       </div>
@@ -142,13 +172,56 @@ import Layout from '../layouts/Layout.astro';
 <style>
   @media print {
     @page {
-      margin: 0.8cm 1cm;
+      margin: 0.8cm 1cm 1cm 1cm;
       size: A4 portrait;
+      @bottom-right {
+        content: "Pág. " counter(page) " de " counter(pages);
+        font-size: 8pt;
+        font-weight: bold;
+        color: #4b5563;
+      }
+      @bottom-left {
+        content: "Montalvo Catering · Ficha Técnica";
+        font-size: 8pt;
+        color: #6b7280;
+      }
     }
     body {
       background: white !important;
       -webkit-print-color-adjust: exact !important;
       print-color-adjust: exact !important;
+    }
+    thead {
+      display: table-header-group !important;
+    }
+    tfoot {
+      display: table-footer-group !important;
+    }
+    tr {
+      page-break-inside: avoid !important;
+      break-inside: avoid !important;
+    }
+    .print-avoid-break {
+      page-break-inside: avoid !important;
+      break-inside: avoid !important;
+    }
+    .page-current::after {
+      content: counter(page);
+    }
+    .page-total::after {
+      content: counter(pages);
+    }
+    .page-current {
+      font-size: 0;
+    }
+    .page-current::after {
+      font-size: 10px;
+    }
+    .page-total {
+      font-size: 0;
+    }
+    .page-total::after {
+      font-size: 10px;
     }
   }
 </style>
@@ -322,12 +395,25 @@ import Layout from '../layouts/Layout.astro';
     const clientSize = document.getElementById('client-size');
     const tbody = document.getElementById('production-tbody');
 
+    const repOrderFolio = document.getElementById('rep-order-folio');
+    const repOrderDate = document.getElementById('rep-order-date');
+    const repOrderClient = document.getElementById('rep-order-client');
+    const footerOrderFolio = document.getElementById('footer-order-folio');
+
+    const formattedDate = order.date || new Date().toLocaleDateString('es-BO');
+    const clientStr = order.name || 'Cliente';
+
     if (orderFolio) orderFolio.textContent = folio;
-    if (orderDate) orderDate.textContent = `Fecha: ${order.date || new Date().toLocaleDateString('es-BO')}`;
-    if (clientName) clientName.textContent = order.name || 'Cliente';
+    if (orderDate) orderDate.textContent = `Fecha: ${formattedDate}`;
+    if (clientName) clientName.textContent = clientStr;
     if (clientAddress) clientAddress.textContent = order.address || 'Entrega coordinada por WhatsApp';
     if (clientPlan) clientPlan.textContent = order.plan || 'Plan Semanal (5 Bowls)';
     if (clientSize) clientSize.textContent = order.size || 'Mediano (~400g de balance)';
+
+    if (repOrderFolio) repOrderFolio.textContent = folio;
+    if (repOrderDate) repOrderDate.textContent = `Fecha: ${formattedDate}`;
+    if (repOrderClient) repOrderClient.textContent = `Cliente: ${clientStr}`;
+    if (footerOrderFolio) footerOrderFolio.textContent = folio;
 
     if (tbody && order.items) {
       tbody.innerHTML = '';
