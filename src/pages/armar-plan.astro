@@ -71,30 +71,7 @@ const availableProteins = [
           </a>
         </div>
 
-        <!-- Navigation Tabs: Personalizar / Nutrición -->
-        <div class="px-6 sm:px-10 flex border-b border-gray-200 text-xs sm:text-sm font-bold uppercase tracking-wider">
-          <button 
-            type="button" 
-            id="tab-btn-personalizar" 
-            class="py-4 px-4 sm:px-6 text-[#8A6F56] border-b-2 border-[#B8935B] flex items-center gap-2 cursor-pointer transition-colors"
-          >
-            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
-            </svg>
-            <span>Personalizar</span>
-          </button>
 
-          <button 
-            type="button" 
-            id="tab-btn-nutricion" 
-            class="py-4 px-4 sm:px-6 text-gray-400 hover:text-gray-600 border-b-2 border-transparent flex items-center gap-2 cursor-pointer transition-colors"
-          >
-            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-            </svg>
-            <span>Nutrición</span>
-          </button>
-        </div>
 
         <!-- PLAN CONFIGURATOR BAR (Tamaño / Frecuencia / Modalidad) -->
         <div class="px-6 sm:px-10 py-6 bg-[#FAF6F0] border-b border-brand-gold/15 space-y-5">
@@ -591,58 +568,6 @@ const availableProteins = [
 
           </div>
 
-          <!-- TAB 2: NUTRICIÓN VIEW -->
-          <div id="tab-content-nutricion" class="hidden space-y-8">
-            <div class="max-w-3xl mx-auto space-y-6">
-              <div class="text-center space-y-2">
-                <h3 class="font-serif font-bold text-2xl text-gray-900">Tabla Nutricional & Balance</h3>
-                <p class="text-sm text-gray-500">Nuestros bowls están formulados por profesionales de la nutrición para aportar energía limpia y saciedad.</p>
-              </div>
-
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Salteado info -->
-                <div class="p-6 rounded-3xl bg-[#FAF6F0] border border-brand-gold/20 space-y-4">
-                  <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-2xl bg-[#B8935B] text-white flex items-center justify-center font-bold">
-                      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" />
-                      </svg>
-                    </div>
-                    <div>
-                      <h4 class="font-bold text-lg text-gray-900">Bowl Salteado</h4>
-                      <span class="text-xs text-gray-500">Aporte calórico aprox: ~480 kcal</span>
-                    </div>
-                  </div>
-                  <ul class="space-y-2 text-xs text-gray-700">
-                    <li>• <strong>Proteína de alto valor biológico:</strong> ~35g</li>
-                    <li>• <strong>Carbohidratos complejos (Quinua Real):</strong> ~55g</li>
-                    <li>• <strong>Grasas saludables & fibra:</strong> ~12g</li>
-                  </ul>
-                </div>
-
-                <!-- Fresco info -->
-                <div class="p-6 rounded-3xl bg-[#FAF6F0] border border-brand-gold/20 space-y-4">
-                  <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-2xl bg-emerald-600 text-white flex items-center justify-center font-bold">
-                      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                      </svg>
-                    </div>
-                    <div>
-                      <h4 class="font-bold text-lg text-gray-900">Bowl Fresco</h4>
-                      <span class="text-xs text-gray-500">Aporte calórico aprox: ~420 kcal</span>
-                    </div>
-                  </div>
-                  <ul class="space-y-2 text-xs text-gray-700">
-                    <li>• <strong>Proteína magra:</strong> ~34g</li>
-                    <li>• <strong>Carbohidratos & fibra digestiva:</strong> ~45g</li>
-                    <li>• <strong>Micronutrientes & antioxidantes:</strong> Alto contenido en Vitamina A, C y K</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-
         </div>
 
         </div>
@@ -838,26 +763,6 @@ const availableProteins = [
   const btnConfirmWhatsapp = document.getElementById('btn-confirm-whatsapp');
   const validationHelpText = document.getElementById('validation-help-text');
   const btnResetPlan = document.getElementById('btn-reset-plan');
-
-  // Tabs
-  const tabBtnPersonalizar = document.getElementById('tab-btn-personalizar');
-  const tabBtnNutricion = document.getElementById('tab-btn-nutricion');
-  const tabContentPersonalizar = document.getElementById('tab-content-personalizar');
-  const tabContentNutricion = document.getElementById('tab-content-nutricion');
-
-  tabBtnPersonalizar?.addEventListener('click', () => {
-    tabBtnPersonalizar.className = "py-4 px-4 sm:px-6 text-[#8A6F56] border-b-2 border-[#B8935B] flex items-center gap-2 cursor-pointer transition-colors";
-    tabBtnNutricion.className = "py-4 px-4 sm:px-6 text-gray-400 hover:text-gray-600 border-b-2 border-transparent flex items-center gap-2 cursor-pointer transition-colors";
-    tabContentPersonalizar?.classList.remove('hidden');
-    tabContentNutricion?.classList.add('hidden');
-  });
-
-  tabBtnNutricion?.addEventListener('click', () => {
-    tabBtnNutricion.className = "py-4 px-4 sm:px-6 text-[#8A6F56] border-b-2 border-[#B8935B] flex items-center gap-2 cursor-pointer transition-colors";
-    tabBtnPersonalizar.className = "py-4 px-4 sm:px-6 text-gray-400 hover:text-gray-600 border-b-2 border-transparent flex items-center gap-2 cursor-pointer transition-colors";
-    tabContentPersonalizar?.classList.add('hidden');
-    tabContentNutricion?.classList.remove('hidden');
-  });
 
   const planPeriodDays = {
     diario: 14,
