@@ -189,6 +189,34 @@ const availableProteins = [
 
           </div>
 
+          <!-- DYNAMIC DELIVERY DAYS PICKER (Interactive for Diario & Flexible) -->
+          <div id="delivery-days-config-box" class="p-4 sm:p-5 rounded-2xl bg-white border border-brand-gold/30 shadow-xs space-y-3 transition-all duration-300">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div>
+                <span class="block text-xs font-extrabold uppercase tracking-wider text-[#8A6F56]" id="days-picker-title">
+                  📅 Días de entrega para tu plan:
+                </span>
+                <p class="text-xs text-gray-500 font-medium" id="days-picker-subtitle">
+                  Selecciona los días específicos de la semana en los que deseas recibir tus almuerzos
+                </p>
+              </div>
+              <span id="days-count-badge" class="self-start sm:self-auto text-xs font-black px-3 py-1 rounded-full bg-[#FAF6F0] text-[#8A6F56] border border-brand-gold/30">
+                3 de 3 días seleccionados
+              </span>
+            </div>
+
+            <!-- Days Buttons Grid -->
+            <div id="days-buttons-picker" class="grid grid-cols-5 gap-2 sm:gap-3 pt-1">
+              <!-- Dynamically populated day selector buttons -->
+            </div>
+
+            <!-- Helper notice for Flexible & Diario -->
+            <div id="days-helper-notice" class="text-[11px] text-gray-500 font-medium flex items-center gap-1.5 pt-1">
+              <span class="text-[#B8935B] font-bold">💡</span>
+              <span id="days-helper-text">Puedes cambiar los días haciendo clic sobre ellos.</span>
+            </div>
+          </div>
+
           <!-- Dynamic Plan Description Callout -->
           <div class="p-3.5 rounded-xl bg-white/90 border border-brand-gold/20 flex items-start gap-2.5 text-xs text-gray-700">
             <span class="text-brand-gold-dark font-bold text-sm leading-none mt-0.5">ℹ️</span>
@@ -484,6 +512,14 @@ const availableProteins = [
   const isMobileDev = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
   
   // Pricing matrix
+  const ALL_WEEK_DAYS = [
+    { key: "lun", short: "Lun", label: "Lunes", num: "01", dayIndex: 0 },
+    { key: "mar", short: "Mar", label: "Martes", num: "02", dayIndex: 1 },
+    { key: "mie", short: "Mié", label: "Miércoles", num: "03", dayIndex: 2 },
+    { key: "jue", short: "Jue", label: "Jueves", num: "04", dayIndex: 3 },
+    { key: "vie", short: "Vie", label: "Viernes", num: "05", dayIndex: 4 }
+  ];
+
   const planPrices = {
     diario: {
       mediano: { individual: 24, grupal: 24 },
@@ -511,36 +547,10 @@ const availableProteins = [
   };
 
   const planDescriptions = {
-    diario: 'Consta de <strong>1 bowl</strong> que se pide con un día de anticipación o el mismo día.',
-    flexible: 'Consta de <strong>3 bowls</strong> que puede consumir durante un periodo de <strong>hasta 2 semanas</strong>.',
-    semanal: 'Consta de <strong>5 bowls</strong> que puede consumir durante un periodo de <strong>hasta 2 semanas</strong>.',
-    mensual: 'Consta de <strong>20 bowls</strong> programados para disfrutar durante un periodo de <strong>hasta 6 semanas</strong>.'
-  };
-
-  // Plan Configurations Definitions
-  const planDaysDefinitions = {
-    diario: [
-      { key: "d1", short: "D1", label: "Día 1", num: "01" }
-    ],
-    flexible: [
-      { key: "d1", short: "D1", label: "Bowl 1", num: "01" },
-      { key: "d2", short: "D2", label: "Bowl 2", num: "02" },
-      { key: "d3", short: "D3", label: "Bowl 3", num: "03" }
-    ],
-    semanal: [
-      { key: "lun", short: "Lun", label: "Lunes", num: "01" },
-      { key: "mar", short: "Mar", label: "Martes", num: "02" },
-      { key: "mie", short: "Mié", label: "Miércoles", num: "03" },
-      { key: "jue", short: "Jue", label: "Jueves", num: "04" },
-      { key: "vie", short: "Vie", label: "Viernes", num: "05" }
-    ],
-    mensual: [
-      { key: "lun", short: "Lun", label: "Lunes", num: "01" },
-      { key: "mar", short: "Mar", label: "Martes", num: "02" },
-      { key: "mie", short: "Mié", label: "Miércoles", num: "03" },
-      { key: "jue", short: "Jue", label: "Jueves", num: "04" },
-      { key: "vie", short: "Vie", label: "Viernes", num: "05" }
-    ]
+    diario: 'Consta de <strong>1 bowl</strong> puntual que puedes programar para el día que desees.',
+    flexible: 'Consta de <strong>3 bowls</strong> en la semana. Puedes <strong>elegir libremente tus 3 días</strong> de entrega.',
+    semanal: 'Consta de <strong>5 bowls</strong> de lunes a viernes para cubrir toda tu semana.',
+    mensual: 'Consta de <strong>20 bowls</strong> programados en un ciclo base de lunes a viernes durante <strong>4 semanas</strong>.'
   };
 
   // State
@@ -548,7 +558,16 @@ const availableProteins = [
   let selectedFreq = 'semanal';
   let selectedOption = 'individual';
   let currentActiveDayIndex = 0;
-  let activePlanDays = planDaysDefinitions.semanal;
+  
+  // Custom days per frequency
+  let chosenDaysByFreq = {
+    diario: ['lun'],
+    flexible: ['lun', 'mie', 'vie'],
+    semanal: ['lun', 'mar', 'mie', 'jue', 'vie'],
+    mensual: ['lun', 'mar', 'mie', 'jue', 'vie']
+  };
+
+  let activePlanDays = [];
   let planChoices = {};
 
   // DOM Elements
@@ -557,6 +576,12 @@ const availableProteins = [
   const mainPlanTitle = document.getElementById('main-plan-title');
   const planDescriptionBanner = document.getElementById('plan-description-banner');
   const optionSelectorWrapper = document.getElementById('option-selector-wrapper');
+  
+  const daysPickerTitle = document.getElementById('days-picker-title');
+  const daysPickerSubtitle = document.getElementById('days-picker-subtitle');
+  const daysCountBadge = document.getElementById('days-count-badge');
+  const daysButtonsPicker = document.getElementById('days-buttons-picker');
+  const daysHelperText = document.getElementById('days-helper-text');
   
   const daySelectionBadge = document.getElementById('day-selection-badge');
   const btnSaveDay = document.getElementById('btn-save-day');
@@ -596,9 +621,144 @@ const availableProteins = [
     tabContentNutricion?.classList.remove('hidden');
   });
 
+  // Render Days Picker Widget (Section for choosing which days to deliver)
+  function renderDaysPickerWidget() {
+    if (!daysButtonsPicker) return;
+    daysButtonsPicker.innerHTML = '';
+
+    const currentChosen = chosenDaysByFreq[selectedFreq] || ['lun', 'mar', 'mie', 'jue', 'vie'];
+
+    if (selectedFreq === 'diario') {
+      if (daysPickerTitle) daysPickerTitle.textContent = "📅 ¿Qué día deseas recibir tu bowl? (1 día):";
+      if (daysPickerSubtitle) daysPickerSubtitle.textContent = "Selecciona el día de la semana para tu entrega puntual";
+      if (daysCountBadge) daysCountBadge.textContent = "1 de 1 día seleccionado";
+      if (daysHelperText) daysHelperText.textContent = "Haz clic en el día que prefieras para cambiar la entrega.";
+
+      ALL_WEEK_DAYS.forEach(day => {
+        const isSelected = currentChosen.includes(day.key);
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = isSelected
+          ? 'py-2.5 sm:py-3 px-2 rounded-2xl bg-[#B8935B] text-white border-2 border-[#B8935B] font-bold text-xs sm:text-sm flex flex-col items-center justify-center gap-0.5 shadow-sm cursor-pointer transition-all transform scale-102'
+          : 'py-2.5 sm:py-3 px-2 rounded-2xl bg-[#FAF6F0]/60 text-gray-700 border border-gray-200 hover:border-[#B8935B] hover:bg-white font-semibold text-xs sm:text-sm flex flex-col items-center justify-center gap-0.5 cursor-pointer transition-all';
+        
+        btn.innerHTML = `
+          <span class="text-xs uppercase tracking-wider">${day.short}</span>
+          <span class="text-[10px] opacity-80">${isSelected ? 'Seleccionado' : 'Elegir'}</span>
+        `;
+
+        btn.addEventListener('click', () => {
+          chosenDaysByFreq.diario = [day.key];
+          updatePlanConfiguration();
+        });
+
+        daysButtonsPicker.appendChild(btn);
+      });
+
+    } else if (selectedFreq === 'flexible') {
+      const count = currentChosen.length;
+      if (daysPickerTitle) daysPickerTitle.textContent = "📅 Elige tus 3 días de entrega en la semana:";
+      if (daysPickerSubtitle) daysPickerSubtitle.textContent = "Marca los 3 días que más te convengan (ej. Lun, Mar y Jue)";
+      if (daysCountBadge) daysCountBadge.textContent = `${count} de 3 días seleccionados`;
+      if (daysHelperText) daysHelperText.textContent = count === 3 
+        ? "¡Perfecto! Ya tienes 3 días. Si quieres cambiar uno, haz clic sobre el día que deseas desmarcar."
+        : `Selecciona ${3 - count} día(s) más para completar tus 3 entregas.`;
+
+      ALL_WEEK_DAYS.forEach(day => {
+        const isSelected = currentChosen.includes(day.key);
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = isSelected
+          ? 'py-2.5 sm:py-3 px-2 rounded-2xl bg-[#B8935B] text-white border-2 border-[#B8935B] font-bold text-xs sm:text-sm flex flex-col items-center justify-center gap-0.5 shadow-sm cursor-pointer transition-all transform scale-102'
+          : 'py-2.5 sm:py-3 px-2 rounded-2xl bg-[#FAF6F0]/60 text-gray-700 border border-gray-200 hover:border-[#B8935B] hover:bg-white font-semibold text-xs sm:text-sm flex flex-col items-center justify-center gap-0.5 cursor-pointer transition-all';
+        
+        btn.innerHTML = `
+          <span class="text-xs uppercase tracking-wider font-extrabold flex items-center gap-1">
+            ${isSelected ? '✓ ' : ''}${day.short}
+          </span>
+          <span class="text-[10px] ${isSelected ? 'text-amber-100 font-bold' : 'text-gray-400'}">
+            ${isSelected ? 'Incluido' : 'Sumar'}
+          </span>
+        `;
+
+        btn.addEventListener('click', () => {
+          if (isSelected) {
+            if (currentChosen.length > 1) {
+              chosenDaysByFreq.flexible = currentChosen.filter(k => k !== day.key);
+              updatePlanConfiguration();
+            }
+          } else {
+            if (currentChosen.length < 3) {
+              const newArr = [...currentChosen, day.key];
+              // Sort according to weekday order
+              newArr.sort((a, b) => {
+                const idxA = ALL_WEEK_DAYS.findIndex(d => d.key === a);
+                const idxB = ALL_WEEK_DAYS.findIndex(d => d.key === b);
+                return idxA - idxB;
+              });
+              chosenDaysByFreq.flexible = newArr;
+              updatePlanConfiguration();
+            } else {
+              // If already 3, replace the first one or prompt
+              const newArr = [currentChosen[1], currentChosen[2], day.key];
+              newArr.sort((a, b) => {
+                const idxA = ALL_WEEK_DAYS.findIndex(d => d.key === a);
+                const idxB = ALL_WEEK_DAYS.findIndex(d => d.key === b);
+                return idxA - idxB;
+              });
+              chosenDaysByFreq.flexible = newArr;
+              updatePlanConfiguration();
+            }
+          }
+        });
+
+        daysButtonsPicker.appendChild(btn);
+      });
+
+    } else if (selectedFreq === 'semanal') {
+      if (daysPickerTitle) daysPickerTitle.textContent = "📅 Días de entrega: Lunes a Viernes";
+      if (daysPickerSubtitle) daysPickerSubtitle.textContent = "Tu plan semanal cubre todos los almuerzos de lunes a viernes";
+      if (daysCountBadge) daysCountBadge.textContent = "5 de 5 días (Semana completa)";
+      if (daysHelperText) daysHelperText.textContent = "El plan semanal incluye los 5 días hábiles continuos.";
+
+      ALL_WEEK_DAYS.forEach(day => {
+        const btn = document.createElement('div');
+        btn.className = 'py-2.5 sm:py-3 px-2 rounded-2xl bg-[#FAF6F0] text-gray-900 border border-brand-gold/40 font-bold text-xs sm:text-sm flex flex-col items-center justify-center gap-0.5 opacity-90';
+        btn.innerHTML = `
+          <span class="text-xs uppercase tracking-wider flex items-center gap-1">✓ ${day.short}</span>
+          <span class="text-[10px] text-[#8A6F56] font-medium">Incluido</span>
+        `;
+        daysButtonsPicker.appendChild(btn);
+      });
+
+    } else if (selectedFreq === 'mensual') {
+      if (daysPickerTitle) daysPickerTitle.textContent = "📅 Días de entrega: Lunes a Viernes (Ciclo mensual)";
+      if (daysPickerSubtitle) daysPickerSubtitle.textContent = "Configuras tu menú base semanal de 5 días que se repetirá durante 4 semanas (20 bowls)";
+      if (daysCountBadge) daysCountBadge.textContent = "5 días base (4 semanas = 20 bowls)";
+      if (daysHelperText) daysHelperText.textContent = "Menú semanal base. Podrás coordinar variaciones semana a semana por WhatsApp.";
+
+      ALL_WEEK_DAYS.forEach(day => {
+        const btn = document.createElement('div');
+        btn.className = 'py-2.5 sm:py-3 px-2 rounded-2xl bg-[#FAF6F0] text-gray-900 border border-brand-gold/40 font-bold text-xs sm:text-sm flex flex-col items-center justify-center gap-0.5 opacity-90';
+        btn.innerHTML = `
+          <span class="text-xs uppercase tracking-wider flex items-center gap-1">✓ ${day.short}</span>
+          <span class="text-[10px] text-[#8A6F56] font-medium">Ciclo base</span>
+        `;
+        daysButtonsPicker.appendChild(btn);
+      });
+    }
+  }
+
   // Initialize and switch plan
   function updatePlanConfiguration() {
-    activePlanDays = planDaysDefinitions[selectedFreq] || planDaysDefinitions.semanal;
+    const keys = chosenDaysByFreq[selectedFreq] || ['lun', 'mar', 'mie', 'jue', 'vie'];
+    activePlanDays = keys.map((k, idx) => {
+      const found = ALL_WEEK_DAYS.find(d => d.key === k) || { key: k, short: k.toUpperCase(), label: k, num: `0${idx+1}` };
+      return {
+        ...found,
+        num: `0${idx + 1}`
+      };
+    });
     
     // Ensure choice keys exist
     activePlanDays.forEach(d => {
@@ -628,6 +788,9 @@ const availableProteins = [
       planDescriptionBanner.innerHTML = planDescriptions[selectedFreq];
     }
 
+    // Render Days Picker Widget
+    renderDaysPickerWidget();
+
     // Render Day Selector Grid
     renderDaySelectors();
 
@@ -638,7 +801,9 @@ const availableProteins = [
     updatePricingAndSummary();
 
     // Select active day
-    selectDay(currentActiveDayIndex);
+    if (activePlanDays.length > 0) {
+      selectDay(currentActiveDayIndex);
+    }
   }
 
   function renderDaySelectors() {
@@ -647,7 +812,9 @@ const availableProteins = [
     const count = activePlanDays.length;
     let gridColsClass = 'grid-cols-5';
     if (count === 1) gridColsClass = 'grid-cols-1 max-w-xs';
+    else if (count === 2) gridColsClass = 'grid-cols-2 max-w-sm';
     else if (count === 3) gridColsClass = 'grid-cols-3 max-w-md';
+    else if (count === 4) gridColsClass = 'grid-cols-4 max-w-lg';
 
     daysSelectorContainer.className = `grid ${gridColsClass} gap-2 sm:gap-3`;
     daysSelectorContainer.innerHTML = '';
@@ -718,16 +885,26 @@ const availableProteins = [
 
       if (idx === index) {
         btn.className = "day-tab-btn relative flex flex-col items-center justify-center p-3 sm:p-4 rounded-2xl border-2 border-[#B8935B] bg-[#FAF6F0] shadow-sm cursor-pointer transition-all duration-200 transform scale-102";
-        btn.querySelector('.day-short').className = "day-short text-xs font-black text-[#8A6F56] uppercase";
-        btn.querySelector('.day-number').className = "day-number text-lg sm:text-2xl font-black text-gray-950 my-0.5";
-        btn.querySelector('.day-status-text').className = "day-status-text text-[10px] font-bold text-[#B8935B]";
-        btn.querySelector('.day-status-text').textContent = isSaved ? "Listo ✓" : "Eligiendo";
+        const shortEl = btn.querySelector('.day-short');
+        const numEl = btn.querySelector('.day-number');
+        const statusEl = btn.querySelector('.day-status-text');
+        if (shortEl) shortEl.className = "day-short text-xs font-black text-[#8A6F56] uppercase";
+        if (numEl) numEl.className = "day-number text-lg sm:text-2xl font-black text-gray-950 my-0.5";
+        if (statusEl) {
+          statusEl.className = "day-status-text text-[10px] font-bold text-[#B8935B]";
+          statusEl.textContent = isSaved ? "Listo ✓" : "Eligiendo";
+        }
       } else {
         btn.className = "day-tab-btn relative flex flex-col items-center justify-center p-3 sm:p-4 rounded-2xl border border-gray-200 bg-white hover:border-[#B8935B] cursor-pointer transition-all duration-200";
-        btn.querySelector('.day-short').className = "day-short text-xs font-bold text-gray-500 uppercase";
-        btn.querySelector('.day-number').className = "day-number text-lg sm:text-2xl font-black text-gray-900 my-0.5";
-        btn.querySelector('.day-status-text').className = "day-status-text text-[10px] font-semibold text-gray-400";
-        btn.querySelector('.day-status-text').textContent = isSaved ? "Listo ✓" : "Elegir";
+        const shortEl = btn.querySelector('.day-short');
+        const numEl = btn.querySelector('.day-number');
+        const statusEl = btn.querySelector('.day-status-text');
+        if (shortEl) shortEl.className = "day-short text-xs font-bold text-gray-500 uppercase";
+        if (numEl) numEl.className = "day-number text-lg sm:text-2xl font-black text-gray-900 my-0.5";
+        if (statusEl) {
+          statusEl.className = "day-status-text text-[10px] font-semibold text-gray-400";
+          statusEl.textContent = isSaved ? "Listo ✓" : "Elegir";
+        }
       }
     });
 
@@ -863,9 +1040,9 @@ const availableProteins = [
     });
 
     if (progressCounterBadge) progressCounterBadge.textContent = `${completedCount} de ${totalDays}`;
-    if (progressBarFill) progressBarFill.style.width = `${(completedCount / totalDays) * 100}%`;
+    if (progressBarFill) progressBarFill.style.width = `${totalDays > 0 ? (completedCount / totalDays) * 100 : 0}%`;
 
-    const isAllCompleted = (completedCount === totalDays);
+    const isAllCompleted = (totalDays > 0 && completedCount === totalDays);
     const customerName = customerNameInput ? customerNameInput.value.trim() : '';
 
     if (btnConfirmWhatsapp && validationHelpText) {
@@ -876,6 +1053,7 @@ const availableProteins = [
         validationHelpText.className = "text-[11px] text-center text-[#8A6F56] font-bold";
 
         const message = buildWhatsappMessage();
+        const isMobileDev = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         const finalBase = isMobileDev ? baseWhatsappLink : baseWhatsappLink.replace('api.whatsapp.com/send', 'web.whatsapp.com/send');
         btnConfirmWhatsapp.href = `${finalBase}&text=${encodeURIComponent(message)}`;
       } else {
@@ -902,14 +1080,14 @@ const availableProteins = [
     const freqLabel = planTitles[selectedFreq];
     const optionLabel = selectedFreq === 'diario' ? '' : (selectedOption === 'individual' ? 'Individual (1 persona)' : 'Grupal (desde 3 personas)');
 
-    // Generate Ultra-Compact URL for the Digital Sheet
-    let comandaUrl = '';
     const currentYear = new Date().getFullYear();
     if (!window._mcFolioNumber) {
       window._mcFolioNumber = Math.floor(1000 + Math.random() * 9000);
     }
     const orderFolioCode = `#MC-${currentYear}-${window._mcFolioNumber}`;
 
+    // Generate Ultra-Compact URL for the Digital Sheet
+    let comandaUrl = '';
     try {
       const proteinCodeMap = {
         "Pollo a la Plancha": "1",
@@ -924,11 +1102,14 @@ const availableProteins = [
         return `${bCode}${pCode}`;
       }).join('-');
 
+      const daysParam = activePlanDays.map(d => d.key).join(',');
+
       const params = new URLSearchParams();
       params.set('c', customerName);
       if (customerAddress) params.set('dir', customerAddress);
       params.set('f', window._mcFolioNumber.toString());
       params.set('p', planCode);
+      params.set('d', daysParam);
       params.set('sz', selectedSize);
       params.set('pl', selectedFreq);
       params.set('op', selectedOption);
@@ -937,6 +1118,8 @@ const availableProteins = [
     } catch(e) {
       comandaUrl = `${window.location.origin}/comanda`;
     }
+
+    const daysNamesList = activePlanDays.map(d => d.label).join(', ');
 
     let msg = `🥗 *¡FICHA & PEDIDO - MONTALVO CATERING!* \n`;
     msg += `🔖 *Código de Pedido:* ${orderFolioCode}\n`;
@@ -950,6 +1133,7 @@ const availableProteins = [
       msg += `👥 *Modalidad:* ${optionLabel}\n`;
     }
     msg += `⚖️ *Tamaño:* ${sizeLabel}\n`;
+    msg += `🗓️ *Días de Entrega:* ${daysNamesList}\n`;
     msg += `💰 *Total a pagar:* Bs. ${currentPrice}\n`;
     if (comandaUrl) {
       msg += `\n📄 *FICHA OFICIAL / COMANDA EN PDF:* \n👉 ${comandaUrl}\n`;

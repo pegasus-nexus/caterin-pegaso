@@ -179,14 +179,22 @@ import Layout from '../layouts/Layout.astro';
     vie: { name: "Viernes", num: "Día 05" }
   };
 
+  const ALL_DAY_INDICES = {
+    'lun': 0,
+    'mar': 1,
+    'mie': 2,
+    'jue': 3,
+    'vie': 4
+  };
+
   const proteinDecodeMap = {
     "1": "Pollo a la Plancha",
     "2": "Albóndigas de Carne (Air Fryer)",
     "3": "Huevos Hervidos"
   };
 
-  function decodeCompactPlan(pString) {
-    const keys = ['lun', 'mar', 'mie', 'jue', 'vie'];
+  function decodeCompactPlan(pString, daysList) {
+    const keys = (daysList && daysList.length > 0) ? daysList : ['lun', 'mar', 'mie', 'jue', 'vie'];
     const choices = {};
     const cleaned = (pString || '').replace(/[^a-zA-Z0-9]/g, '');
 
@@ -239,6 +247,7 @@ import Layout from '../layouts/Layout.astro';
       const urlParams = new URLSearchParams(window.location.search);
       const rawData = urlParams.get('data');
       const compactCode = urlParams.get('p');
+      const daysQuery = urlParams.get('d');
       const clientQuery = urlParams.get('c');
       const dirQuery = urlParams.get('dir');
       const folioQuery = urlParams.get('f') || urlParams.get('folio');
@@ -254,6 +263,8 @@ import Layout from '../layouts/Layout.astro';
       const planStr = planTitles[plQuery] || 'Plan Semanal (5 Bowls)';
       const modalStr = (plQuery === 'diario') ? '' : (opQuery === 'grupal' ? ' • Grupal (3+ pers.)' : ' • Individual');
 
+      const parsedDaysList = daysQuery ? daysQuery.split(',').filter(Boolean) : ['lun', 'mar', 'mie', 'jue', 'vie'];
+
       if (compactCode || clientQuery) {
         // Compact Short URL Format
         order = {
@@ -263,14 +274,17 @@ import Layout from '../layouts/Layout.astro';
           plan: `${planStr}${modalStr}`,
           size: sizeStr,
           sizeShort: sizeShort,
+          daysList: parsedDaysList,
           total: calcPrice.toString(),
           date: new Date().toLocaleDateString('es-BO'),
-          choices: decodeCompactPlan(compactCode || 's1s1s1s1s1')
+          choices: decodeCompactPlan(compactCode || 's1s1s1s1s1', parsedDaysList)
         };
       } else if (rawData) {
         // Legacy Base64 Format
         const decodedStr = decodeURIComponent(escape(atob(decodeURIComponent(rawData))));
         order = JSON.parse(decodedStr);
+        order.daysList = order.choices ? Object.keys(order.choices) : ['lun', 'mar', 'mie', 'jue', 'vie'];
+        order.sizeShort = (order.size && order.size.includes('Grande')) ? 'Grande' : 'Mediano';
       } else {
         // Fallback to local storage
         const local = localStorage.getItem('montalvo_weekly_plan_v2');
@@ -282,6 +296,7 @@ import Layout from '../layouts/Layout.astro';
             plan: 'Plan Semanal (5 Bowls)',
             size: 'Mediano (~400g de balance)',
             sizeShort: 'Mediano',
+            daysList: ['lun', 'mar', 'mie', 'jue', 'vie'],
             total: '110',
             date: new Date().toLocaleDateString('es-BO'),
             choices: parsed.weeklyChoices || {}
@@ -343,24 +358,19 @@ import Layout from '../layouts/Layout.astro';
     if (clientPlan) clientPlan.textContent = order.plan || 'Plan Semanal (5 Bowls)';
     if (clientSize) clientSize.textContent = order.size || 'Mediano (~400g de balance)';
     if (clientTotal) clientTotal.textContent = `Bs. ${order.total || '110'}`;
-    const tbody = document.getElementById('production-tbody');
-
-    if (orderFolio) orderFolio.textContent = folio;
-    if (orderDate) orderDate.textContent = `Fecha: ${order.date || new Date().toLocaleDateString('es-BO')}`;
-    if (clientName) clientName.textContent = order.name || 'Cliente';
-    if (clientAddress) clientAddress.textContent = order.address || 'Entrega coordinada por WhatsApp';
-    if (clientSize) clientSize.textContent = order.size || 'Mediano (~400g de balance)';
-    if (clientTotal) clientTotal.textContent = `Bs. ${order.total || '110'}`;
 
     if (tbody && order.choices) {
       tbody.innerHTML = '';
       const weekDates = getWeekDates();
+      const daysToRender = order.daysList || Object.keys(order.choices);
+      const sizeText = order.sizeShort || (order.size && order.size.includes('Grande') ? 'Grande' : 'Mediano');
 
-      ['lun', 'mar', 'mie', 'jue', 'vie'].forEach((key, idx) => {
+      daysToRender.forEach((key) => {
         const item = order.choices[key] || {};
-        const bowlType = (item.bowlId === 'fresco') ? 'Fresco' : 'Salteado';
+        const bowlType = (item.bowlId === 'fresco' || (item.bowlName && item.bowlName.includes('Fresco'))) ? 'Fresco' : 'Salteado';
         const proteinName = item.protein || 'Pollo a la Plancha';
-        const dateStr = weekDates[idx] || '05/10/2026';
+        const dayIdx = ALL_DAY_INDICES[key] ?? 0;
+        const dateStr = weekDates[dayIdx] || '05/10/2026';
         const clientStr = order.name || 'Nombre del cliente';
 
         const tr = document.createElement('tr');
@@ -379,7 +389,7 @@ import Layout from '../layouts/Layout.astro';
             ${proteinName}
           </td>
           <td class="py-4 px-3 sm:px-4 text-gray-600 font-medium">
-            Mediano
+            ${sizeText}
           </td>
           <td class="py-4 px-3 sm:px-4 text-center font-bold text-gray-950">
             1
