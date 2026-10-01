@@ -189,40 +189,76 @@ const availableProteins = [
 
           </div>
 
-          <!-- DYNAMIC DELIVERY DAYS PICKER (Redesigned without emojis) -->
-          <div id="delivery-days-config-box" class="p-5 sm:p-6 rounded-3xl bg-white border border-brand-gold/30 shadow-sm space-y-4 transition-all duration-300">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-gray-100">
-              <div class="flex items-start gap-3">
-                <div class="w-10 h-10 rounded-2xl bg-[#FAF6F0] border border-brand-gold/30 text-[#8A6F56] flex items-center justify-center shrink-0 mt-0.5 shadow-2xs">
-                  <svg class="w-5 h-5 text-[#8A6F56]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          <!-- APPOINTMENT CALENDAR WIDGET (Matching User Reference Image) -->
+          <div id="delivery-days-config-box" class="p-6 sm:p-7 rounded-3xl bg-white border border-gray-200 shadow-sm space-y-5 transition-all duration-300 max-w-xl mx-auto">
+            
+            <!-- Header: Title on Left, Month Pill on Right -->
+            <div class="flex items-center justify-between">
+              <div>
+                <h3 class="text-base sm:text-lg font-bold text-gray-900 tracking-tight" id="days-picker-title">
+                  Fechas de entrega
+                </h3>
+                <span id="days-count-badge" class="text-xs font-semibold text-[#8A6F56] block mt-0.5">
+                  5 de 5 fechas seleccionadas
+                </span>
+              </div>
+
+              <!-- Month Navigator Pill -->
+              <div class="flex items-center gap-1.5 bg-[#FAF6F0] p-1 rounded-full border border-brand-gold/20">
+                <button 
+                  type="button" 
+                  id="btn-prev-month" 
+                  class="w-7 h-7 rounded-full bg-white hover:bg-[#FAF6F0] text-gray-700 flex items-center justify-center transition-colors shadow-2xs cursor-pointer"
+                  title="Mes anterior"
+                >
+                  <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                  </svg>
+                </button>
+
+                <div class="px-3 text-xs font-extrabold text-gray-900 flex items-center gap-1 select-none">
+                  <span id="current-month-name">Octubre</span>
+                  <svg class="w-3.5 h-3.5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
                   </svg>
                 </div>
-                <div>
-                  <h3 class="text-sm sm:text-base font-serif font-black text-gray-900 tracking-tight" id="days-picker-title">
-                    Distribución de tus Entregas
-                  </h3>
-                  <p class="text-xs text-gray-500 font-medium mt-0.5" id="days-picker-subtitle">
-                    Selecciona tus fechas libres de entrega dentro del periodo de vigencia
-                  </p>
-                </div>
+
+                <button 
+                  type="button" 
+                  id="btn-next-month" 
+                  class="w-7 h-7 rounded-full bg-white hover:bg-[#FAF6F0] text-gray-700 flex items-center justify-center transition-colors shadow-2xs cursor-pointer"
+                  title="Mes siguiente"
+                >
+                  <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
               </div>
-              <span id="days-count-badge" class="self-start sm:self-auto text-xs font-black px-3.5 py-1.5 rounded-full bg-[#FAF6F0] text-[#8A6F56] border border-brand-gold/30 shadow-2xs">
-                5 de 5 fechas seleccionadas
-              </span>
             </div>
 
-            <!-- Days Buttons Grid (Injected by JS with clean segmented week cards) -->
-            <div id="days-buttons-picker" class="space-y-4">
-              <!-- Dynamically populated -->
+            <!-- Calendar Grid Container (Weekdays row + Days rows) -->
+            <div class="space-y-2 pt-1">
+              <!-- Weekday Headers (Dom, Lun, Mar, Mié, Jue, Vie, Sáb) -->
+              <div class="grid grid-cols-7 text-center text-xs font-semibold text-gray-400">
+                <div class="py-1">Dom</div>
+                <div class="py-1">Lun</div>
+                <div class="py-1">Mar</div>
+                <div class="py-1">Mié</div>
+                <div class="py-1">Jue</div>
+                <div class="py-1">Vie</div>
+                <div class="py-1">Sáb</div>
+              </div>
+
+              <!-- Days Number Grid -->
+              <div id="calendar-days-grid" class="grid grid-cols-7 gap-y-2 text-center text-sm font-semibold">
+                <!-- Dynamically populated by JS -->
+              </div>
             </div>
 
             <!-- Helper notice -->
-            <div id="days-helper-notice" class="p-3 rounded-xl bg-[#FAF6F0]/70 border border-brand-gold/20 text-xs text-gray-600 font-medium flex items-center gap-2">
-              <svg class="w-4 h-4 text-[#8A6F56] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <span id="days-helper-text">Puedes cambiar cualquier fecha haciendo clic sobre ella.</span>
+            <div id="days-helper-notice" class="pt-2 border-t border-gray-100 text-[11px] text-gray-500 font-medium flex items-center justify-between">
+              <span id="days-helper-text">Haz clic en los días hábiles para seleccionar o cambiar fechas.</span>
+              <span class="text-[10px] text-gray-400 font-normal">Sábados y domingos no hay servicio</span>
             </div>
           </div>
 
@@ -518,7 +554,9 @@ const availableProteins = [
                 <div class="p-6 rounded-3xl bg-[#FAF6F0] border border-brand-gold/20 space-y-4">
                   <div class="flex items-center gap-3">
                     <div class="w-10 h-10 rounded-2xl bg-[#B8935B] text-white flex items-center justify-center font-bold">
-                      🔥
+                      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" />
+                      </svg>
                     </div>
                     <div>
                       <h4 class="font-bold text-lg text-gray-900">Bowl Salteado</h4>
@@ -536,7 +574,9 @@ const availableProteins = [
                 <div class="p-6 rounded-3xl bg-[#FAF6F0] border border-brand-gold/20 space-y-4">
                   <div class="flex items-center gap-3">
                     <div class="w-10 h-10 rounded-2xl bg-emerald-600 text-white flex items-center justify-center font-bold">
-                      🍃
+                      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                      </svg>
                     </div>
                     <div>
                       <h4 class="font-bold text-lg text-gray-900">Bowl Fresco</h4>
@@ -569,76 +609,58 @@ const availableProteins = [
   const isMobileDev = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
   
   const monthNames = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
+  const fullMonthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
   const dayNames = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
   const dayShortNames = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
 
-  // Generate available business delivery days for upcoming 4 weeks with precise ISO calendar week boundaries
-  function generateAvailableDeliveryDays() {
-    const days = [];
-    const now = new Date();
-    let current = new Date(now);
-    
-    // Delivery starts from tomorrow if past 15:00
-    if (now.getHours() >= 15) {
-      current.setDate(current.getDate() + 1);
-    }
+  // Helper to construct full day info from ISO key "YYYY-MM-DD"
+  function getDayInfoFromIso(isoKey) {
+    const parts = isoKey.split('-');
+    const y = parseInt(parts[0], 10);
+    const m = parseInt(parts[1], 10) - 1;
+    const d = parseInt(parts[2], 10);
+    const dateObj = new Date(y, m, d);
+    const dayOfWeek = dateObj.getDay();
+    const dPad = String(d).padStart(2, '0');
+    const mPad = String(m + 1).padStart(2, '0');
 
-    // Determine current week's Sunday midnight boundary
-    const dayOfWeekNow = now.getDay(); // 0 is Sun, 1 is Mon...
-    const daysUntilSunday = (dayOfWeekNow === 0) ? 0 : (7 - dayOfWeekNow);
-    const endOfCurrentWeek = new Date(now);
-    endOfCurrentWeek.setDate(now.getDate() + daysUntilSunday);
-    endOfCurrentWeek.setHours(23, 59, 59, 999);
-
-    const endOfNextWeek = new Date(endOfCurrentWeek);
-    endOfNextWeek.setDate(endOfCurrentWeek.getDate() + 7);
-
-    const endOfThirdWeek = new Date(endOfNextWeek);
-    endOfThirdWeek.setDate(endOfNextWeek.getDate() + 7);
-
-    let iterations = 0;
-    while (days.length < 20 && iterations < 45) {
-      const dayOfWeek = current.getDay();
-      if (dayOfWeek >= 1 && dayOfWeek <= 5) { // Lunes a Viernes
-        const y = current.getFullYear();
-        const m = String(current.getMonth() + 1).padStart(2, '0');
-        const d = String(current.getDate()).padStart(2, '0');
-        const isoKey = `${y}-${m}-${d}`;
-        const formattedDate = `${d}/${m}/${y}`;
-        const dayLabel = `${dayNames[dayOfWeek]} ${d} de ${monthNames[current.getMonth()]}`;
-        const shortLabel = `${dayShortNames[dayOfWeek]} ${d}`;
-        const dayShort = dayShortNames[dayOfWeek].toUpperCase();
-        const monthShort = monthNames[current.getMonth()].toUpperCase();
-
-        let weekGroup = "Esta semana";
-        if (current > endOfNextWeek) {
-          weekGroup = "Semana 3";
-        } else if (current > endOfCurrentWeek) {
-          weekGroup = "Próxima semana";
-        }
-
-        days.push({
-          key: isoKey,
-          isoKey: isoKey,
-          dateStr: formattedDate,
-          dayOfWeek: dayOfWeek,
-          dayName: dayNames[dayOfWeek],
-          short: shortLabel,
-          dayShort: dayShort,
-          dayNum: d,
-          monthShort: monthShort,
-          label: dayLabel,
-          weekGroup: weekGroup,
-          rawDate: new Date(current)
-        });
-      }
-      current.setDate(current.getDate() + 1);
-      iterations++;
-    }
-    return days;
+    return {
+      key: isoKey,
+      isoKey: isoKey,
+      dateStr: `${dPad}/${mPad}/${y}`,
+      dayOfWeek: dayOfWeek,
+      dayName: dayNames[dayOfWeek],
+      short: `${dayShortNames[dayOfWeek]} ${dPad}`,
+      dayShort: dayShortNames[dayOfWeek].toUpperCase(),
+      dayNum: dPad,
+      monthShort: monthNames[m].toUpperCase(),
+      label: `${dayNames[dayOfWeek]} ${dPad} de ${monthNames[m]}`,
+      rawDate: dateObj
+    };
   }
 
-  const allAvailableDays = generateAvailableDeliveryDays();
+  // Pre-generate initial delivery dates starting from today or tomorrow
+  function generateInitialKeys() {
+    const keys = [];
+    const now = new Date();
+    let cur = new Date(now);
+    if (now.getHours() >= 15) {
+      cur.setDate(cur.getDate() + 1);
+    }
+    while (keys.length < 10) {
+      const dow = cur.getDay();
+      if (dow >= 1 && dow <= 5) {
+        const y = cur.getFullYear();
+        const m = String(cur.getMonth() + 1).padStart(2, '0');
+        const d = String(cur.getDate()).padStart(2, '0');
+        keys.push(`${y}-${m}-${d}`);
+      }
+      cur.setDate(cur.getDate() + 1);
+    }
+    return keys;
+  }
+
+  const initialBusinessKeys = generateInitialKeys();
 
   // Pricing matrix
   const planPrices = {
@@ -675,9 +697,9 @@ const availableProteins = [
   };
 
   const planDescriptions = {
-    diario: 'Consta de <strong>1 bowl</strong> puntual que puedes programar para cualquier fecha disponible.',
+    diario: 'Consta de <strong>1 bowl</strong> puntual que puedes programar para cualquier fecha disponible en el calendario.',
     flexible: 'Consta de <strong>3 bowls</strong> que puedes consumir durante el periodo de <strong>hasta 2 semanas</strong> a tu libre elección.',
-    semanal: 'Consta de <strong>5 bowls</strong> que puedes consumir durante el periodo de <strong>hasta 2 semanas</strong> (ej. 2 esta semana y 3 la siguiente).',
+    semanal: 'Consta de <strong>5 bowls</strong> que puedes consumir durante el periodo de <strong>hasta 2 semanas</strong> para 1 persona (ej. 2 esta semana y 3 la próxima).',
     mensual: 'Consta de <strong>20 bowls</strong> programados para disfrutar durante un periodo de <strong>hasta 6 semanas</strong>.'
   };
 
@@ -686,13 +708,16 @@ const availableProteins = [
   let selectedFreq = 'semanal';
   let selectedOption = 'individual';
   let currentActiveDayIndex = 0;
+
+  let currentViewYear = new Date().getFullYear();
+  let currentViewMonth = new Date().getMonth();
   
   // Selected real dates keys per frequency
   let chosenDateKeysByFreq = {
-    diario: [allAvailableDays[0]?.key || 'd1'],
-    flexible: allAvailableDays.slice(0, 3).map(d => d.key),
-    semanal: allAvailableDays.slice(0, 5).map(d => d.key),
-    mensual: allAvailableDays.slice(0, 5).map(d => d.key)
+    diario: [initialBusinessKeys[0] || '2026-10-05'],
+    flexible: initialBusinessKeys.slice(0, 3),
+    semanal: initialBusinessKeys.slice(0, 5),
+    mensual: initialBusinessKeys.slice(0, 5)
   };
 
   let activePlanDays = [];
@@ -706,10 +731,12 @@ const availableProteins = [
   const optionSelectorWrapper = document.getElementById('option-selector-wrapper');
   
   const daysPickerTitle = document.getElementById('days-picker-title');
-  const daysPickerSubtitle = document.getElementById('days-picker-subtitle');
   const daysCountBadge = document.getElementById('days-count-badge');
-  const daysButtonsPicker = document.getElementById('days-buttons-picker');
   const daysHelperText = document.getElementById('days-helper-text');
+  const calendarDaysGrid = document.getElementById('calendar-days-grid');
+  const currentMonthName = document.getElementById('current-month-name');
+  const btnPrevMonth = document.getElementById('btn-prev-month');
+  const btnNextMonth = document.getElementById('btn-next-month');
   
   const daySelectionBadge = document.getElementById('day-selection-badge');
   const dayObservationInput = document.getElementById('day-observation-input');
@@ -750,27 +777,19 @@ const availableProteins = [
     tabContentNutricion?.classList.remove('hidden');
   });
 
-  // Render Multi-Week Calendar Picker Widget (Clean Luxury Redesign)
-  function renderDaysPickerWidget() {
-    if (!daysButtonsPicker) return;
-    daysButtonsPicker.innerHTML = '';
+  // Render Monthly Calendar Grid (Matching Reference UI)
+  function renderMonthlyCalendarGrid() {
+    if (!calendarDaysGrid) return;
+    calendarDaysGrid.innerHTML = '';
 
     const targetCount = planTargetBowls[selectedFreq] || 5;
     const currentChosen = chosenDateKeysByFreq[selectedFreq] || [];
-    const poolOfDays = (selectedFreq === 'mensual') ? allAvailableDays.slice(0, 15) : allAvailableDays.slice(0, 12);
 
     if (daysPickerTitle) {
-      if (selectedFreq === 'diario') daysPickerTitle.textContent = "Fecha de Entrega (1 Bowl)";
-      else if (selectedFreq === 'flexible') daysPickerTitle.textContent = "Distribución de tus 3 Bowls (Vigencia: hasta 2 semanas)";
-      else if (selectedFreq === 'semanal') daysPickerTitle.textContent = "Distribución de tus 5 Bowls (Vigencia: hasta 2 semanas)";
-      else if (selectedFreq === 'mensual') daysPickerTitle.textContent = "Menú Base Semanal (Vigencia: hasta 6 semanas)";
-    }
-
-    if (daysPickerSubtitle) {
-      if (selectedFreq === 'diario') daysPickerSubtitle.textContent = "Selecciona el día específico en el que deseas recibir tu bowl.";
-      else if (selectedFreq === 'flexible') daysPickerSubtitle.textContent = "Elige libremente los 3 días de entrega entre esta semana y la siguiente.";
-      else if (selectedFreq === 'semanal') daysPickerSubtitle.textContent = "Elige tus 5 fechas libres entre esta semana y la siguiente (ej. 2 esta semana y 3 la próxima).";
-      else if (selectedFreq === 'mensual') daysPickerSubtitle.textContent = "Configura tus 5 días tipo. Las variaciones se coordinan libremente por WhatsApp.";
+      if (selectedFreq === 'diario') daysPickerTitle.textContent = "Fecha de entrega (1 Bowl)";
+      else if (selectedFreq === 'flexible') daysPickerTitle.textContent = "Fechas de entrega (3 Bowls)";
+      else if (selectedFreq === 'semanal') daysPickerTitle.textContent = "Fechas de entrega (5 Bowls)";
+      else if (selectedFreq === 'mensual') daysPickerTitle.textContent = "Fechas de entrega (Plan Mensual)";
     }
 
     if (daysCountBadge) {
@@ -785,85 +804,150 @@ const availableProteins = [
       }
     }
 
-    // Group available business days by calendar week
-    const weekGroups = {};
-    poolOfDays.forEach(day => {
-      if (!weekGroups[day.weekGroup]) weekGroups[day.weekGroup] = [];
-      weekGroups[day.weekGroup].push(day);
-    });
+    if (currentMonthName) {
+      currentMonthName.textContent = `${fullMonthNames[currentViewMonth]} ${currentViewYear}`;
+    }
 
-    daysButtonsPicker.className = "space-y-4 pt-1";
+    // Disable prev month button if current view month is today's month or before
+    const today = new Date();
+    const todayYear = today.getFullYear();
+    const todayMonth = today.getMonth();
+    const todayDate = today.getDate();
+    const isPastCutoff = today.getHours() >= 15;
 
-    Object.keys(weekGroups).forEach(groupName => {
-      const groupWrapper = document.createElement('div');
-      groupWrapper.className = "p-3.5 sm:p-4 rounded-2xl bg-[#FAF6F0]/60 border border-brand-gold/15 space-y-2.5";
+    if (btnPrevMonth) {
+      const isCurrentOrPast = (currentViewYear < todayYear) || (currentViewYear === todayYear && currentViewMonth <= todayMonth);
+      if (isCurrentOrPast) {
+        btnPrevMonth.classList.add('opacity-30', 'pointer-events-none');
+      } else {
+        btnPrevMonth.classList.remove('opacity-30', 'pointer-events-none');
+      }
+    }
 
-      const groupHeader = document.createElement('div');
-      groupHeader.className = "flex items-center justify-between";
-      groupHeader.innerHTML = `
-        <span class="text-[11px] font-extrabold uppercase tracking-widest text-[#8A6F56]">${groupName}</span>
-        <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">${weekGroups[groupName].length} días hábiles</span>
-      `;
-      groupWrapper.appendChild(groupHeader);
+    // First day of current view month (0=Sun, 1=Mon, ..., 6=Sat)
+    const firstDayOfWeek = new Date(currentViewYear, currentViewMonth, 1).getDay();
+    const daysInCurrentMonth = new Date(currentViewYear, currentViewMonth + 1, 0).getDate();
+    const daysInPrevMonth = new Date(currentViewYear, currentViewMonth, 0).getDate();
 
-      const daysRow = document.createElement('div');
-      daysRow.className = "grid grid-cols-2 sm:grid-cols-5 gap-2 sm:gap-2.5";
+    // 1. Previous Month Leading Days (Disabled / Gray)
+    for (let i = firstDayOfWeek - 1; i >= 0; i--) {
+      const dayNum = daysInPrevMonth - i;
+      const cell = document.createElement('div');
+      cell.className = "py-1.5 flex items-center justify-center select-none";
+      cell.innerHTML = `<span class="w-8 sm:w-9 h-9 sm:h-10 flex items-center justify-center text-gray-300 text-xs font-medium cursor-not-allowed opacity-40">${dayNum}</span>`;
+      calendarDaysGrid.appendChild(cell);
+    }
 
-      weekGroups[groupName].forEach(day => {
-        const isSelected = currentChosen.includes(day.key);
+    // 2. Current Month Days
+    for (let dayNum = 1; dayNum <= daysInCurrentMonth; dayNum++) {
+      const cellDate = new Date(currentViewYear, currentViewMonth, dayNum);
+      const dayOfWeek = cellDate.getDay(); // 0 = Sun, 6 = Sat
+      const isWeekend = (dayOfWeek === 0 || dayOfWeek === 6);
+      
+      // Check if date is in past
+      let isPast = false;
+      if (currentViewYear < todayYear) isPast = true;
+      else if (currentViewYear === todayYear) {
+        if (currentViewMonth < todayMonth) isPast = true;
+        else if (currentViewMonth === todayMonth) {
+          if (dayNum < todayDate) isPast = true;
+          else if (dayNum === todayDate && isPastCutoff) isPast = true;
+        }
+      }
+
+      const mPad = String(currentViewMonth + 1).padStart(2, '0');
+      const dPad = String(dayNum).padStart(2, '0');
+      const isoKey = `${currentViewYear}-${mPad}-${dPad}`;
+      const isSelected = currentChosen.includes(isoKey);
+
+      const cell = document.createElement('div');
+      cell.className = "py-1 flex items-center justify-center";
+
+      if (isWeekend || isPast) {
+        cell.innerHTML = `<span class="w-8 sm:w-9 h-9 sm:h-10 flex items-center justify-center text-gray-300 text-xs sm:text-sm font-medium cursor-not-allowed select-none opacity-40">${dayNum}</span>`;
+      } else {
         const btn = document.createElement('button');
         btn.type = 'button';
-        btn.className = isSelected
-          ? 'relative p-3 rounded-2xl bg-[#B8935B] text-white border-2 border-[#B8935B] font-bold flex flex-col items-center justify-center gap-0.5 shadow-md cursor-pointer transition-all duration-200 transform scale-102'
-          : 'relative p-3 rounded-2xl bg-white text-gray-700 border border-gray-200 hover:border-[#B8935B] hover:bg-[#FAF6F0]/40 font-semibold flex flex-col items-center justify-center gap-0.5 cursor-pointer transition-all duration-200 shadow-2xs';
+        btn.dataset.isoKey = isoKey;
 
-        btn.innerHTML = `
-          <span class="text-[10px] uppercase font-extrabold tracking-wider ${isSelected ? 'text-amber-100' : 'text-gray-400'}">${day.dayShort}</span>
-          <span class="text-lg sm:text-xl font-black ${isSelected ? 'text-white' : 'text-gray-900'} leading-none my-0.5">${day.dayNum}</span>
-          <span class="text-[10px] font-bold ${isSelected ? 'text-white/90' : 'text-[#8A6F56]'}">${day.monthShort}</span>
-          ${isSelected ? `<div class="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-white text-[#B8935B] text-[10px] font-black flex items-center justify-center shadow-xs">✓</div>` : ''}
-        `;
+        if (isSelected) {
+          // Vertical rounded pill highlight matching reference image
+          btn.className = "w-8 sm:w-9 h-10 sm:h-11 mx-auto rounded-full bg-[#34A872] hover:bg-[#2c8e60] text-white font-extrabold text-xs sm:text-sm flex flex-col items-center justify-center shadow-xs cursor-pointer transition-all duration-200 transform scale-105 border-2 border-[#34A872]";
+          btn.innerHTML = `<span>${dayNum}</span>`;
+        } else {
+          btn.className = "w-8 sm:w-9 h-10 sm:h-11 mx-auto rounded-full bg-white hover:bg-emerald-50 text-gray-800 font-bold text-xs sm:text-sm border border-transparent hover:border-emerald-200 flex flex-col items-center justify-center cursor-pointer transition-all duration-150 shadow-2xs";
+          btn.innerHTML = `<span>${dayNum}</span>`;
+        }
 
         btn.addEventListener('click', () => {
-          if (isSelected) {
-            if (currentChosen.length > 1) {
-              chosenDateKeysByFreq[selectedFreq] = currentChosen.filter(k => k !== day.key);
-              updatePlanConfiguration();
-            }
-          } else {
-            if (currentChosen.length < targetCount) {
-              const newArr = [...currentChosen, day.key];
-              newArr.sort();
-              chosenDateKeysByFreq[selectedFreq] = newArr;
-              updatePlanConfiguration();
-            } else {
-              const newArr = [...currentChosen.slice(1), day.key];
-              newArr.sort();
-              chosenDateKeysByFreq[selectedFreq] = newArr;
-              updatePlanConfiguration();
-            }
-          }
+          toggleDateSelection(isoKey);
         });
 
-        daysRow.appendChild(btn);
-      });
+        cell.appendChild(btn);
+      }
 
-      groupWrapper.appendChild(daysRow);
-      daysButtonsPicker.appendChild(groupWrapper);
-    });
+      calendarDaysGrid.appendChild(cell);
+    }
+
+    // 3. Next Month Trailing Days to complete 7-col grid row
+    const totalRenderedCells = firstDayOfWeek + daysInCurrentMonth;
+    const remainingInGrid = (7 - (totalRenderedCells % 7)) % 7;
+    for (let i = 1; i <= remainingInGrid; i++) {
+      const cell = document.createElement('div');
+      cell.className = "py-1.5 flex items-center justify-center select-none";
+      cell.innerHTML = `<span class="w-8 sm:w-9 h-9 sm:h-10 flex items-center justify-center text-gray-300 text-xs font-medium cursor-not-allowed opacity-40">${i}</span>`;
+      calendarDaysGrid.appendChild(cell);
+    }
   }
+
+  function toggleDateSelection(isoKey) {
+    const targetCount = planTargetBowls[selectedFreq] || 5;
+    const currentChosen = chosenDateKeysByFreq[selectedFreq] || [];
+
+    if (currentChosen.includes(isoKey)) {
+      if (currentChosen.length > 1) {
+        chosenDateKeysByFreq[selectedFreq] = currentChosen.filter(k => k !== isoKey);
+        updatePlanConfiguration();
+      }
+    } else {
+      if (currentChosen.length < targetCount) {
+        const newArr = [...currentChosen, isoKey];
+        newArr.sort();
+        chosenDateKeysByFreq[selectedFreq] = newArr;
+        updatePlanConfiguration();
+      } else {
+        const newArr = [...currentChosen.slice(1), isoKey];
+        newArr.sort();
+        chosenDateKeysByFreq[selectedFreq] = newArr;
+        updatePlanConfiguration();
+      }
+    }
+  }
+
+  // Month navigation buttons
+  btnPrevMonth?.addEventListener('click', () => {
+    currentViewMonth--;
+    if (currentViewMonth < 0) {
+      currentViewMonth = 11;
+      currentViewYear--;
+    }
+    renderMonthlyCalendarGrid();
+  });
+
+  btnNextMonth?.addEventListener('click', () => {
+    currentViewMonth++;
+    if (currentViewMonth > 11) {
+      currentViewMonth = 0;
+      currentViewYear++;
+    }
+    renderMonthlyCalendarGrid();
+  });
 
   // Initialize and switch plan
   function updatePlanConfiguration() {
     const keys = chosenDateKeysByFreq[selectedFreq] || [];
     activePlanDays = keys.map((k, idx) => {
-      const found = allAvailableDays.find(d => d.key === k) || { 
-        key: k, 
-        short: `Día ${idx+1}`, 
-        label: `Entrega ${idx+1}`, 
-        dateStr: `Fecha ${idx+1}`,
-        num: `0${idx+1}` 
-      };
+      const found = getDayInfoFromIso(k);
       return {
         ...found,
         num: `0${idx + 1}`
@@ -898,8 +982,8 @@ const availableProteins = [
       planDescriptionBanner.innerHTML = planDescriptions[selectedFreq];
     }
 
-    // Render Multi-week Calendar Picker Widget
-    renderDaysPickerWidget();
+    // Render Monthly Calendar Grid
+    renderMonthlyCalendarGrid();
 
     // Render Day Selector Grid
     renderDaySelectors();
