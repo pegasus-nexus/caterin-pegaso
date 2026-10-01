@@ -107,7 +107,8 @@ const availableProteins = [
             </span>
           </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+          <!-- Step 1 Controls: 2 Balanced Columns (Tamaño & Frecuencia) -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-xl mx-auto">
             
             <!-- 1. TAMAÑO DEL BOWL (Mediano / Grande) -->
             <div class="space-y-2">
@@ -137,7 +138,7 @@ const availableProteins = [
               <label class="block text-[11px] font-bold uppercase tracking-wider text-gray-700">
                 2. Frecuencia del Plan
               </label>
-              <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5 bg-white p-1 rounded-2xl border border-gray-200 shadow-2xs">
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-1 bg-white p-1 rounded-2xl border border-gray-200 shadow-2xs">
                 <button
                   type="button"
                   class="freq-selector-btn py-2 px-1 rounded-xl text-[11px] font-semibold text-gray-600 hover:text-gray-900 text-center transition-all cursor-pointer"
@@ -169,29 +170,6 @@ const availableProteins = [
                 >
                   <span>Mensual</span>
                   <span id="unit-price-mensual" class="block text-[9px] font-bold opacity-80 mt-0.5">Bs. 20/u</span>
-                </button>
-              </div>
-            </div>
-
-            <!-- 3. MODALIDAD (Individual / Grupal) -->
-            <div id="option-selector-wrapper" class="space-y-2 transition-all duration-300">
-              <label class="block text-[11px] font-bold uppercase tracking-wider text-gray-700">
-                3. Modalidad
-              </label>
-              <div class="grid grid-cols-2 gap-2 bg-white p-1 rounded-2xl border border-gray-200 shadow-2xs">
-                <button
-                  type="button"
-                  class="option-selector-btn py-2.5 px-3 rounded-xl text-xs font-extrabold transition-all cursor-pointer bg-[#B8935B] text-white shadow-xs"
-                  data-option="individual"
-                >
-                  Individual <span class="block text-[10px] font-medium opacity-90">1 persona</span>
-                </button>
-                <button
-                  type="button"
-                  class="option-selector-btn py-2.5 px-3 rounded-xl text-xs font-semibold text-gray-600 hover:text-gray-900 transition-all cursor-pointer"
-                  data-option="grupal"
-                >
-                  Grupal <span class="block text-[10px] font-medium opacity-70">3+ personas</span>
                 </button>
               </div>
             </div>
@@ -570,17 +548,15 @@ const availableProteins = [
                   <div id="progress-bar-fill" class="bg-[#B8935B] h-full rounded-full transition-all duration-500 w-0"></div>
                 </div>
 
-                <!-- Days List Summary -->
-                <div class="space-y-2" id="summary-days-list">
+                <!-- Days List Summary (Scrollable for up to 20 days) -->
+                <div class="space-y-2 max-h-80 overflow-y-auto pr-1" id="summary-days-list">
                   <!-- Dynamically populated rows -->
                 </div>
 
-                <!-- Total a Pagar & WhatsApp CTA -->
+                <!-- Plan Info & WhatsApp CTA -->
                 <div class="pt-4 border-t border-brand-gold/20 space-y-4">
                   <div>
-                    <span class="block text-xs font-bold uppercase tracking-wider text-gray-400">Total a pagar:</span>
-                    <span id="sidebar-price-display" class="font-black text-3xl sm:text-4xl text-gray-950 block mt-0.5">Bs. 110</span>
-                    <span id="sidebar-size-desc" class="text-[11px] text-gray-500 font-medium">Tamaño Mediano (~400g)</span>
+                    <span id="sidebar-size-desc" class="text-xs font-bold text-gray-700 block">Tamaño Mediano (~400g)</span>
                   </div>
 
                   <a 
@@ -683,19 +659,19 @@ const availableProteins = [
       <div class="max-w-md mx-auto flex items-center justify-between gap-3">
         <div>
           <div class="flex items-center gap-1.5">
-            <span id="mobile-price-display" class="font-black text-xl text-gray-950">Bs. 110</span>
+            <span id="mobile-plan-label" class="text-xs font-black text-gray-950 block truncate">Plan Semanal</span>
             <span id="mobile-progress-badge" class="text-[10px] font-black px-2 py-0.5 rounded-full bg-[#FAF6F0] text-[#8A6F56] border border-brand-gold/30">
               0 de 5
             </span>
           </div>
-          <span id="mobile-plan-label" class="text-[10px] text-gray-500 font-medium block truncate">Plan Semanal</span>
+          <span id="mobile-size-label" class="text-[10px] text-gray-500 font-medium block truncate">Mediano (~400g)</span>
         </div>
 
         <a 
           id="btn-confirm-whatsapp-mobile"
           href="#"
           target="_blank"
-          class="flex-1 max-w-[200px] bg-[#B8935B] hover:bg-[#917237] text-white text-center py-3 px-4 rounded-xl font-extrabold uppercase tracking-wider text-xs transition-all shadow-md flex items-center justify-center gap-1.5 opacity-50 pointer-events-none cursor-not-allowed shrink-0"
+          class="flex-1 max-w-[190px] bg-[#B8935B] hover:bg-[#917237] text-white text-center py-3 px-4 rounded-xl font-extrabold uppercase tracking-wider text-xs transition-all shadow-md flex items-center justify-center gap-1.5 opacity-50 pointer-events-none cursor-not-allowed shrink-0"
         >
           <span>Pedir WhatsApp</span>
           <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm5.79-3.554c1.666.988 3.536 1.509 5.44 1.51h.005c5.772 0 10.468-4.697 10.472-10.47 0-2.796-1.09-5.429-3.07-7.41-1.98-1.981-4.61-3.068-7.405-3.069C6.262 1.01 1.566 5.706 1.561 11.479c0 1.995.525 3.943 1.523 5.656l-.982 3.585 3.675-.964zm11.758-5.326c-.302-.15-.178-.225.405-1.026.482-.663.602-.753.844-1.115.195-.29.098-.56-.05-.71-.148-.15-1.48-3.567-1.88-4.526-.226-.543-.45-.47-.622-.48l-.532-.012c-.185 0-.485.07-.74.352-.254.282-.97.948-.97 2.31 0 1.363.99 2.68 1.13 2.868.138.188 1.95 2.977 4.727 4.174.66.285 1.176.455 1.578.583.663.21 1.267.18 1.744.11.53-.08 1.63-.667 1.86-1.282.23-.615.23-1.143.16-1.253-.07-.11-.253-.185-.555-.335z"/></svg>
@@ -751,7 +727,7 @@ const availableProteins = [
     if (now.getHours() >= 15) {
       cur.setDate(cur.getDate() + 1);
     }
-    while (keys.length < 10) {
+    while (keys.length < 30) {
       const dow = cur.getDay();
       if (dow >= 1 && dow <= 5) {
         const y = cur.getFullYear();
@@ -768,22 +744,10 @@ const availableProteins = [
 
   // Pricing matrix
   const planPrices = {
-    diario: {
-      mediano: { individual: 24, grupal: 24 },
-      grande: { individual: 37, grupal: 37 }
-    },
-    flexible: {
-      mediano: { individual: 69, grupal: 207 },
-      grande: { individual: 108, grupal: 324 }
-    },
-    semanal: {
-      mediano: { individual: 110, grupal: 330 },
-      grande: { individual: 175, grupal: 525 }
-    },
-    mensual: {
-      mediano: { individual: 400, grupal: 1200 },
-      grande: { individual: 660, grupal: 1980 }
-    }
+    diario: { mediano: 24, grande: 37 },
+    flexible: { mediano: 69, grande: 108 },
+    semanal: { mediano: 110, grande: 175 },
+    mensual: { mediano: 400, grande: 660 }
   };
 
   const planTitles = {
@@ -797,7 +761,7 @@ const availableProteins = [
     diario: 1,
     flexible: 3,
     semanal: 5,
-    mensual: 5 // 5 base cycle for monthly
+    mensual: 20
   };
 
   const planDescriptions = {
@@ -810,7 +774,6 @@ const availableProteins = [
   // State
   let selectedSize = 'mediano';
   let selectedFreq = 'semanal';
-  let selectedOption = 'individual';
   let currentActiveDayIndex = 0;
 
   let currentViewYear = new Date().getFullYear();
@@ -821,7 +784,7 @@ const availableProteins = [
     diario: [initialBusinessKeys[0] || '2026-10-05'],
     flexible: initialBusinessKeys.slice(0, 3),
     semanal: initialBusinessKeys.slice(0, 5),
-    mensual: initialBusinessKeys.slice(0, 5)
+    mensual: initialBusinessKeys.slice(0, 20)
   };
 
   let activePlanDays = [];
@@ -829,7 +792,6 @@ const availableProteins = [
 
   // Mobile Bar & New UI Elements
   const mobileStickyBar = document.getElementById('mobile-sticky-bar');
-  const mobilePriceDisplay = document.getElementById('mobile-price-display');
   const mobileProgressBadge = document.getElementById('mobile-progress-badge');
   const mobilePlanLabel = document.getElementById('mobile-plan-label');
   const btnConfirmWhatsappMobile = document.getElementById('btn-confirm-whatsapp-mobile');
@@ -844,7 +806,6 @@ const availableProteins = [
   const customerAddressInput = document.getElementById('customer-address');
   const mainPlanTitle = document.getElementById('main-plan-title');
   const planDescriptionBanner = document.getElementById('plan-description-banner');
-  const optionSelectorWrapper = document.getElementById('option-selector-wrapper');
   
   const btnConfirmPlanConfig = document.getElementById('btn-confirm-plan-config');
   const btnConfirmPlanText = document.getElementById('btn-confirm-plan-text');
@@ -868,7 +829,6 @@ const availableProteins = [
   const baseVegDesc = document.getElementById('base-veg-desc');
   
   const sidebarPlanLabel = document.getElementById('sidebar-plan-label');
-  const sidebarPriceDisplay = document.getElementById('sidebar-price-display');
   const sidebarSizeDesc = document.getElementById('sidebar-size-desc');
   const progressCounterBadge = document.getElementById('progress-counter-badge');
   const progressBarFill = document.getElementById('progress-bar-fill');
@@ -919,7 +879,7 @@ const availableProteins = [
       if (selectedFreq === 'diario') daysPickerTitle.textContent = "Fecha de entrega (1 Bowl)";
       else if (selectedFreq === 'flexible') daysPickerTitle.textContent = "Fechas de entrega (3 Bowls)";
       else if (selectedFreq === 'semanal') daysPickerTitle.textContent = "Fechas de entrega (5 Bowls)";
-      else if (selectedFreq === 'mensual') daysPickerTitle.textContent = "Fechas de entrega (Plan Mensual)";
+      else if (selectedFreq === 'mensual') daysPickerTitle.textContent = "Fechas de entrega (20 Bowls)";
     }
 
     if (daysCountBadge) {
@@ -1047,11 +1007,9 @@ const availableProteins = [
         btn.dataset.isoKey = isoKey;
 
         if (isSelected) {
-          // Selected date: Beige background with strong gold/bronze border and dark bold text
           btn.className = "w-8 sm:w-9 h-10 sm:h-11 mx-auto rounded-full bg-[#FAF6F0] hover:bg-[#F2E8DC] text-[#1e1912] font-black text-xs sm:text-sm flex flex-col items-center justify-center shadow-sm cursor-pointer transition-all duration-200 transform scale-105 border-2 border-[#B8935B]";
           btn.innerHTML = `<span class="leading-none">${dayNum}</span>`;
         } else {
-          // Available unselected date: Clean white with subtle beige hover
           btn.className = "w-8 sm:w-9 h-10 sm:h-11 mx-auto rounded-full bg-white hover:bg-[#FAF6F0] text-gray-800 font-bold text-xs sm:text-sm border border-transparent hover:border-[#B8935B]/30 flex flex-col items-center justify-center cursor-pointer transition-all duration-150 shadow-2xs";
           btn.innerHTML = `<span class="leading-none">${dayNum}</span>`;
         }
@@ -1208,7 +1166,7 @@ const availableProteins = [
       const found = getDayInfoFromIso(k);
       return {
         ...found,
-        num: `0${idx + 1}`
+        num: String(idx + 1).padStart(2, '0')
       };
     });
     
@@ -1221,15 +1179,6 @@ const availableProteins = [
 
     if (currentActiveDayIndex >= activePlanDays.length) {
       currentActiveDayIndex = 0;
-    }
-
-    // Hide/Show option selector (Grupal/Individual) for Diario
-    if (optionSelectorWrapper) {
-      if (selectedFreq === 'diario') {
-        optionSelectorWrapper.classList.add('opacity-40', 'pointer-events-none');
-      } else {
-        optionSelectorWrapper.classList.remove('opacity-40', 'pointer-events-none');
-      }
     }
 
     // Update Header texts
@@ -1298,21 +1247,24 @@ const availableProteins = [
     else if (count === 2) gridColsClass = 'grid-cols-2 max-w-sm';
     else if (count === 3) gridColsClass = 'grid-cols-3 max-w-md';
     else if (count === 4) gridColsClass = 'grid-cols-4 max-w-lg';
+    else if (count === 5) gridColsClass = 'grid-cols-3 sm:grid-cols-5';
+    else if (count > 5) gridColsClass = 'grid-cols-4 sm:grid-cols-5 md:grid-cols-10';
 
-    daysSelectorContainer.className = `grid ${gridColsClass} gap-2 sm:gap-3`;
+    daysSelectorContainer.className = `grid ${gridColsClass} gap-1.5 sm:gap-2`;
     daysSelectorContainer.innerHTML = '';
 
     activePlanDays.forEach((day, idx) => {
       const btn = document.createElement('button');
       btn.type = 'button';
-      btn.className = 'day-tab-btn relative flex flex-col items-center justify-center p-3 sm:p-4 rounded-2xl border border-gray-200 bg-white hover:border-[#B8935B] cursor-pointer transition-all duration-200';
+      const padClass = count > 5 ? 'p-2 sm:p-2.5' : 'p-3 sm:p-4';
+      btn.className = `day-tab-btn relative flex flex-col items-center justify-center ${padClass} rounded-2xl border border-gray-200 bg-white hover:border-[#B8935B] cursor-pointer transition-all duration-200`;
       btn.dataset.dayKey = day.key;
       btn.dataset.dayIndex = idx.toString();
       btn.innerHTML = `
-        <span class="day-number text-[10px] sm:text-[11px] font-extrabold text-gray-400 uppercase tracking-wider block">Día ${day.num}</span>
-        <span class="day-short text-base sm:text-xl font-black text-gray-900 my-0.5 block leading-tight uppercase">${day.short}</span>
-        <span class="day-status-text text-[10px] font-semibold text-gray-400 block">Elegir</span>
-        <div class="day-saved-indicator hidden absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-[#B8935B] text-white flex items-center justify-center shadow-xs text-[10px] font-bold">✓</div>
+        <span class="day-number text-[9px] sm:text-[10px] font-extrabold text-gray-400 uppercase tracking-wider block">Día ${day.num}</span>
+        <span class="day-short text-sm sm:text-base font-black text-gray-900 my-0.5 block leading-tight uppercase">${day.short}</span>
+        <span class="day-status-text text-[9px] font-semibold text-gray-400 block">Elegir</span>
+        <div class="day-saved-indicator hidden absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[#B8935B] text-white flex items-center justify-center shadow-xs text-[9px] font-bold">✓</div>
       `;
       btn.addEventListener('click', () => selectDay(idx));
       daysSelectorContainer.appendChild(btn);
@@ -1357,6 +1309,9 @@ const availableProteins = [
     if (btnSaveDayText) btnSaveDayText.textContent = `Guardar elección del ${day.short}`;
 
     // Update Day Tab Buttons UI
+    const count = activePlanDays.length;
+    const padClass = count > 5 ? 'p-2 sm:p-2.5' : 'p-3 sm:p-4';
+
     document.querySelectorAll('.day-tab-btn').forEach((btn, idx) => {
       const btnKey = btn.dataset.dayKey;
       const isSaved = planChoices[btnKey] && planChoices[btnKey].bowlId && planChoices[btnKey].protein;
@@ -1372,19 +1327,19 @@ const availableProteins = [
       const statusEl = btn.querySelector('.day-status-text');
 
       if (idx === index) {
-        btn.className = "day-tab-btn relative flex flex-col items-center justify-center p-3 sm:p-4 rounded-2xl border-2 border-[#B8935B] bg-[#FAF6F0] shadow-sm cursor-pointer transition-all duration-200 transform scale-102";
-        if (numEl) numEl.className = "day-number text-[10px] sm:text-[11px] font-black text-[#8A6F56] uppercase tracking-wider block";
-        if (shortEl) shortEl.className = "day-short text-base sm:text-xl font-black text-gray-950 my-0.5 block leading-tight uppercase";
+        btn.className = `day-tab-btn relative flex flex-col items-center justify-center ${padClass} rounded-2xl border-2 border-[#B8935B] bg-[#FAF6F0] shadow-sm cursor-pointer transition-all duration-200 transform scale-102`;
+        if (numEl) numEl.className = "day-number text-[9px] sm:text-[10px] font-black text-[#8A6F56] uppercase tracking-wider block";
+        if (shortEl) shortEl.className = "day-short text-sm sm:text-base font-black text-gray-950 my-0.5 block leading-tight uppercase";
         if (statusEl) {
-          statusEl.className = "day-status-text text-[10px] font-bold text-[#B8935B] block";
+          statusEl.className = "day-status-text text-[9px] font-bold text-[#B8935B] block";
           statusEl.textContent = isSaved ? "Listo ✓" : "Eligiendo";
         }
       } else {
-        btn.className = "day-tab-btn relative flex flex-col items-center justify-center p-3 sm:p-4 rounded-2xl border border-gray-200 bg-white hover:border-[#B8935B] cursor-pointer transition-all duration-200";
-        if (numEl) numEl.className = "day-number text-[10px] sm:text-[11px] font-extrabold text-gray-400 uppercase tracking-wider block";
-        if (shortEl) shortEl.className = "day-short text-base sm:text-xl font-black text-gray-800 my-0.5 block leading-tight uppercase";
+        btn.className = `day-tab-btn relative flex flex-col items-center justify-center ${padClass} rounded-2xl border border-gray-200 bg-white hover:border-[#B8935B] cursor-pointer transition-all duration-200`;
+        if (numEl) numEl.className = "day-number text-[9px] sm:text-[10px] font-extrabold text-gray-400 uppercase tracking-wider block";
+        if (shortEl) shortEl.className = "day-short text-sm sm:text-base font-black text-gray-800 my-0.5 block leading-tight uppercase";
         if (statusEl) {
-          statusEl.className = "day-status-text text-[10px] font-semibold text-gray-400 block";
+          statusEl.className = "day-status-text text-[9px] font-semibold text-gray-400 block";
           statusEl.textContent = isSaved ? "Listo ✓" : "Elegir";
         }
       }
@@ -1502,10 +1457,8 @@ const availableProteins = [
   }
 
   function updatePricingAndSummary() {
-    const currentPrice = planPrices[selectedFreq][selectedSize][selectedOption];
     const sizeLabel = selectedSize === 'mediano' ? 'Mediano (~400g)' : 'Grande (~650g)';
     const freqLabel = planTitles[selectedFreq];
-    const optionLabel = selectedFreq === 'diario' ? '' : (selectedOption === 'individual' ? 'Individual' : 'Grupal (3+ pers.)');
 
     // Update dynamic unit prices badges on frequency buttons
     if (unitPriceDiario && unitPriceFlexible && unitPriceSemanal && unitPriceMensual) {
@@ -1522,8 +1475,7 @@ const availableProteins = [
       }
     }
 
-    if (sidebarPlanLabel) sidebarPlanLabel.textContent = `${freqLabel} ${optionLabel ? '• ' + optionLabel : ''}`;
-    if (sidebarPriceDisplay) sidebarPriceDisplay.textContent = `Bs. ${currentPrice}`;
+    if (sidebarPlanLabel) sidebarPlanLabel.textContent = freqLabel;
     if (sidebarSizeDesc) sidebarSizeDesc.textContent = `Tamaño ${sizeLabel}`;
 
     // Update items in sidebar list
@@ -1569,9 +1521,10 @@ const availableProteins = [
         mobileStickyBar.classList.add('hidden');
       }
     }
-    if (mobilePriceDisplay) mobilePriceDisplay.textContent = `Bs. ${currentPrice}`;
+    const mobileSizeLabel = document.getElementById('mobile-size-label');
+    if (mobileSizeLabel) mobileSizeLabel.textContent = `${sizeLabel}`;
     if (mobileProgressBadge) mobileProgressBadge.textContent = `${completedCount} de ${totalDays}`;
-    if (mobilePlanLabel) mobilePlanLabel.textContent = `${freqLabel}${optionLabel ? ' • ' + optionLabel : ''}`;
+    if (mobilePlanLabel) mobilePlanLabel.textContent = freqLabel;
 
     const isAllCompleted = (totalDays > 0 && completedCount === totalDays);
     const customerName = customerNameInput ? customerNameInput.value.trim() : '';
@@ -1622,10 +1575,8 @@ const availableProteins = [
   function buildWhatsappMessage() {
     const customerName = customerNameInput ? customerNameInput.value.trim() : 'Cliente';
     const customerAddress = customerAddressInput ? customerAddressInput.value.trim() : '';
-    const currentPrice = planPrices[selectedFreq][selectedSize][selectedOption];
     const sizeLabel = selectedSize === 'mediano' ? 'Mediano (~400g de balance)' : 'Grande (~650g de rendimiento)';
     const freqLabel = planTitles[selectedFreq];
-    const optionLabel = selectedFreq === 'diario' ? '' : (selectedOption === 'individual' ? 'Individual (1 persona)' : 'Grupal (desde 3 personas)');
 
     const currentYear = new Date().getFullYear();
     if (!window._mcFolioNumber) {
@@ -1663,7 +1614,6 @@ const availableProteins = [
       }
       params.set('sz', selectedSize);
       params.set('pl', selectedFreq);
-      params.set('op', selectedOption);
 
       comandaUrl = `${window.location.origin}/comanda?${params.toString()}`;
     } catch(e) {
@@ -1682,12 +1632,8 @@ const availableProteins = [
       msg += `*Dirección:* ${customerAddress}\n`;
     }
     msg += `*Plan:* ${freqLabel}\n`;
-    if (optionLabel) {
-      msg += `*Modalidad:* ${optionLabel}\n`;
-    }
     msg += `*Tamaño:* ${sizeLabel}\n`;
     msg += `*Vigencia / Fechas:* ${dateRangeStr}\n`;
-    msg += `*Total a pagar:* Bs. ${currentPrice}\n`;
     if (comandaUrl) {
       msg += `\n*FICHA OFICIAL / COMANDA EN PDF:*\n${comandaUrl}\n`;
     }
@@ -1757,21 +1703,6 @@ const availableProteins = [
         }
       });
       updatePlanConfiguration();
-    });
-  });
-
-  // Option Selector Click Listeners
-  document.querySelectorAll('.option-selector-btn').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      selectedOption = e.currentTarget.dataset.option;
-      document.querySelectorAll('.option-selector-btn').forEach(b => {
-        if (b.dataset.option === selectedOption) {
-          b.className = "option-selector-btn py-2.5 px-3 rounded-xl text-xs font-extrabold transition-all cursor-pointer bg-[#B8935B] text-white shadow-xs";
-        } else {
-          b.className = "option-selector-btn py-2.5 px-3 rounded-xl text-xs font-semibold text-gray-600 hover:text-gray-900 transition-all cursor-pointer";
-        }
-      });
-      updatePricingAndSummary();
     });
   });
 
