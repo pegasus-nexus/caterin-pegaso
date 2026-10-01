@@ -1008,6 +1008,14 @@ const availableProteins = [
     const currentChosen = chosenDateKeysByFreq[selectedFreq] || [];
     const maxPeriod = planPeriodDays[selectedFreq] || 14;
 
+    // Special case for single-day plan (Plan Diario): directly switch to the clicked date
+    if (targetCount === 1 || selectedFreq === 'diario') {
+      chosenDateKeysByFreq[selectedFreq] = [isoKey];
+      updatePlanConfiguration();
+      return;
+    }
+
+    // Multi-day plans (Flexible, Semanal, Mensual)
     if (currentChosen.includes(isoKey)) {
       chosenDateKeysByFreq[selectedFreq] = currentChosen.filter(k => k !== isoKey);
       updatePlanConfiguration();
@@ -1025,7 +1033,9 @@ const availableProteins = [
         const spanDays = Math.round((newMax - newMin) / (1000 * 60 * 60 * 24));
 
         if (spanDays >= maxPeriod) {
-          alert(`Para este plan, todas tus fechas deben estar dentro del periodo de vigencia de ${maxPeriod <= 14 ? '2 semanas' : '6 semanas'}.`);
+          if (daysHelperText) {
+            daysHelperText.textContent = `La fecha seleccionada sobrepasa el periodo de ${maxPeriod <= 14 ? '2 semanas' : '6 semanas'}. Desmarca fechas anteriores o haz clic en Reiniciar fechas.`;
+          }
           return;
         }
 
@@ -1034,10 +1044,19 @@ const availableProteins = [
         chosenDateKeysByFreq[selectedFreq] = newArr;
         updatePlanConfiguration();
       } else {
+        // Target count reached: seamlessly swap dates without alert
         const sorted = [...currentChosen].sort();
-        const remaining = sorted.slice(0, targetCount - 1);
-        const newMin = Math.min(new Date(remaining[0] + 'T00:00:00').getTime(), candidateDate.getTime());
-        const newMax = Math.max(new Date(remaining[remaining.length - 1] + 'T00:00:00').getTime(), candidateDate.getTime());
+        const earliest = new Date(sorted[0] + 'T00:00:00');
+
+        let remaining;
+        if (candidateDate.getTime() < earliest.getTime()) {
+          remaining = sorted.slice(0, targetCount - 1); // remove latest
+        } else {
+          remaining = sorted.slice(1); // remove earliest
+        }
+
+        const newMin = Math.min(...remaining.map(k => new Date(k + 'T00:00:00').getTime()), candidateDate.getTime());
+        const newMax = Math.max(...remaining.map(k => new Date(k + 'T00:00:00').getTime()), candidateDate.getTime());
         const spanDays = Math.round((newMax - newMin) / (1000 * 60 * 60 * 24));
 
         if (spanDays < maxPeriod) {
@@ -1046,7 +1065,9 @@ const availableProteins = [
           chosenDateKeysByFreq[selectedFreq] = newArr;
           updatePlanConfiguration();
         } else {
-          alert(`Has alcanzado el límite de ${targetCount} fechas para tu plan. Desmarca una fecha para elegir otra.`);
+          if (daysHelperText) {
+            daysHelperText.textContent = `Desmarca una fecha o haz clic en "Reiniciar fechas" para cambiar tu rango de entrega.`;
+          }
         }
       }
     }
