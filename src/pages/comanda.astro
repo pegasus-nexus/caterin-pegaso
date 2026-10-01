@@ -40,7 +40,7 @@ import Layout from '../layouts/Layout.astro';
           <thead class="print-header-group">
             <!-- 1. Full Brand Header matching reference image (Repeats on every page) -->
             <tr>
-              <th colspan="7" class="p-0 pb-4 font-normal">
+              <th colspan="8" class="p-0 pb-4 font-normal">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b-2 border-brand-gold/30">
                   <div class="flex items-center gap-3.5">
                     <div class="w-14 h-14 rounded-full bg-[#FAF6F0] border border-brand-gold flex flex-col items-center justify-center p-1 shadow-2xs shrink-0">
@@ -66,7 +66,7 @@ import Layout from '../layouts/Layout.astro';
 
             <!-- 2. Customer & Plan Information Summary (Repeats on every page) -->
             <tr>
-              <th colspan="7" class="p-0 pb-3 font-normal">
+              <th colspan="8" class="p-0 pb-3 font-normal">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-[#FAF6F0] p-3.5 rounded-2xl border border-brand-gold/20 text-xs sm:text-sm">
                   <div class="space-y-1">
                     <div>
@@ -98,6 +98,7 @@ import Layout from '../layouts/Layout.astro';
               <th class="py-3 px-3 font-bold whitespace-nowrap">Fecha de<br class="hidden sm:inline"> entrega</th>
               <th class="py-3 px-3 font-bold">Cliente</th>
               <th class="py-3 px-3 font-bold">Bol</th>
+              <th class="py-3 px-3 font-bold">Carbohidrato</th>
               <th class="py-3 px-3 font-bold">Proteína</th>
               <th class="py-3 px-3 font-bold">Tamaño</th>
               <th class="py-3 px-3 font-bold">Observaciones</th>
@@ -394,9 +395,11 @@ import Layout from '../layouts/Layout.astro';
           <td class="py-2.5 px-3 text-gray-900 font-medium text-sm">
             ${clientStr}
           </td>
-          <td class="py-2.5 px-3 text-sm">
-            <span class="font-bold text-gray-950 block">${bowlType}</span>
-            <span class="text-xs text-[#8A6F56] font-medium block">${carbDisplay}</span>
+          <td class="py-2.5 px-3 font-bold text-gray-950 text-sm">
+            ${bowlType}
+          </td>
+          <td class="py-2.5 px-3 text-gray-800 font-medium text-sm">
+            ${carbDisplay}
           </td>
           <td class="py-2.5 px-3 text-gray-800 font-medium text-sm">
             ${proteinName}

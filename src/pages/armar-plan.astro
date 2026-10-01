@@ -411,14 +411,14 @@ const availableCarbsFresco = [
                 </div>
               </div>
 
-              <!-- SECTION 3: ELIGE TU CARBOHIDRATO BASE (SOLO PARA BOWL FRESCO) -->
+              <!-- SECTION 3: ELIGE TUS CARBOHIDRATOS BASE (SOLO PARA BOWL FRESCO) -->
               <div id="section-carb-fresco" class="space-y-3 pt-2 hidden">
                 <div class="flex items-center justify-between">
                   <span id="heading-carb-step" class="block text-xs font-extrabold uppercase tracking-wider text-gray-700">
-                    3. Elige tu carbohidrato base
+                    3. Elige tus carbohidratos base
                   </span>
                   <span class="text-[11px] text-[#8A6F56] font-bold bg-[#FAF6F0] px-2.5 py-0.5 rounded-full border border-brand-gold/30">
-                    Bowl Fresco
+                    Elige 1 o 2 carbohidratos
                   </span>
                 </div>
 
@@ -426,10 +426,10 @@ const availableCarbsFresco = [
                   {availableCarbsFresco.map((carb) => (
                     <label class="carb-option-card relative flex items-center justify-between p-3.5 rounded-2xl border-2 border-gray-200 hover:border-[#B8935B]/60 bg-white cursor-pointer transition-all group">
                       <input 
-                        type="radio" 
+                        type="checkbox" 
                         name="selected-carb" 
                         value={carb.id} 
-                        class="carb-radio absolute opacity-0" 
+                        class="carb-checkbox absolute opacity-0" 
                       />
 
                       <div class="flex items-center gap-3 min-w-0 pr-2">
@@ -1304,12 +1304,13 @@ const availableCarbsFresco = [
       }
     });
 
-    // Populate radio options and observation for this day
+    // Populate radio/checkbox options and observation for this day
     document.querySelectorAll('.bowl-radio').forEach(r => {
       r.checked = (r.value === choice.bowlId);
     });
-    document.querySelectorAll('.carb-radio').forEach(r => {
-      r.checked = (r.value === choice.carb);
+    const chosenCarbs = choice.carbs || (choice.carb ? choice.carb.split(/\s*[\+,]\s*/) : []);
+    document.querySelectorAll('.carb-checkbox').forEach(chk => {
+      chk.checked = chosenCarbs.includes(chk.value);
     });
     document.querySelectorAll('.protein-radio').forEach(r => {
       r.checked = (r.value === choice.protein);
@@ -1371,11 +1372,11 @@ const availableCarbsFresco = [
 
   function updateCarbCardsUI() {
     document.querySelectorAll('.carb-option-card').forEach(card => {
-      const radio = card.querySelector('.carb-radio');
+      const chk = card.querySelector('.carb-checkbox');
       const circle = card.querySelector('.carb-check-circle');
       const checkText = circle ? circle.querySelector('span') : null;
 
-      if (radio && radio.checked) {
+      if (chk && chk.checked) {
         card.classList.remove('border-gray-200', 'bg-white');
         card.classList.add('border-[#B8935B]', 'bg-[#FAF6F0]', 'shadow-xs');
         if (circle) {
@@ -1424,7 +1425,7 @@ const availableCarbsFresco = [
   function checkCurrentDayCompleteness() {
     const selectedBowlRadio = document.querySelector('.bowl-radio:checked');
     const selectedProteinRadio = document.querySelector('.protein-radio:checked');
-    const selectedCarbRadio = document.querySelector('.carb-radio:checked');
+    const checkedCarbBoxes = Array.from(document.querySelectorAll('.carb-checkbox:checked'));
     const day = activePlanDays[currentActiveDayIndex];
     if (!day) return;
     const dayKey = day.key;
@@ -1432,16 +1433,19 @@ const availableCarbsFresco = [
 
     let isComplete = false;
     let carbVal = '';
+    let carbsArr = [];
 
     if (selectedBowlRadio && selectedProteinRadio) {
       if (selectedBowlRadio.value === 'fresco') {
-        if (selectedCarbRadio) {
+        if (checkedCarbBoxes.length >= 1) {
           isComplete = true;
-          carbVal = selectedCarbRadio.value;
+          carbsArr = checkedCarbBoxes.map(c => c.value);
+          carbVal = carbsArr.join(' + ');
         }
       } else {
         isComplete = true;
         carbVal = 'Quinua con sofrito de cebolla y pimentón';
+        carbsArr = [carbVal];
       }
 
       if (isComplete) {
@@ -1452,6 +1456,7 @@ const availableCarbsFresco = [
           bowlId: selectedBowlRadio.value,
           bowlName: bowlName,
           carb: carbVal,
+          carbs: carbsArr,
           protein: selectedProteinRadio.value,
           observation: observationText
         };
@@ -1759,9 +1764,14 @@ const availableCarbsFresco = [
     });
   });
 
-  // Carb radio selection
-  document.querySelectorAll('.carb-radio').forEach(radio => {
-    radio.addEventListener('change', () => {
+  // Carb checkbox selection (allows 1 or 2 carbs)
+  document.querySelectorAll('.carb-checkbox').forEach(chk => {
+    chk.addEventListener('change', () => {
+      const checkedBoxes = Array.from(document.querySelectorAll('.carb-checkbox:checked'));
+      if (checkedBoxes.length > 2) {
+        // If 3 are selected, uncheck the first selected
+        checkedBoxes[0].checked = false;
+      }
       updateCarbCardsUI();
       checkCurrentDayCompleteness();
       updatePricingAndSummary();
@@ -1789,6 +1799,7 @@ const availableCarbsFresco = [
           bowlId: curChoice.bowlId,
           bowlName: curChoice.bowlName,
           carb: curChoice.carb || (curChoice.bowlId === 'fresco' ? 'Trigo Pelado' : 'Quinua con sofrito de cebolla y pimentón'),
+          carbs: curChoice.carbs ? [...curChoice.carbs] : (curChoice.bowlId === 'fresco' ? ['Trigo Pelado'] : ['Quinua con sofrito de cebolla y pimentón']),
           protein: curChoice.protein,
           observation: curChoice.observation || ''
         };
