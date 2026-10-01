@@ -3,7 +3,7 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="Ficha de Pedido & Comanda | Montalvo Catering">
-  <div class="min-h-screen bg-gray-100 print:bg-white text-gray-900 py-6 sm:py-10 px-4 sm:px-6">
+  <div class="min-h-screen bg-gray-100 print:bg-white text-gray-900 py-6 sm:py-10 px-4 sm:px-6 print:p-0">
     
     <!-- Top Action Bar (Hidden during Print) -->
     <div class="max-w-4xl mx-auto mb-6 flex flex-wrap items-center justify-between gap-3 print:hidden">
@@ -35,9 +35,9 @@ import Layout from '../layouts/Layout.astro';
     <div class="max-w-4xl mx-auto bg-white border border-gray-200 print:border-none shadow-lg print:shadow-none rounded-3xl print:rounded-none p-5 sm:p-8 text-gray-800 space-y-4 print:space-y-3 print:p-0">
       
       <!-- Production Table with Table-Header-Group that repeats on EVERY printed page -->
-      <div class="overflow-x-auto">
+      <div class="overflow-x-auto print:overflow-visible">
         <table class="w-full text-left border-collapse">
-          <thead>
+          <thead class="print-header-group">
             <!-- 1. Full Brand Header matching reference image (Repeats on every page) -->
             <tr>
               <th colspan="7" class="p-0 pb-4 font-normal">
@@ -158,13 +158,26 @@ import Layout from '../layouts/Layout.astro';
         color: #6b7280;
       }
     }
-    body {
+    html, body {
+      margin: 0 !important;
+      padding: 0 !important;
       background: white !important;
       -webkit-print-color-adjust: exact !important;
       print-color-adjust: exact !important;
     }
-    thead {
+    .overflow-x-auto {
+      overflow: visible !important;
+    }
+    table {
+      width: 100% !important;
+      page-break-inside: auto !important;
+      break-inside: auto !important;
+    }
+    thead, .print-header-group {
       display: table-header-group !important;
+    }
+    tbody {
+      display: table-row-group !important;
     }
     tr {
       page-break-inside: avoid !important;
