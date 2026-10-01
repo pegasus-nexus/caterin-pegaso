@@ -702,14 +702,34 @@ const daysOfWeek = [
     const customerName = customerNameInput ? customerNameInput.value.trim() : 'Cliente';
     const customerAddress = customerAddressInput ? customerAddressInput.value.trim() : '';
 
+    // Generate Encoded Payload for the Digital Sheet
+    let comandaUrl = '';
+    try {
+      const payload = {
+        name: customerName,
+        address: customerAddress || 'Por coordinar por WhatsApp',
+        size: 'Mediano (~400g de balance)',
+        total: '110',
+        date: new Date().toLocaleDateString('es-BO'),
+        choices: weeklyChoices
+      };
+      const encoded = encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify(payload)))));
+      comandaUrl = `${window.location.origin}/comanda?data=${encoded}`;
+    } catch(e) {
+      comandaUrl = `${window.location.origin}/comanda`;
+    }
+
     let msg = `🥗 *¡FICHA & PEDIDO - PLAN SEMANAL (5 BOWLS)!*\n`;
     msg += `----------------------------------------\n`;
     msg += `👤 *Cliente:* ${customerName}\n`;
     if (customerAddress) {
-      msg += `📍 *Dirección de Entrega:* ${customerAddress}\n`;
+      msg += `📍 *Dirección:* ${customerAddress}\n`;
     }
-    msg += `⚖️ *Tamaño de los bowls:* Mediano (~400g de balance)\n`;
+    msg += `⚖️ *Tamaño:* Mediano (~400g de balance)\n`;
     msg += `💰 *Total a pagar:* Bs. 110\n`;
+    if (comandaUrl) {
+      msg += `\n📄 *FICHA OFICIAL / COMANDA EN PDF:* \n👉 ${comandaUrl}\n`;
+    }
     msg += `----------------------------------------\n`;
     msg += `🗓️ *MENÚ CONFIGURADO PARA LA SEMANA:*\n\n`;
 
