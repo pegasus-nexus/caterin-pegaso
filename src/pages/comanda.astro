@@ -197,7 +197,7 @@ import Layout from '../layouts/Layout.astro';
     "3": "Huevos Hervidos"
   };
 
-  function decodeCompactPlan(pString, datesCount, obsList) {
+  function decodeCompactPlan(pString, datesCount, obsList, carbsList) {
     const choices = [];
     const cleaned = (pString || '').replace(/[^a-zA-Z0-9]/g, '');
     const count = datesCount > 0 ? datesCount : 5;
@@ -210,10 +210,12 @@ import Layout from '../layouts/Layout.astro';
       const bowlName = (bowlId === 'fresco') ? 'Bowl Fresco' : 'Bowl Salteado';
       const protein = proteinDecodeMap[pChar] || 'Pollo a la Plancha';
       const observation = (obsList && obsList[i]) ? obsList[i].trim() : '';
+      const carb = (carbsList && carbsList[i]) ? carbsList[i].trim() : (bowlId === 'fresco' ? 'Trigo Pelado' : 'Quinua sofrito');
 
       choices.push({
         bowlId,
         bowlName,
+        carb,
         protein,
         observation
       });
@@ -254,6 +256,7 @@ import Layout from '../layouts/Layout.astro';
       const compactCode = urlParams.get('p');
       const datesQuery = urlParams.get('dt');
       const obsQuery = urlParams.get('obs');
+      const carbsQuery = urlParams.get('cb') || urlParams.get('carb');
       const daysQuery = urlParams.get('d');
       const clientQuery = urlParams.get('c');
       const dirQuery = urlParams.get('dir');
@@ -272,10 +275,11 @@ import Layout from '../layouts/Layout.astro';
 
       const parsedDatesList = datesQuery ? datesQuery.split(',').filter(Boolean) : (daysQuery ? daysQuery.split(',').filter(Boolean) : null);
       const parsedObsList = obsQuery ? obsQuery.split('|') : [];
+      const parsedCarbsList = carbsQuery ? carbsQuery.split('|') : [];
 
       if (compactCode || clientQuery) {
         // Compact Short URL Format
-        const decodedItems = decodeCompactPlan(compactCode || 's1s1s1s1s1', parsedDatesList ? parsedDatesList.length : 5, parsedObsList);
+        const decodedItems = decodeCompactPlan(compactCode || 's1s1s1s1s1', parsedDatesList ? parsedDatesList.length : 5, parsedObsList, parsedCarbsList);
         
         order = {
           folio: folioQuery ? `#MC-${new Date().getFullYear()}-${folioQuery}` : null,
@@ -376,6 +380,7 @@ import Layout from '../layouts/Layout.astro';
 
       order.items.forEach((item, idx) => {
         const bowlType = (item.bowlId === 'fresco' || (item.bowlName && item.bowlName.includes('Fresco'))) ? 'Bowl Fresco' : 'Bowl Salteado';
+        const carbDisplay = item.carb || (bowlType === 'Bowl Fresco' ? 'Trigo Pelado' : 'Quinua sofrito');
         const proteinName = item.protein || 'Pollo a la Plancha';
         const dateStr = (order.datesList && order.datesList[idx]) ? order.datesList[idx] : (fallbackDates[idx] || 'Próximo día');
         const observationText = item.observation ? item.observation.trim() : '';
@@ -389,8 +394,9 @@ import Layout from '../layouts/Layout.astro';
           <td class="py-2.5 px-3 text-gray-900 font-medium text-sm">
             ${clientStr}
           </td>
-          <td class="py-2.5 px-3 font-bold text-gray-950 text-sm">
-            ${bowlType}
+          <td class="py-2.5 px-3 text-sm">
+            <span class="font-bold text-gray-950 block">${bowlType}</span>
+            <span class="text-xs text-[#8A6F56] font-medium block">${carbDisplay}</span>
           </td>
           <td class="py-2.5 px-3 text-gray-800 font-medium text-sm">
             ${proteinName}
