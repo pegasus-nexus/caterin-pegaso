@@ -72,7 +72,7 @@ import Layout from '../layouts/Layout.astro';
         <div class="space-y-1.5 sm:border-l sm:border-brand-gold/20 sm:pl-4">
           <div>
             <span class="text-gray-400 font-bold uppercase text-[10px] block">Tipo de Plan:</span>
-            <strong class="text-gray-900 font-bold">Plan Semanal (5 Bowls)</strong>
+            <strong id="client-plan" class="text-gray-900 font-bold">Plan Semanal (5 Bowls)</strong>
           </div>
           <div class="flex items-center justify-between">
             <div>
@@ -208,6 +208,32 @@ import Layout from '../layouts/Layout.astro';
     return choices;
   }
 
+  const planPrices = {
+    diario: {
+      mediano: { individual: 24, grupal: 24 },
+      grande: { individual: 37, grupal: 37 }
+    },
+    flexible: {
+      mediano: { individual: 69, grupal: 207 },
+      grande: { individual: 108, grupal: 324 }
+    },
+    semanal: {
+      mediano: { individual: 110, grupal: 330 },
+      grande: { individual: 175, grupal: 525 }
+    },
+    mensual: {
+      mediano: { individual: 400, grupal: 1200 },
+      grande: { individual: 660, grupal: 1980 }
+    }
+  };
+
+  const planTitles = {
+    diario: 'Plan Diario (1 Bowl)',
+    flexible: 'Plan Flexible (3 Bowls)',
+    semanal: 'Plan Semanal (5 Bowls)',
+    mensual: 'Plan Mensual (20 Bowls)'
+  };
+
   function parseOrderData() {
     try {
       const urlParams = new URLSearchParams(window.location.search);
@@ -216,8 +242,17 @@ import Layout from '../layouts/Layout.astro';
       const clientQuery = urlParams.get('c');
       const dirQuery = urlParams.get('dir');
       const folioQuery = urlParams.get('f') || urlParams.get('folio');
+      const szQuery = urlParams.get('sz') || 'mediano';
+      const plQuery = urlParams.get('pl') || 'semanal';
+      const opQuery = urlParams.get('op') || 'individual';
 
       let order = null;
+
+      const calcPrice = (planPrices[plQuery] && planPrices[plQuery][szQuery] && planPrices[plQuery][szQuery][opQuery]) || 110;
+      const sizeStr = (szQuery === 'grande') ? 'Grande (~650g de rendimiento)' : 'Mediano (~400g de balance)';
+      const sizeShort = (szQuery === 'grande') ? 'Grande' : 'Mediano';
+      const planStr = planTitles[plQuery] || 'Plan Semanal (5 Bowls)';
+      const modalStr = (plQuery === 'diario') ? '' : (opQuery === 'grupal' ? ' • Grupal (3+ pers.)' : ' • Individual');
 
       if (compactCode || clientQuery) {
         // Compact Short URL Format
@@ -225,8 +260,10 @@ import Layout from '../layouts/Layout.astro';
           folio: folioQuery ? `#MC-${new Date().getFullYear()}-${folioQuery}` : null,
           name: clientQuery || 'Cliente Particular',
           address: dirQuery || 'Por coordinar por WhatsApp',
-          size: 'Mediano (~400g de balance)',
-          total: '110',
+          plan: `${planStr}${modalStr}`,
+          size: sizeStr,
+          sizeShort: sizeShort,
+          total: calcPrice.toString(),
           date: new Date().toLocaleDateString('es-BO'),
           choices: decodeCompactPlan(compactCode || 's1s1s1s1s1')
         };
@@ -242,7 +279,9 @@ import Layout from '../layouts/Layout.astro';
           order = {
             name: parsed.name || 'Cliente Particular',
             address: parsed.address || 'A convenir por WhatsApp',
+            plan: 'Plan Semanal (5 Bowls)',
             size: 'Mediano (~400g de balance)',
+            sizeShort: 'Mediano',
             total: '110',
             date: new Date().toLocaleDateString('es-BO'),
             choices: parsed.weeklyChoices || {}
@@ -292,8 +331,18 @@ import Layout from '../layouts/Layout.astro';
     const orderDate = document.getElementById('order-date');
     const clientName = document.getElementById('client-name');
     const clientAddress = document.getElementById('client-address');
+    const clientPlan = document.getElementById('client-plan');
     const clientSize = document.getElementById('client-size');
     const clientTotal = document.getElementById('client-total');
+    const tbody = document.getElementById('production-tbody');
+
+    if (orderFolio) orderFolio.textContent = folio;
+    if (orderDate) orderDate.textContent = `Fecha: ${order.date || new Date().toLocaleDateString('es-BO')}`;
+    if (clientName) clientName.textContent = order.name || 'Cliente';
+    if (clientAddress) clientAddress.textContent = order.address || 'Entrega coordinada por WhatsApp';
+    if (clientPlan) clientPlan.textContent = order.plan || 'Plan Semanal (5 Bowls)';
+    if (clientSize) clientSize.textContent = order.size || 'Mediano (~400g de balance)';
+    if (clientTotal) clientTotal.textContent = `Bs. ${order.total || '110'}`;
     const tbody = document.getElementById('production-tbody');
 
     if (orderFolio) orderFolio.textContent = folio;

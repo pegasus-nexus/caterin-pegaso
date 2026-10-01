@@ -32,24 +32,15 @@ const availableProteins = [
   { id: "Albóndigas de Carne (Air Fryer)", name: "Albóndigas de Carne (Air Fryer)", desc: "Preparadas al aire caliente sin exceso de grasas" },
   { id: "Huevos Hervidos", name: "Huevos Hervidos", desc: "2 unidades en punto exacto de cocción" }
 ];
-
-// Días del plan semanal
-const daysOfWeek = [
-  { key: "lun", short: "Lun", label: "Lunes", num: "01" },
-  { key: "mar", short: "Mar", label: "Martes", num: "02" },
-  { key: "mie", short: "Mié", label: "Miércoles", num: "03" },
-  { key: "jue", short: "Jue", label: "Jueves", num: "04" },
-  { key: "vie", short: "Vie", label: "Viernes", num: "05" }
-];
 ---
 
-<Layout title="Arma tus Bowls - Plan Semanal | Montalvo Catering">
+<Layout title="Arma tu Plan & Personaliza tus Bowls | Montalvo Catering">
   <!-- Reusable Global Navbar -->
   <Navbar currentPath="/armar-plan" />
 
   <div class="min-h-screen bg-[#FDFBF7] text-[#1e1912] pt-24 md:pt-28 pb-20 selection:bg-brand-gold-light selection:text-brand-dark">
     
-    <!-- Main Form Container (Card Container matching the screenshot aesthetic) -->
+    <!-- Main Form Container -->
     <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
       
       <!-- Top Card Wrapper -->
@@ -59,13 +50,13 @@ const daysOfWeek = [
         <div class="px-6 sm:px-10 pt-8 pb-4 border-b border-gray-100 flex items-start justify-between">
           <div>
             <span class="block text-xs font-extrabold uppercase tracking-widest text-[#8A6F56] mb-1">
-              Ficha & Pedido
+              Ficha & Pedido Personalizado
             </span>
-            <h1 class="font-serif font-black text-2xl sm:text-3xl lg:text-4xl text-gray-900 tracking-tight">
+            <h1 class="font-serif font-black text-2xl sm:text-3xl lg:text-4xl text-gray-900 tracking-tight" id="main-plan-title">
               Arma tus Bowls · Plan Semanal
             </h1>
-            <p class="text-xs sm:text-sm text-gray-500 font-medium mt-1">
-              Personaliza el menú de tus 5 días de la semana
+            <p class="text-xs sm:text-sm text-gray-500 font-medium mt-1" id="main-plan-subtitle">
+              Elige tu plan, tamaño, modalidad y personaliza cada comida
             </p>
           </div>
 
@@ -87,7 +78,6 @@ const daysOfWeek = [
             id="tab-btn-personalizar" 
             class="py-4 px-4 sm:px-6 text-[#8A6F56] border-b-2 border-[#B8935B] flex items-center gap-2 cursor-pointer transition-colors"
           >
-            <!-- Sliders / Controls Icon -->
             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
             </svg>
@@ -99,7 +89,6 @@ const daysOfWeek = [
             id="tab-btn-nutricion" 
             class="py-4 px-4 sm:px-6 text-gray-400 hover:text-gray-600 border-b-2 border-transparent flex items-center gap-2 cursor-pointer transition-colors"
           >
-            <!-- Chart / Nutrition Icon -->
             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
             </svg>
@@ -107,8 +96,110 @@ const daysOfWeek = [
           </button>
         </div>
 
+        <!-- PLAN CONFIGURATOR BAR (Tamaño / Frecuencia / Modalidad) -->
+        <div class="px-6 sm:px-10 py-6 bg-[#FAF6F0] border-b border-brand-gold/15 space-y-5">
+          <span class="block text-xs font-black uppercase tracking-wider text-[#8A6F56]">
+            Configuración de tu Plan:
+          </span>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+            
+            <!-- 1. TAMAÑO DEL BOWL (Mediano / Grande) -->
+            <div class="space-y-2">
+              <label class="block text-[11px] font-bold uppercase tracking-wider text-gray-700">
+                1. Tamaño del Bowl
+              </label>
+              <div class="grid grid-cols-2 gap-2 bg-white p-1 rounded-2xl border border-gray-200 shadow-2xs">
+                <button
+                  type="button"
+                  class="size-selector-btn py-2.5 px-3 rounded-xl text-xs font-extrabold transition-all cursor-pointer bg-[#B8935B] text-white shadow-xs"
+                  data-size="mediano"
+                >
+                  Mediano <span class="block text-[10px] font-medium opacity-90">~400g</span>
+                </button>
+                <button
+                  type="button"
+                  class="size-selector-btn py-2.5 px-3 rounded-xl text-xs font-semibold text-gray-600 hover:text-gray-900 transition-all cursor-pointer"
+                  data-size="grande"
+                >
+                  Grande <span class="block text-[10px] font-medium opacity-70">~650g</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- 2. FRECUENCIA / PLAN (Diario / Flexible / Semanal / Mensual) -->
+            <div class="space-y-2">
+              <label class="block text-[11px] font-bold uppercase tracking-wider text-gray-700">
+                2. Frecuencia del Plan
+              </label>
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5 bg-white p-1 rounded-2xl border border-gray-200 shadow-2xs">
+                <button
+                  type="button"
+                  class="freq-selector-btn py-2.5 px-1.5 rounded-xl text-[11px] font-semibold text-gray-600 hover:text-gray-900 text-center transition-all cursor-pointer"
+                  data-freq="diario"
+                >
+                  Diario
+                </button>
+                <button
+                  type="button"
+                  class="freq-selector-btn py-2.5 px-1.5 rounded-xl text-[11px] font-semibold text-gray-600 hover:text-gray-900 text-center transition-all cursor-pointer"
+                  data-freq="flexible"
+                >
+                  Flexible
+                </button>
+                <button
+                  type="button"
+                  class="freq-selector-btn py-2.5 px-1.5 rounded-xl text-[11px] font-extrabold text-center transition-all cursor-pointer bg-[#B8935B] text-white shadow-xs"
+                  data-freq="semanal"
+                >
+                  Semanal
+                </button>
+                <button
+                  type="button"
+                  class="freq-selector-btn py-2.5 px-1.5 rounded-xl text-[11px] font-semibold text-gray-600 hover:text-gray-900 text-center transition-all cursor-pointer"
+                  data-freq="mensual"
+                >
+                  Mensual
+                </button>
+              </div>
+            </div>
+
+            <!-- 3. MODALIDAD (Individual / Grupal) -->
+            <div id="option-selector-wrapper" class="space-y-2 transition-all duration-300">
+              <label class="block text-[11px] font-bold uppercase tracking-wider text-gray-700">
+                3. Modalidad
+              </label>
+              <div class="grid grid-cols-2 gap-2 bg-white p-1 rounded-2xl border border-gray-200 shadow-2xs">
+                <button
+                  type="button"
+                  class="option-selector-btn py-2.5 px-3 rounded-xl text-xs font-extrabold transition-all cursor-pointer bg-[#B8935B] text-white shadow-xs"
+                  data-option="individual"
+                >
+                  Individual <span class="block text-[10px] font-medium opacity-90">1 persona</span>
+                </button>
+                <button
+                  type="button"
+                  class="option-selector-btn py-2.5 px-3 rounded-xl text-xs font-semibold text-gray-600 hover:text-gray-900 transition-all cursor-pointer"
+                  data-option="grupal"
+                >
+                  Grupal <span class="block text-[10px] font-medium opacity-70">3+ personas</span>
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Dynamic Plan Description Callout -->
+          <div class="p-3.5 rounded-xl bg-white/90 border border-brand-gold/20 flex items-start gap-2.5 text-xs text-gray-700">
+            <span class="text-brand-gold-dark font-bold text-sm leading-none mt-0.5">ℹ️</span>
+            <div id="plan-description-banner" class="leading-relaxed font-medium">
+              Consta de <strong>5 bowls</strong> que puede consumir durante el periodo de <strong>hasta 2 semanas</strong> para <strong>1 persona</strong>.
+            </div>
+          </div>
+        </div>
+
         <!-- Customer Identification Inputs -->
-        <div class="px-6 sm:px-10 py-5 bg-[#FAF6F0]/60 border-b border-gray-100 flex flex-col sm:flex-row gap-4">
+        <div class="px-6 sm:px-10 py-5 bg-white border-b border-gray-100 flex flex-col sm:flex-row gap-4">
           <div class="flex-1">
             <label for="customer-name" class="block text-xs font-bold uppercase tracking-wider text-[#8A6F56] mb-1">
               Nombre del Cliente <span class="text-rose-500">*</span>
@@ -117,7 +208,7 @@ const daysOfWeek = [
               type="text" 
               id="customer-name" 
               placeholder="Ingresa tu nombre y apellido" 
-              class="w-full bg-white border border-gray-300 focus:border-[#B8935B] focus:ring-2 focus:ring-[#B8935B]/20 rounded-xl px-4 py-2.5 text-sm text-gray-900 font-medium placeholder:text-gray-400 outline-none transition-all shadow-2xs"
+              class="w-full bg-[#FAF6F0]/60 border border-gray-300 focus:border-[#B8935B] focus:ring-2 focus:ring-[#B8935B]/20 rounded-xl px-4 py-2.5 text-sm text-gray-900 font-medium placeholder:text-gray-400 outline-none transition-all shadow-2xs"
               required
             />
           </div>
@@ -129,7 +220,7 @@ const daysOfWeek = [
               type="text" 
               id="customer-address" 
               placeholder="Ej. Calle Gral. Achá #739, Oficina 4B" 
-              class="w-full bg-white border border-gray-300 focus:border-[#B8935B] focus:ring-2 focus:ring-[#B8935B]/20 rounded-xl px-4 py-2.5 text-sm text-gray-900 font-medium placeholder:text-gray-400 outline-none transition-all shadow-2xs"
+              class="w-full bg-[#FAF6F0]/60 border border-gray-300 focus:border-[#B8935B] focus:ring-2 focus:ring-[#B8935B]/20 rounded-xl px-4 py-2.5 text-sm text-gray-900 font-medium placeholder:text-gray-400 outline-none transition-all shadow-2xs"
             />
           </div>
         </div>
@@ -143,44 +234,20 @@ const daysOfWeek = [
             <!-- LEFT: Day-by-day Builder (8 cols) -->
             <div class="lg:col-span-7 xl:col-span-8 space-y-8">
               
-              <!-- SECTION 1: ELIGE EL DÍA -->
+              <!-- SECTION 1: ELIGE EL DÍA / BOWL DEL PLAN -->
               <div class="space-y-3">
                 <div class="flex items-center justify-between">
-                  <span class="block text-xs font-extrabold uppercase tracking-wider text-gray-700">
-                    1. Elige el día
+                  <span class="block text-xs font-extrabold uppercase tracking-wider text-gray-700" id="step1-heading-text">
+                    1. Elige el día a configurar
                   </span>
                   <span id="day-selection-badge" class="text-xs font-bold text-[#8A6F56] bg-[#FAF6F0] px-3 py-1 rounded-full border border-brand-gold/20">
                     Lunes seleccionado
                   </span>
                 </div>
 
-                <!-- Days 5 Tabs Selector -->
-                <div class="grid grid-cols-5 gap-2 sm:gap-3">
-                  {daysOfWeek.map((day, idx) => (
-                    <button
-                      type="button"
-                      class="day-tab-btn relative flex flex-col items-center justify-center p-3 sm:p-4 rounded-2xl border border-gray-200 bg-white hover:border-[#B8935B] cursor-pointer transition-all duration-200"
-                      data-day-key={day.key}
-                      data-day-label={day.label}
-                      data-day-num={day.num}
-                      data-day-index={idx}
-                    >
-                      <span class="day-short text-xs font-bold text-gray-500 uppercase">
-                        {day.short}
-                      </span>
-                      <span class="day-number text-lg sm:text-2xl font-black text-gray-900 my-0.5">
-                        {day.num}
-                      </span>
-                      <span class="day-status-text text-[10px] font-semibold text-gray-400">
-                        Elegir
-                      </span>
-
-                      <!-- Check badge if saved -->
-                      <div class="day-saved-indicator hidden absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-[#B8935B] text-white flex items-center justify-center shadow-xs text-[10px] font-bold">
-                        ✓
-                      </div>
-                    </button>
-                  ))}
+                <!-- Days Dynamic Tabs Selector -->
+                <div id="days-selector-container" class="grid grid-cols-5 gap-2 sm:gap-3">
+                  <!-- Injected dynamically by JS -->
                 </div>
               </div>
 
@@ -211,7 +278,7 @@ const daysOfWeek = [
                           </div>
                         </div>
 
-                        <!-- Check Circle matching image design -->
+                        <!-- Check Circle -->
                         <div class="bowl-check-circle w-6 h-6 rounded-full border-2 border-gray-300 group-hover:border-[#B8935B] flex items-center justify-center text-white text-xs font-bold transition-all shrink-0">
                           <span class="hidden">✓</span>
                         </div>
@@ -221,7 +288,7 @@ const daysOfWeek = [
                 </div>
               </div>
 
-              <!-- SECTION 3: ELIGE TU PROTEÍNA (Matching the exact list style in the image) -->
+              <!-- SECTION 3: ELIGE TU PROTEÍNA -->
               <div class="space-y-3 pt-2">
                 <span class="block text-xs font-extrabold uppercase tracking-wider text-gray-700">
                   3. Elige tu proteína
@@ -238,7 +305,7 @@ const daysOfWeek = [
                       />
 
                       <div class="flex items-center gap-3.5">
-                        <!-- Check Circle matching image -->
+                        <!-- Check Circle -->
                         <div class="protein-check-circle w-6 h-6 rounded-full border-2 border-gray-300 group-hover:border-[#B8935B] flex items-center justify-center text-white text-xs font-bold transition-all shrink-0">
                           <span class="hidden">✓</span>
                         </div>
@@ -253,7 +320,7 @@ const daysOfWeek = [
                 </div>
               </div>
 
-              <!-- INGREDIENTES BASE INCLUIDOS BOX (Matching the exact beige callout box from the screenshot) -->
+              <!-- INGREDIENTES BASE INCLUIDOS BOX -->
               <div class="p-5 sm:p-6 rounded-2xl bg-[#FAF6F0] border border-brand-gold/20 space-y-3">
                 <span class="block text-xs font-black uppercase tracking-wider text-[#8A6F56]">
                   Ingredientes Base Incluidos:
@@ -262,11 +329,11 @@ const daysOfWeek = [
                 <div class="space-y-2 text-xs sm:text-sm text-gray-700">
                   <div class="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-2">
                     <strong class="text-gray-900 shrink-0">Carbohidrato del día:</strong>
-                    <span id="base-carb-desc" class="font-bold text-gray-900">(Depende según el menú semanal)</span>
+                    <span id="base-carb-desc" class="font-bold text-gray-900">Quinua con sofrito de cebolla y pimentón</span>
                   </div>
                   <div class="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-2">
                     <strong class="text-gray-900 shrink-0">Ensalada / Vegetales:</strong>
-                    <span id="base-veg-desc" class="text-gray-600 font-medium">Lechuga, zanahoria, tomate, apio y pepino con hierbabuena</span>
+                    <span id="base-veg-desc" class="text-gray-600 font-medium">Cebolla, pimentón, calabacín y zanahoria salteados al wok</span>
                   </div>
                 </div>
               </div>
@@ -278,7 +345,7 @@ const daysOfWeek = [
                   id="btn-save-day"
                   class="w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-[#B8935B] hover:bg-[#917237] text-white font-bold text-xs uppercase tracking-wider transition-all duration-200 shadow-md hover:-translate-y-0.5 active:scale-98 cursor-pointer flex items-center justify-center gap-2 shrink-0 opacity-50 pointer-events-none"
                 >
-                  <span id="btn-save-day-text">Guardar elección del lunes</span>
+                  <span id="btn-save-day-text">Guardar y siguiente</span>
                   <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
                   </svg>
@@ -296,7 +363,7 @@ const daysOfWeek = [
                 <div class="flex items-center justify-between pb-4 border-b border-brand-gold/20">
                   <div>
                     <h3 class="font-serif text-xl font-bold text-gray-900">Mis elecciones</h3>
-                    <span class="text-xs text-gray-500 font-medium">Plan semanal 5 bowls</span>
+                    <span class="text-xs text-gray-500 font-medium" id="sidebar-plan-label">Plan Semanal (5 bowls)</span>
                   </div>
                   <span id="progress-counter-badge" class="text-xs font-black px-3 py-1 rounded-full bg-white text-[#8A6F56] border border-brand-gold/30 shadow-2xs">
                     0 de 5
@@ -310,35 +377,15 @@ const daysOfWeek = [
 
                 <!-- Days List Summary -->
                 <div class="space-y-2" id="summary-days-list">
-                  {daysOfWeek.map((day, idx) => (
-                    <div 
-                      class="summary-day-row p-3 rounded-xl bg-white border border-gray-200/80 hover:border-[#B8935B] cursor-pointer transition-all flex items-center justify-between gap-3 group shadow-2xs"
-                      data-day-key={day.key}
-                      data-day-index={idx}
-                    >
-                      <div class="flex items-center gap-2.5 min-w-0">
-                        <span class="w-6 h-6 rounded-lg bg-[#FAF6F0] text-gray-700 font-bold text-xs flex items-center justify-center shrink-0 group-hover:bg-[#B8935B] group-hover:text-white transition-colors">
-                          {day.short}
-                        </span>
-                        <div class="min-w-0">
-                          <span class="text-xs font-bold text-gray-900 block truncate">{day.label}</span>
-                          <span class="text-[11px] text-gray-400 block truncate summary-day-desc" id={`summary-desc-${day.key}`}>Por elegir</span>
-                        </div>
-                      </div>
-
-                      <span class="text-[11px] font-bold text-[#8A6F56] shrink-0 group-hover:underline">
-                        Editar
-                      </span>
-                    </div>
-                  ))}
+                  <!-- Dynamically populated rows -->
                 </div>
 
-                <!-- Total a Pagar & WhatsApp CTA (Matching the exact bottom bar in the image) -->
+                <!-- Total a Pagar & WhatsApp CTA -->
                 <div class="pt-4 border-t border-brand-gold/20 space-y-4">
                   <div>
                     <span class="block text-xs font-bold uppercase tracking-wider text-gray-400">Total a pagar:</span>
-                    <span class="font-black text-3xl sm:text-4xl text-gray-950 block mt-0.5">Bs. 110</span>
-                    <span class="text-[11px] text-gray-500 font-medium">Incluye los 5 bowls medianos (~400g c/u)</span>
+                    <span id="sidebar-price-display" class="font-black text-3xl sm:text-4xl text-gray-950 block mt-0.5">Bs. 110</span>
+                    <span id="sidebar-size-desc" class="text-[11px] text-gray-500 font-medium">Tamaño Mediano (~400g)</span>
                   </div>
 
                   <a 
@@ -352,7 +399,7 @@ const daysOfWeek = [
                   </a>
 
                   <p id="validation-help-text" class="text-[11px] text-center text-gray-500 font-medium">
-                    Completa los 5 días y tu nombre para continuar.
+                    Completa todos los bowls y tu nombre para continuar.
                   </p>
                 </div>
 
@@ -365,7 +412,7 @@ const daysOfWeek = [
                   id="btn-reset-plan"
                   class="text-xs text-gray-400 hover:text-rose-600 underline font-semibold transition-colors cursor-pointer"
                 >
-                  Reiniciar selección de la semana
+                  Reiniciar selección de bowls
                 </button>
               </div>
 
@@ -433,32 +480,98 @@ const daysOfWeek = [
   <Footer />
 </Layout>
 
-<script is:inline define:vars={{ baseWhatsappLink, availableBowls, availableProteins, daysOfWeek }}>
+<script is:inline define:vars={{ baseWhatsappLink, availableBowls, availableProteins }}>
   const isMobileDev = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
   
-  let currentActiveDayIndex = 0;
-  
-  let weeklyChoices = {
-    lun: { bowlId: '', bowlName: '', protein: '' },
-    mar: { bowlId: '', bowlName: '', protein: '' },
-    mie: { bowlId: '', bowlName: '', protein: '' },
-    jue: { bowlId: '', bowlName: '', protein: '' },
-    vie: { bowlId: '', bowlName: '', protein: '' }
+  // Pricing matrix
+  const planPrices = {
+    diario: {
+      mediano: { individual: 24, grupal: 24 },
+      grande: { individual: 37, grupal: 37 }
+    },
+    flexible: {
+      mediano: { individual: 69, grupal: 207 },
+      grande: { individual: 108, grupal: 324 }
+    },
+    semanal: {
+      mediano: { individual: 110, grupal: 330 },
+      grande: { individual: 175, grupal: 525 }
+    },
+    mensual: {
+      mediano: { individual: 400, grupal: 1200 },
+      grande: { individual: 660, grupal: 1980 }
+    }
   };
+
+  const planTitles = {
+    diario: 'Plan Diario (1 Bowl)',
+    flexible: 'Plan Flexible (3 Bowls)',
+    semanal: 'Plan Semanal (5 Bowls)',
+    mensual: 'Plan Mensual (20 Bowls)'
+  };
+
+  const planDescriptions = {
+    diario: 'Consta de <strong>1 bowl</strong> que se pide con un día de anticipación o el mismo día.',
+    flexible: 'Consta de <strong>3 bowls</strong> que puede consumir durante un periodo de <strong>hasta 2 semanas</strong>.',
+    semanal: 'Consta de <strong>5 bowls</strong> que puede consumir durante un periodo de <strong>hasta 2 semanas</strong>.',
+    mensual: 'Consta de <strong>20 bowls</strong> programados para disfrutar durante un periodo de <strong>hasta 6 semanas</strong>.'
+  };
+
+  // Plan Configurations Definitions
+  const planDaysDefinitions = {
+    diario: [
+      { key: "d1", short: "D1", label: "Día 1", num: "01" }
+    ],
+    flexible: [
+      { key: "d1", short: "D1", label: "Bowl 1", num: "01" },
+      { key: "d2", short: "D2", label: "Bowl 2", num: "02" },
+      { key: "d3", short: "D3", label: "Bowl 3", num: "03" }
+    ],
+    semanal: [
+      { key: "lun", short: "Lun", label: "Lunes", num: "01" },
+      { key: "mar", short: "Mar", label: "Martes", num: "02" },
+      { key: "mie", short: "Mié", label: "Miércoles", num: "03" },
+      { key: "jue", short: "Jue", label: "Jueves", num: "04" },
+      { key: "vie", short: "Vie", label: "Viernes", num: "05" }
+    ],
+    mensual: [
+      { key: "lun", short: "Lun", label: "Lunes", num: "01" },
+      { key: "mar", short: "Mar", label: "Martes", num: "02" },
+      { key: "mie", short: "Mié", label: "Miércoles", num: "03" },
+      { key: "jue", short: "Jue", label: "Jueves", num: "04" },
+      { key: "vie", short: "Vie", label: "Viernes", num: "05" }
+    ]
+  };
+
+  // State
+  let selectedSize = 'mediano';
+  let selectedFreq = 'semanal';
+  let selectedOption = 'individual';
+  let currentActiveDayIndex = 0;
+  let activePlanDays = planDaysDefinitions.semanal;
+  let planChoices = {};
 
   // DOM Elements
   const customerNameInput = document.getElementById('customer-name');
   const customerAddressInput = document.getElementById('customer-address');
+  const mainPlanTitle = document.getElementById('main-plan-title');
+  const planDescriptionBanner = document.getElementById('plan-description-banner');
+  const optionSelectorWrapper = document.getElementById('option-selector-wrapper');
   
   const daySelectionBadge = document.getElementById('day-selection-badge');
   const btnSaveDay = document.getElementById('btn-save-day');
   const btnSaveDayText = document.getElementById('btn-save-day-text');
-  
   const baseCarbDesc = document.getElementById('base-carb-desc');
   const baseVegDesc = document.getElementById('base-veg-desc');
   
+  const sidebarPlanLabel = document.getElementById('sidebar-plan-label');
+  const sidebarPriceDisplay = document.getElementById('sidebar-price-display');
+  const sidebarSizeDesc = document.getElementById('sidebar-size-desc');
   const progressCounterBadge = document.getElementById('progress-counter-badge');
   const progressBarFill = document.getElementById('progress-bar-fill');
+  const summaryDaysList = document.getElementById('summary-days-list');
+  const daysSelectorContainer = document.getElementById('days-selector-container');
+  
   const btnConfirmWhatsapp = document.getElementById('btn-confirm-whatsapp');
   const validationHelpText = document.getElementById('validation-help-text');
   const btnResetPlan = document.getElementById('btn-reset-plan');
@@ -483,24 +596,111 @@ const daysOfWeek = [
     tabContentNutricion?.classList.remove('hidden');
   });
 
-  // Load from local storage
-  try {
-    const saved = localStorage.getItem('montalvo_weekly_plan_v2');
-    if (saved) {
-      const parsed = JSON.parse(saved);
-      if (parsed.weeklyChoices) weeklyChoices = parsed.weeklyChoices;
-      if (parsed.name && customerNameInput) customerNameInput.value = parsed.name;
-      if (parsed.address && customerAddressInput) customerAddressInput.value = parsed.address;
+  // Initialize and switch plan
+  function updatePlanConfiguration() {
+    activePlanDays = planDaysDefinitions[selectedFreq] || planDaysDefinitions.semanal;
+    
+    // Ensure choice keys exist
+    activePlanDays.forEach(d => {
+      if (!planChoices[d.key]) {
+        planChoices[d.key] = { bowlId: '', bowlName: '', protein: '' };
+      }
+    });
+
+    if (currentActiveDayIndex >= activePlanDays.length) {
+      currentActiveDayIndex = 0;
     }
-  } catch (e) {
-    console.error(e);
+
+    // Hide/Show option selector (Grupal/Individual) for Diario
+    if (optionSelectorWrapper) {
+      if (selectedFreq === 'diario') {
+        optionSelectorWrapper.classList.add('opacity-40', 'pointer-events-none');
+      } else {
+        optionSelectorWrapper.classList.remove('opacity-40', 'pointer-events-none');
+      }
+    }
+
+    // Update Header texts
+    if (mainPlanTitle) {
+      mainPlanTitle.textContent = `Arma tus Bowls · ${planTitles[selectedFreq]}`;
+    }
+    if (planDescriptionBanner) {
+      planDescriptionBanner.innerHTML = planDescriptions[selectedFreq];
+    }
+
+    // Render Day Selector Grid
+    renderDaySelectors();
+
+    // Render Sidebar list
+    renderSidebarDays();
+
+    // Update Pricing & texts
+    updatePricingAndSummary();
+
+    // Select active day
+    selectDay(currentActiveDayIndex);
+  }
+
+  function renderDaySelectors() {
+    if (!daysSelectorContainer) return;
+
+    const count = activePlanDays.length;
+    let gridColsClass = 'grid-cols-5';
+    if (count === 1) gridColsClass = 'grid-cols-1 max-w-xs';
+    else if (count === 3) gridColsClass = 'grid-cols-3 max-w-md';
+
+    daysSelectorContainer.className = `grid ${gridColsClass} gap-2 sm:gap-3`;
+    daysSelectorContainer.innerHTML = '';
+
+    activePlanDays.forEach((day, idx) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'day-tab-btn relative flex flex-col items-center justify-center p-3 sm:p-4 rounded-2xl border border-gray-200 bg-white hover:border-[#B8935B] cursor-pointer transition-all duration-200';
+      btn.dataset.dayKey = day.key;
+      btn.dataset.dayIndex = idx.toString();
+      btn.innerHTML = `
+        <span class="day-short text-xs font-bold text-gray-500 uppercase">${day.short}</span>
+        <span class="day-number text-lg sm:text-2xl font-black text-gray-900 my-0.5">${day.num}</span>
+        <span class="day-status-text text-[10px] font-semibold text-gray-400">Elegir</span>
+        <div class="day-saved-indicator hidden absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-[#B8935B] text-white flex items-center justify-center shadow-xs text-[10px] font-bold">✓</div>
+      `;
+      btn.addEventListener('click', () => selectDay(idx));
+      daysSelectorContainer.appendChild(btn);
+    });
+  }
+
+  function renderSidebarDays() {
+    if (!summaryDaysList) return;
+    summaryDaysList.innerHTML = '';
+
+    activePlanDays.forEach((day, idx) => {
+      const row = document.createElement('div');
+      row.className = 'summary-day-row p-3 rounded-xl bg-white border border-gray-200/80 hover:border-[#B8935B] cursor-pointer transition-all flex items-center justify-between gap-3 group shadow-2xs';
+      row.dataset.dayKey = day.key;
+      row.dataset.dayIndex = idx.toString();
+      row.innerHTML = `
+        <div class="flex items-center gap-2.5 min-w-0">
+          <span class="w-6 h-6 rounded-lg bg-[#FAF6F0] text-gray-700 font-bold text-xs flex items-center justify-center shrink-0 group-hover:bg-[#B8935B] group-hover:text-white transition-colors">
+            ${day.short}
+          </span>
+          <div class="min-w-0">
+            <span class="text-xs font-bold text-gray-900 block truncate">${day.label}</span>
+            <span class="text-[11px] text-gray-400 block truncate summary-day-desc" id="summary-desc-${day.key}">Por elegir</span>
+          </div>
+        </div>
+        <span class="text-[11px] font-bold text-[#8A6F56] shrink-0 group-hover:underline">Editar</span>
+      `;
+      row.addEventListener('click', () => selectDay(idx));
+      summaryDaysList.appendChild(row);
+    });
   }
 
   function selectDay(index) {
     currentActiveDayIndex = index;
-    const day = daysOfWeek[index];
+    const day = activePlanDays[index];
+    if (!day) return;
     const key = day.key;
-    const choice = weeklyChoices[key];
+    const choice = planChoices[key] || { bowlId: '', bowlName: '', protein: '' };
 
     if (daySelectionBadge) daySelectionBadge.textContent = `${day.label} seleccionado`;
     if (btnSaveDayText) btnSaveDayText.textContent = `Guardar elección del ${day.label.toLowerCase()}`;
@@ -508,7 +708,7 @@ const daysOfWeek = [
     // Update Day Tab Buttons UI
     document.querySelectorAll('.day-tab-btn').forEach((btn, idx) => {
       const btnKey = btn.dataset.dayKey;
-      const isSaved = weeklyChoices[btnKey].bowlId && weeklyChoices[btnKey].protein;
+      const isSaved = planChoices[btnKey] && planChoices[btnKey].bowlId && planChoices[btnKey].protein;
       const indicator = btn.querySelector('.day-saved-indicator');
 
       if (indicator) {
@@ -542,10 +742,9 @@ const daysOfWeek = [
     updateBowlCardsUI();
     updateProteinCardsUI();
     checkCurrentDayCompleteness();
-    updateSidebarSummary();
+    updatePricingAndSummary();
   }
 
-  // Visual appearance of Bowl cards
   function updateBowlCardsUI() {
     document.querySelectorAll('.bowl-option-card').forEach(card => {
       const radio = card.querySelector('.bowl-radio');
@@ -561,7 +760,6 @@ const daysOfWeek = [
         }
         if (checkText) checkText.classList.remove('hidden');
 
-        // Update Base Ingredients box text dynamically
         const bowlObj = availableBowls.find(b => b.id === radio.value);
         if (bowlObj) {
           if (baseCarbDesc) baseCarbDesc.textContent = bowlObj.carb;
@@ -579,7 +777,6 @@ const daysOfWeek = [
     });
   }
 
-  // Visual appearance of Protein cards
   function updateProteinCardsUI() {
     document.querySelectorAll('.protein-option-card').forEach(card => {
       const radio = card.querySelector('.protein-radio');
@@ -609,13 +806,15 @@ const daysOfWeek = [
   function checkCurrentDayCompleteness() {
     const selectedBowlRadio = document.querySelector('.bowl-radio:checked');
     const selectedProteinRadio = document.querySelector('.protein-radio:checked');
-    const dayKey = daysOfWeek[currentActiveDayIndex].key;
+    const day = activePlanDays[currentActiveDayIndex];
+    if (!day) return;
+    const dayKey = day.key;
 
     if (selectedBowlRadio && selectedProteinRadio) {
       const bowlObj = availableBowls.find(b => b.id === selectedBowlRadio.value);
       const bowlName = bowlObj ? bowlObj.name : selectedBowlRadio.value;
       
-      weeklyChoices[dayKey] = {
+      planChoices[dayKey] = {
         bowlId: selectedBowlRadio.value,
         bowlName: bowlName,
         protein: selectedProteinRadio.value
@@ -629,27 +828,24 @@ const daysOfWeek = [
         btnSaveDay.classList.add('opacity-50', 'pointer-events-none');
       }
     }
-
-    saveToLocalStorage();
   }
 
-  function saveToLocalStorage() {
-    try {
-      localStorage.setItem('montalvo_weekly_plan_v2', JSON.stringify({
-        weeklyChoices,
-        name: customerNameInput ? customerNameInput.value : '',
-        address: customerAddressInput ? customerAddressInput.value : ''
-      }));
-    } catch (e) {
-      console.error(e);
-    }
-  }
+  function updatePricingAndSummary() {
+    const currentPrice = planPrices[selectedFreq][selectedSize][selectedOption];
+    const sizeLabel = selectedSize === 'mediano' ? 'Mediano (~400g)' : 'Grande (~650g)';
+    const freqLabel = planTitles[selectedFreq];
+    const optionLabel = selectedFreq === 'diario' ? '' : (selectedOption === 'individual' ? 'Individual' : 'Grupal (3+ pers.)');
 
-  function updateSidebarSummary() {
+    if (sidebarPlanLabel) sidebarPlanLabel.textContent = `${freqLabel} ${optionLabel ? '• ' + optionLabel : ''}`;
+    if (sidebarPriceDisplay) sidebarPriceDisplay.textContent = `Bs. ${currentPrice}`;
+    if (sidebarSizeDesc) sidebarSizeDesc.textContent = `Tamaño ${sizeLabel}`;
+
+    // Update items in sidebar list
     let completedCount = 0;
+    const totalDays = activePlanDays.length;
 
-    daysOfWeek.forEach(day => {
-      const choice = weeklyChoices[day.key];
+    activePlanDays.forEach(day => {
+      const choice = planChoices[day.key];
       const descEl = document.getElementById(`summary-desc-${day.key}`);
       
       if (choice && choice.bowlId && choice.protein) {
@@ -666,17 +862,17 @@ const daysOfWeek = [
       }
     });
 
-    if (progressCounterBadge) progressCounterBadge.textContent = `${completedCount} de 5`;
-    if (progressBarFill) progressBarFill.style.width = `${(completedCount / 5) * 100}%`;
+    if (progressCounterBadge) progressCounterBadge.textContent = `${completedCount} de ${totalDays}`;
+    if (progressBarFill) progressBarFill.style.width = `${(completedCount / totalDays) * 100}%`;
 
-    const isAllCompleted = (completedCount === 5);
+    const isAllCompleted = (completedCount === totalDays);
     const customerName = customerNameInput ? customerNameInput.value.trim() : '';
 
     if (btnConfirmWhatsapp && validationHelpText) {
       if (isAllCompleted && customerName.length > 0) {
         btnConfirmWhatsapp.classList.remove('opacity-50', 'pointer-events-none', 'cursor-not-allowed');
         btnConfirmWhatsapp.classList.add('hover:-translate-y-0.5', 'active:scale-98');
-        validationHelpText.textContent = "¡Menú listo! Haz clic en el botón para enviar tu pedido a WhatsApp.";
+        validationHelpText.textContent = "¡Menú listo! Haz clic para enviar tu pedido a WhatsApp.";
         validationHelpText.className = "text-[11px] text-center text-[#8A6F56] font-bold";
 
         const message = buildWhatsappMessage();
@@ -690,8 +886,8 @@ const daysOfWeek = [
           validationHelpText.textContent = "Por favor ingresa tu nombre arriba para continuar.";
           validationHelpText.className = "text-[11px] text-center text-amber-700 font-semibold";
         } else {
-          const remaining = 5 - completedCount;
-          validationHelpText.textContent = `Completa los ${remaining} días pendientes para continuar.`;
+          const remaining = totalDays - completedCount;
+          validationHelpText.textContent = `Completa los ${remaining} bowls pendientes para continuar.`;
           validationHelpText.className = "text-[11px] text-center text-gray-400 font-medium";
         }
       }
@@ -701,6 +897,10 @@ const daysOfWeek = [
   function buildWhatsappMessage() {
     const customerName = customerNameInput ? customerNameInput.value.trim() : 'Cliente';
     const customerAddress = customerAddressInput ? customerAddressInput.value.trim() : '';
+    const currentPrice = planPrices[selectedFreq][selectedSize][selectedOption];
+    const sizeLabel = selectedSize === 'mediano' ? 'Mediano (~400g de balance)' : 'Grande (~650g de rendimiento)';
+    const freqLabel = planTitles[selectedFreq];
+    const optionLabel = selectedFreq === 'diario' ? '' : (selectedOption === 'individual' ? 'Individual (1 persona)' : 'Grupal (desde 3 personas)');
 
     // Generate Ultra-Compact URL for the Digital Sheet
     let comandaUrl = '';
@@ -717,8 +917,8 @@ const daysOfWeek = [
         "Huevos Hervidos": "3"
       };
 
-      const planCode = ['lun', 'mar', 'mie', 'jue', 'vie'].map(k => {
-        const c = weeklyChoices[k];
+      const planCode = activePlanDays.map(d => {
+        const c = planChoices[d.key] || { bowlId: 'salteado', protein: 'Pollo a la Plancha' };
         const bCode = (c.bowlId === 'fresco') ? 'f' : 's';
         const pCode = proteinCodeMap[c.protein] || '1';
         return `${bCode}${pCode}`;
@@ -729,32 +929,39 @@ const daysOfWeek = [
       if (customerAddress) params.set('dir', customerAddress);
       params.set('f', window._mcFolioNumber.toString());
       params.set('p', planCode);
+      params.set('sz', selectedSize);
+      params.set('pl', selectedFreq);
+      params.set('op', selectedOption);
 
       comandaUrl = `${window.location.origin}/comanda?${params.toString()}`;
     } catch(e) {
       comandaUrl = `${window.location.origin}/comanda`;
     }
 
-    let msg = `🥗 *¡FICHA & PEDIDO - PLAN SEMANAL (5 BOWLS)!*\n`;
+    let msg = `🥗 *¡FICHA & PEDIDO - MONTALVO CATERING!* \n`;
     msg += `🔖 *Código de Pedido:* ${orderFolioCode}\n`;
     msg += `----------------------------------------\n`;
     msg += `👤 *Cliente:* ${customerName}\n`;
     if (customerAddress) {
       msg += `📍 *Dirección:* ${customerAddress}\n`;
     }
-    msg += `⚖️ *Tamaño:* Mediano (~400g de balance)\n`;
-    msg += `💰 *Total a pagar:* Bs. 110\n`;
+    msg += `📦 *Plan:* ${freqLabel}\n`;
+    if (optionLabel) {
+      msg += `👥 *Modalidad:* ${optionLabel}\n`;
+    }
+    msg += `⚖️ *Tamaño:* ${sizeLabel}\n`;
+    msg += `💰 *Total a pagar:* Bs. ${currentPrice}\n`;
     if (comandaUrl) {
       msg += `\n📄 *FICHA OFICIAL / COMANDA EN PDF:* \n👉 ${comandaUrl}\n`;
     }
     msg += `----------------------------------------\n`;
-    msg += `🗓️ *MENÚ CONFIGURADO PARA LA SEMANA:*\n\n`;
+    msg += `🗓️ *MENÚ PERSONALIZADO:*\n\n`;
 
-    daysOfWeek.forEach(day => {
-      const choice = weeklyChoices[day.key];
+    activePlanDays.forEach(day => {
+      const choice = planChoices[day.key] || {};
       msg += `📅 *${day.label.toUpperCase()}:*\n`;
-      msg += `  • *Bowl:* ${choice.bowlName}\n`;
-      msg += `  • *Proteína:* ${choice.protein}\n\n`;
+      msg += `  • *Bowl:* ${choice.bowlName || 'Bowl Salteado'}\n`;
+      msg += `  • *Proteína:* ${choice.protein || 'Pollo a la Plancha'}\n\n`;
     });
 
     msg += `----------------------------------------\n`;
@@ -763,45 +970,77 @@ const daysOfWeek = [
     return msg;
   }
 
-  // Event Listeners
-  document.querySelectorAll('.day-tab-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const idx = parseInt(btn.dataset.dayIndex, 10);
-      selectDay(idx);
+  // Size Selector Click Listeners
+  document.querySelectorAll('.size-selector-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      selectedSize = e.currentTarget.dataset.size;
+      document.querySelectorAll('.size-selector-btn').forEach(b => {
+        if (b.dataset.size === selectedSize) {
+          b.className = "size-selector-btn py-2.5 px-3 rounded-xl text-xs font-extrabold transition-all cursor-pointer bg-[#B8935B] text-white shadow-xs";
+        } else {
+          b.className = "size-selector-btn py-2.5 px-3 rounded-xl text-xs font-semibold text-gray-600 hover:text-gray-900 transition-all cursor-pointer";
+        }
+      });
+      updatePricingAndSummary();
     });
   });
 
-  document.querySelectorAll('.summary-day-row').forEach(row => {
-    row.addEventListener('click', () => {
-      const idx = parseInt(row.dataset.dayIndex, 10);
-      selectDay(idx);
+  // Freq Selector Click Listeners
+  document.querySelectorAll('.freq-selector-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      selectedFreq = e.currentTarget.dataset.freq;
+      document.querySelectorAll('.freq-selector-btn').forEach(b => {
+        if (b.dataset.freq === selectedFreq) {
+          b.className = "freq-selector-btn py-2.5 px-1.5 rounded-xl text-[11px] font-extrabold text-center transition-all cursor-pointer bg-[#B8935B] text-white shadow-xs";
+        } else {
+          b.className = "freq-selector-btn py-2.5 px-1.5 rounded-xl text-[11px] font-semibold text-gray-600 hover:text-gray-900 text-center transition-all cursor-pointer";
+        }
+      });
+      updatePlanConfiguration();
     });
   });
 
+  // Option Selector Click Listeners
+  document.querySelectorAll('.option-selector-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      selectedOption = e.currentTarget.dataset.option;
+      document.querySelectorAll('.option-selector-btn').forEach(b => {
+        if (b.dataset.option === selectedOption) {
+          b.className = "option-selector-btn py-2.5 px-3 rounded-xl text-xs font-extrabold transition-all cursor-pointer bg-[#B8935B] text-white shadow-xs";
+        } else {
+          b.className = "option-selector-btn py-2.5 px-3 rounded-xl text-xs font-semibold text-gray-600 hover:text-gray-900 transition-all cursor-pointer";
+        }
+      });
+      updatePricingAndSummary();
+    });
+  });
+
+  // Bowl radio selection
   document.querySelectorAll('.bowl-radio').forEach(radio => {
     radio.addEventListener('change', () => {
       updateBowlCardsUI();
       checkCurrentDayCompleteness();
-      updateSidebarSummary();
+      updatePricingAndSummary();
     });
   });
 
+  // Protein radio selection
   document.querySelectorAll('.protein-radio').forEach(radio => {
     radio.addEventListener('change', () => {
       updateProteinCardsUI();
       checkCurrentDayCompleteness();
-      updateSidebarSummary();
+      updatePricingAndSummary();
     });
   });
 
   btnSaveDay?.addEventListener('click', () => {
     checkCurrentDayCompleteness();
-    updateSidebarSummary();
+    updatePricingAndSummary();
 
     let nextIdx = -1;
-    for (let i = 0; i < daysOfWeek.length; i++) {
-      const k = daysOfWeek[i].key;
-      if (!weeklyChoices[k].bowlId || !weeklyChoices[k].protein) {
+    for (let i = 0; i < activePlanDays.length; i++) {
+      const k = activePlanDays[i].key;
+      if (!planChoices[k] || !planChoices[k].bowlId || !planChoices[k].protein) {
         nextIdx = i;
         break;
       }
@@ -810,34 +1049,25 @@ const daysOfWeek = [
     if (nextIdx !== -1) {
       selectDay(nextIdx);
     } else {
-      const next = (currentActiveDayIndex + 1) % daysOfWeek.length;
+      const next = (currentActiveDayIndex + 1) % activePlanDays.length;
       selectDay(next);
     }
   });
 
   customerNameInput?.addEventListener('input', () => {
-    saveToLocalStorage();
-    updateSidebarSummary();
+    updatePricingAndSummary();
   });
   customerAddressInput?.addEventListener('input', () => {
-    saveToLocalStorage();
-    updateSidebarSummary();
+    updatePricingAndSummary();
   });
 
   btnResetPlan?.addEventListener('click', () => {
-    if (confirm('¿Estás seguro de reiniciar la selección de toda la semana?')) {
-      weeklyChoices = {
-        lun: { bowlId: '', bowlName: '', protein: '' },
-        mar: { bowlId: '', bowlName: '', protein: '' },
-        mie: { bowlId: '', bowlName: '', protein: '' },
-        jue: { bowlId: '', bowlName: '', protein: '' },
-        vie: { bowlId: '', bowlName: '', protein: '' }
-      };
-      saveToLocalStorage();
-      selectDay(0);
+    if (confirm('¿Estás seguro de reiniciar la selección de bowls?')) {
+      planChoices = {};
+      updatePlanConfiguration();
     }
   });
 
-  // Init on load
-  selectDay(0);
+  // Init
+  updatePlanConfiguration();
 </script>
