@@ -1235,9 +1235,9 @@ const availableProteins = [
       btn.dataset.dayKey = day.key;
       btn.dataset.dayIndex = idx.toString();
       btn.innerHTML = `
-        <span class="day-short text-xs font-bold text-gray-500 uppercase">${day.short}</span>
-        <span class="day-number text-lg sm:text-2xl font-black text-gray-900 my-0.5">${day.num}</span>
-        <span class="day-status-text text-[10px] font-semibold text-gray-400">Elegir</span>
+        <span class="day-number text-[10px] sm:text-[11px] font-extrabold text-gray-400 uppercase tracking-wider block">Día ${day.num}</span>
+        <span class="day-short text-base sm:text-xl font-black text-gray-900 my-0.5 block leading-tight uppercase">${day.short}</span>
+        <span class="day-status-text text-[10px] font-semibold text-gray-400 block">Elegir</span>
         <div class="day-saved-indicator hidden absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-[#B8935B] text-white flex items-center justify-center shadow-xs text-[10px] font-bold">✓</div>
       `;
       btn.addEventListener('click', () => selectDay(idx));
@@ -1293,26 +1293,24 @@ const availableProteins = [
         else indicator.classList.add('hidden');
       }
 
+      const shortEl = btn.querySelector('.day-short');
+      const numEl = btn.querySelector('.day-number');
+      const statusEl = btn.querySelector('.day-status-text');
+
       if (idx === index) {
         btn.className = "day-tab-btn relative flex flex-col items-center justify-center p-3 sm:p-4 rounded-2xl border-2 border-[#B8935B] bg-[#FAF6F0] shadow-sm cursor-pointer transition-all duration-200 transform scale-102";
-        const shortEl = btn.querySelector('.day-short');
-        const numEl = btn.querySelector('.day-number');
-        const statusEl = btn.querySelector('.day-status-text');
-        if (shortEl) shortEl.className = "day-short text-xs font-black text-[#8A6F56] uppercase";
-        if (numEl) numEl.className = "day-number text-lg sm:text-2xl font-black text-gray-950 my-0.5";
+        if (numEl) numEl.className = "day-number text-[10px] sm:text-[11px] font-black text-[#8A6F56] uppercase tracking-wider block";
+        if (shortEl) shortEl.className = "day-short text-base sm:text-xl font-black text-gray-950 my-0.5 block leading-tight uppercase";
         if (statusEl) {
-          statusEl.className = "day-status-text text-[10px] font-bold text-[#B8935B]";
+          statusEl.className = "day-status-text text-[10px] font-bold text-[#B8935B] block";
           statusEl.textContent = isSaved ? "Listo ✓" : "Eligiendo";
         }
       } else {
         btn.className = "day-tab-btn relative flex flex-col items-center justify-center p-3 sm:p-4 rounded-2xl border border-gray-200 bg-white hover:border-[#B8935B] cursor-pointer transition-all duration-200";
-        const shortEl = btn.querySelector('.day-short');
-        const numEl = btn.querySelector('.day-number');
-        const statusEl = btn.querySelector('.day-status-text');
-        if (shortEl) shortEl.className = "day-short text-xs font-bold text-gray-500 uppercase";
-        if (numEl) numEl.className = "day-number text-lg sm:text-2xl font-black text-gray-900 my-0.5";
+        if (numEl) numEl.className = "day-number text-[10px] sm:text-[11px] font-extrabold text-gray-400 uppercase tracking-wider block";
+        if (shortEl) shortEl.className = "day-short text-base sm:text-xl font-black text-gray-800 my-0.5 block leading-tight uppercase";
         if (statusEl) {
-          statusEl.className = "day-status-text text-[10px] font-semibold text-gray-400";
+          statusEl.className = "day-status-text text-[10px] font-semibold text-gray-400 block";
           statusEl.textContent = isSaved ? "Listo ✓" : "Elegir";
         }
       }
