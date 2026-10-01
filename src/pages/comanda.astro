@@ -215,12 +215,14 @@ import Layout from '../layouts/Layout.astro';
       const compactCode = urlParams.get('p');
       const clientQuery = urlParams.get('c');
       const dirQuery = urlParams.get('dir');
+      const folioQuery = urlParams.get('f') || urlParams.get('folio');
 
       let order = null;
 
       if (compactCode || clientQuery) {
         // Compact Short URL Format
         order = {
+          folio: folioQuery ? `#MC-${new Date().getFullYear()}-${folioQuery}` : null,
           name: clientQuery || 'Cliente Particular',
           address: dirQuery || 'Por coordinar por WhatsApp',
           size: 'Mediano (~400g de balance)',
@@ -282,9 +284,9 @@ import Layout from '../layouts/Layout.astro';
       return;
     }
 
-    // Generate a consistent pseudo-folio
+    // Consistent folio from URL or fallback
     const hash = Math.floor(1000 + Math.random() * 9000);
-    const folio = `#MC-${new Date().getFullYear()}-${hash}`;
+    const folio = order.folio || `#MC-${new Date().getFullYear()}-${hash}`;
 
     const orderFolio = document.getElementById('order-folio');
     const orderDate = document.getElementById('order-date');

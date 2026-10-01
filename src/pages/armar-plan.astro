@@ -704,6 +704,12 @@ const daysOfWeek = [
 
     // Generate Ultra-Compact URL for the Digital Sheet
     let comandaUrl = '';
+    const currentYear = new Date().getFullYear();
+    if (!window._mcFolioNumber) {
+      window._mcFolioNumber = Math.floor(1000 + Math.random() * 9000);
+    }
+    const orderFolioCode = `#MC-${currentYear}-${window._mcFolioNumber}`;
+
     try {
       const proteinCodeMap = {
         "Pollo a la Plancha": "1",
@@ -721,6 +727,7 @@ const daysOfWeek = [
       const params = new URLSearchParams();
       params.set('c', customerName);
       if (customerAddress) params.set('dir', customerAddress);
+      params.set('f', window._mcFolioNumber.toString());
       params.set('p', planCode);
 
       comandaUrl = `${window.location.origin}/comanda?${params.toString()}`;
@@ -729,6 +736,7 @@ const daysOfWeek = [
     }
 
     let msg = `🥗 *¡FICHA & PEDIDO - PLAN SEMANAL (5 BOWLS)!*\n`;
+    msg += `🔖 *Código de Pedido:* ${orderFolioCode}\n`;
     msg += `----------------------------------------\n`;
     msg += `👤 *Cliente:* ${customerName}\n`;
     if (customerAddress) {
