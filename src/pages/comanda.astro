@@ -179,26 +179,68 @@ import Layout from '../layouts/Layout.astro';
     vie: { name: "Viernes", num: "Día 05" }
   };
 
+  const proteinDecodeMap = {
+    "1": "Pollo a la Plancha",
+    "2": "Albóndigas de Carne (Air Fryer)",
+    "3": "Huevos Hervidos"
+  };
+
+  function decodeCompactPlan(pString) {
+    const keys = ['lun', 'mar', 'mie', 'jue', 'vie'];
+    const choices = {};
+    const cleaned = (pString || '').replace(/[^a-zA-Z0-9]/g, '');
+
+    for (let i = 0; i < keys.length; i++) {
+      const key = keys[i];
+      const bChar = cleaned[i * 2] || 's';
+      const pChar = cleaned[i * 2 + 1] || '1';
+
+      const bowlId = (bChar === 'f') ? 'fresco' : 'salteado';
+      const bowlName = (bowlId === 'fresco') ? 'Bowl Fresco' : 'Bowl Salteado';
+      const protein = proteinDecodeMap[pChar] || 'Pollo a la Plancha';
+
+      choices[key] = {
+        bowlId,
+        bowlName,
+        protein
+      };
+    }
+    return choices;
+  }
+
   function parseOrderData() {
     try {
       const urlParams = new URLSearchParams(window.location.search);
       const rawData = urlParams.get('data');
+      const compactCode = urlParams.get('p');
+      const clientQuery = urlParams.get('c');
+      const dirQuery = urlParams.get('dir');
 
       let order = null;
 
-      if (rawData) {
-        // Decode base64 json
+      if (compactCode || clientQuery) {
+        // Compact Short URL Format
+        order = {
+          name: clientQuery || 'Cliente Particular',
+          address: dirQuery || 'Por coordinar por WhatsApp',
+          size: 'Mediano (~400g de balance)',
+          total: '110',
+          date: new Date().toLocaleDateString('es-BO'),
+          choices: decodeCompactPlan(compactCode || 's1s1s1s1s1')
+        };
+      } else if (rawData) {
+        // Legacy Base64 Format
         const decodedStr = decodeURIComponent(escape(atob(decodeURIComponent(rawData))));
         order = JSON.parse(decodedStr);
       } else {
-        // Try fallback to local storage
+        // Fallback to local storage
         const local = localStorage.getItem('montalvo_weekly_plan_v2');
         if (local) {
           const parsed = JSON.parse(local);
           order = {
             name: parsed.name || 'Cliente Particular',
             address: parsed.address || 'A convenir por WhatsApp',
-            size: 'Mediano (~400g)',
+            size: 'Mediano (~400g de balance)',
             total: '110',
             date: new Date().toLocaleDateString('es-BO'),
             choices: parsed.weeklyChoices || {}

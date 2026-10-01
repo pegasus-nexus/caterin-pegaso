@@ -702,19 +702,28 @@ const daysOfWeek = [
     const customerName = customerNameInput ? customerNameInput.value.trim() : 'Cliente';
     const customerAddress = customerAddressInput ? customerAddressInput.value.trim() : '';
 
-    // Generate Encoded Payload for the Digital Sheet
+    // Generate Ultra-Compact URL for the Digital Sheet
     let comandaUrl = '';
     try {
-      const payload = {
-        name: customerName,
-        address: customerAddress || 'Por coordinar por WhatsApp',
-        size: 'Mediano (~400g de balance)',
-        total: '110',
-        date: new Date().toLocaleDateString('es-BO'),
-        choices: weeklyChoices
+      const proteinCodeMap = {
+        "Pollo a la Plancha": "1",
+        "Albóndigas de Carne (Air Fryer)": "2",
+        "Huevos Hervidos": "3"
       };
-      const encoded = encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify(payload)))));
-      comandaUrl = `${window.location.origin}/comanda?data=${encoded}`;
+
+      const planCode = ['lun', 'mar', 'mie', 'jue', 'vie'].map(k => {
+        const c = weeklyChoices[k];
+        const bCode = (c.bowlId === 'fresco') ? 'f' : 's';
+        const pCode = proteinCodeMap[c.protein] || '1';
+        return `${bCode}${pCode}`;
+      }).join('-');
+
+      const params = new URLSearchParams();
+      params.set('c', customerName);
+      if (customerAddress) params.set('dir', customerAddress);
+      params.set('p', planCode);
+
+      comandaUrl = `${window.location.origin}/comanda?${params.toString()}`;
     } catch(e) {
       comandaUrl = `${window.location.origin}/comanda`;
     }
