@@ -189,37 +189,50 @@ const availableProteins = [
 
           </div>
 
-          <!-- DYNAMIC DELIVERY DAYS PICKER (Interactive for Diario & Flexible) -->
-          <div id="delivery-days-config-box" class="p-4 sm:p-5 rounded-2xl bg-white border border-brand-gold/30 shadow-xs space-y-3 transition-all duration-300">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-              <div>
-                <span class="block text-xs font-extrabold uppercase tracking-wider text-[#8A6F56]" id="days-picker-title">
-                  📅 Días de entrega para tu plan:
-                </span>
-                <p class="text-xs text-gray-500 font-medium" id="days-picker-subtitle">
-                  Selecciona los días específicos de la semana en los que deseas recibir tus almuerzos
-                </p>
+          <!-- DYNAMIC DELIVERY DAYS PICKER (Redesigned without emojis) -->
+          <div id="delivery-days-config-box" class="p-5 sm:p-6 rounded-3xl bg-white border border-brand-gold/30 shadow-sm space-y-4 transition-all duration-300">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-gray-100">
+              <div class="flex items-start gap-3">
+                <div class="w-10 h-10 rounded-2xl bg-[#FAF6F0] border border-brand-gold/30 text-[#8A6F56] flex items-center justify-center shrink-0 mt-0.5 shadow-2xs">
+                  <svg class="w-5 h-5 text-[#8A6F56]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="text-sm sm:text-base font-serif font-black text-gray-900 tracking-tight" id="days-picker-title">
+                    Distribución de tus Entregas
+                  </h3>
+                  <p class="text-xs text-gray-500 font-medium mt-0.5" id="days-picker-subtitle">
+                    Selecciona tus fechas libres de entrega dentro del periodo de vigencia
+                  </p>
+                </div>
               </div>
-              <span id="days-count-badge" class="self-start sm:self-auto text-xs font-black px-3 py-1 rounded-full bg-[#FAF6F0] text-[#8A6F56] border border-brand-gold/30">
-                3 de 3 días seleccionados
+              <span id="days-count-badge" class="self-start sm:self-auto text-xs font-black px-3.5 py-1.5 rounded-full bg-[#FAF6F0] text-[#8A6F56] border border-brand-gold/30 shadow-2xs">
+                5 de 5 fechas seleccionadas
               </span>
             </div>
 
-            <!-- Days Buttons Grid -->
-            <div id="days-buttons-picker" class="grid grid-cols-5 gap-2 sm:gap-3 pt-1">
-              <!-- Dynamically populated day selector buttons -->
+            <!-- Days Buttons Grid (Injected by JS with clean segmented week cards) -->
+            <div id="days-buttons-picker" class="space-y-4">
+              <!-- Dynamically populated -->
             </div>
 
-            <!-- Helper notice for Flexible & Diario -->
-            <div id="days-helper-notice" class="text-[11px] text-gray-500 font-medium flex items-center gap-1.5 pt-1">
-              <span class="text-[#B8935B] font-bold">💡</span>
-              <span id="days-helper-text">Puedes cambiar los días haciendo clic sobre ellos.</span>
+            <!-- Helper notice -->
+            <div id="days-helper-notice" class="p-3 rounded-xl bg-[#FAF6F0]/70 border border-brand-gold/20 text-xs text-gray-600 font-medium flex items-center gap-2">
+              <svg class="w-4 h-4 text-[#8A6F56] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span id="days-helper-text">Puedes cambiar cualquier fecha haciendo clic sobre ella.</span>
             </div>
           </div>
 
           <!-- Dynamic Plan Description Callout -->
-          <div class="p-3.5 rounded-xl bg-white/90 border border-brand-gold/20 flex items-start gap-2.5 text-xs text-gray-700">
-            <span class="text-brand-gold-dark font-bold text-sm leading-none mt-0.5">ℹ️</span>
+          <div class="p-3.5 rounded-2xl bg-white border border-brand-gold/20 flex items-start gap-3 text-xs text-gray-700 shadow-2xs">
+            <div class="w-5 h-5 rounded-full bg-[#FAF6F0] text-[#8A6F56] flex items-center justify-center shrink-0 mt-0.5 font-bold text-[11px] border border-brand-gold/30">
+              <svg class="w-3.5 h-3.5 text-[#8A6F56]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
             <div id="plan-description-banner" class="leading-relaxed font-medium">
               Consta de <strong>5 bowls</strong> que puede consumir durante el periodo de <strong>hasta 2 semanas</strong> para <strong>1 persona</strong>.
             </div>
@@ -354,8 +367,11 @@ const availableProteins = [
                   <span class="block text-xs font-extrabold uppercase tracking-wider text-gray-700">
                     4. Observación del día <span class="text-gray-400 text-[10px] font-normal font-sans">(Opcional)</span>
                   </span>
-                  <span class="text-[11px] text-[#8A6F56] font-semibold flex items-center gap-1">
-                    <span>✏️</span> Notas para cocina
+                  <span class="text-[11px] text-[#8A6F56] font-semibold flex items-center gap-1.5">
+                    <svg class="w-3.5 h-3.5 text-[#8A6F56]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                    </svg>
+                    <span>Notas para cocina</span>
                   </span>
                 </div>
 
@@ -556,35 +572,50 @@ const availableProteins = [
   const dayNames = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
   const dayShortNames = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
 
-  // Generate available business delivery days for upcoming 4 weeks
+  // Generate available business delivery days for upcoming 4 weeks with precise ISO calendar week boundaries
   function generateAvailableDeliveryDays() {
     const days = [];
     const now = new Date();
     let current = new Date(now);
     
-    // If today is past 15:00, delivery starts from tomorrow
+    // Delivery starts from tomorrow if past 15:00
     if (now.getHours() >= 15) {
       current.setDate(current.getDate() + 1);
     }
-    
+
+    // Determine current week's Sunday midnight boundary
+    const dayOfWeekNow = now.getDay(); // 0 is Sun, 1 is Mon...
+    const daysUntilSunday = (dayOfWeekNow === 0) ? 0 : (7 - dayOfWeekNow);
+    const endOfCurrentWeek = new Date(now);
+    endOfCurrentWeek.setDate(now.getDate() + daysUntilSunday);
+    endOfCurrentWeek.setHours(23, 59, 59, 999);
+
+    const endOfNextWeek = new Date(endOfCurrentWeek);
+    endOfNextWeek.setDate(endOfCurrentWeek.getDate() + 7);
+
+    const endOfThirdWeek = new Date(endOfNextWeek);
+    endOfThirdWeek.setDate(endOfNextWeek.getDate() + 7);
+
     let iterations = 0;
-    while (days.length < 20 && iterations < 35) {
+    while (days.length < 20 && iterations < 45) {
       const dayOfWeek = current.getDay();
-      if (dayOfWeek >= 1 && dayOfWeek <= 5) { // Lun-Vie
+      if (dayOfWeek >= 1 && dayOfWeek <= 5) { // Lunes a Viernes
         const y = current.getFullYear();
         const m = String(current.getMonth() + 1).padStart(2, '0');
         const d = String(current.getDate()).padStart(2, '0');
         const isoKey = `${y}-${m}-${d}`;
         const formattedDate = `${d}/${m}/${y}`;
-        const dayLabel = `${dayNames[dayOfWeek]} ${d} ${monthNames[current.getMonth()]}`;
+        const dayLabel = `${dayNames[dayOfWeek]} ${d} de ${monthNames[current.getMonth()]}`;
         const shortLabel = `${dayShortNames[dayOfWeek]} ${d}`;
-        
-        // Calculate week relative offset (0 = current week, 1 = next week, etc.)
-        const daysFromNow = Math.floor((current - now) / (1000 * 60 * 60 * 24));
+        const dayShort = dayShortNames[dayOfWeek].toUpperCase();
+        const monthShort = monthNames[current.getMonth()].toUpperCase();
+
         let weekGroup = "Esta semana";
-        if (daysFromNow > 4 && daysFromNow <= 11) weekGroup = "Próxima semana";
-        else if (daysFromNow > 11 && daysFromNow <= 18) weekGroup = "Semana 3";
-        else if (daysFromNow > 18) weekGroup = "Semana 4";
+        if (current > endOfNextWeek) {
+          weekGroup = "Semana 3";
+        } else if (current > endOfCurrentWeek) {
+          weekGroup = "Próxima semana";
+        }
 
         days.push({
           key: isoKey,
@@ -593,6 +624,9 @@ const availableProteins = [
           dayOfWeek: dayOfWeek,
           dayName: dayNames[dayOfWeek],
           short: shortLabel,
+          dayShort: dayShort,
+          dayNum: d,
+          monthShort: monthShort,
           label: dayLabel,
           weekGroup: weekGroup,
           rawDate: new Date(current)
@@ -641,7 +675,7 @@ const availableProteins = [
   };
 
   const planDescriptions = {
-    diario: 'Consta de <strong>1 bowl</strong> puntual que puedes programar para cualquier día disponible.',
+    diario: 'Consta de <strong>1 bowl</strong> puntual que puedes programar para cualquier fecha disponible.',
     flexible: 'Consta de <strong>3 bowls</strong> que puedes consumir durante el periodo de <strong>hasta 2 semanas</strong> a tu libre elección.',
     semanal: 'Consta de <strong>5 bowls</strong> que puedes consumir durante el periodo de <strong>hasta 2 semanas</strong> (ej. 2 esta semana y 3 la siguiente).',
     mensual: 'Consta de <strong>20 bowls</strong> programados para disfrutar durante un periodo de <strong>hasta 6 semanas</strong>.'
@@ -716,77 +750,78 @@ const availableProteins = [
     tabContentNutricion?.classList.remove('hidden');
   });
 
-  // Render Multi-Week Calendar Picker Widget
+  // Render Multi-Week Calendar Picker Widget (Clean Luxury Redesign)
   function renderDaysPickerWidget() {
     if (!daysButtonsPicker) return;
     daysButtonsPicker.innerHTML = '';
 
     const targetCount = planTargetBowls[selectedFreq] || 5;
     const currentChosen = chosenDateKeysByFreq[selectedFreq] || [];
-    const poolOfDays = (selectedFreq === 'mensual') ? allAvailableDays.slice(0, 15) : allAvailableDays.slice(0, 10);
+    const poolOfDays = (selectedFreq === 'mensual') ? allAvailableDays.slice(0, 15) : allAvailableDays.slice(0, 12);
 
     if (daysPickerTitle) {
-      if (selectedFreq === 'diario') daysPickerTitle.textContent = "📅 Elige la fecha de entrega (1 bowl):";
-      else if (selectedFreq === 'flexible') daysPickerTitle.textContent = "📅 Distribuye tus 3 bowls (Vigencia: hasta 2 semanas):";
-      else if (selectedFreq === 'semanal') daysPickerTitle.textContent = "📅 Distribuye tus 5 bowls (Vigencia: hasta 2 semanas):";
-      else if (selectedFreq === 'mensual') daysPickerTitle.textContent = "📅 Menú base semanal (Vigencia: hasta 6 semanas):";
+      if (selectedFreq === 'diario') daysPickerTitle.textContent = "Fecha de Entrega (1 Bowl)";
+      else if (selectedFreq === 'flexible') daysPickerTitle.textContent = "Distribución de tus 3 Bowls (Vigencia: hasta 2 semanas)";
+      else if (selectedFreq === 'semanal') daysPickerTitle.textContent = "Distribución de tus 5 Bowls (Vigencia: hasta 2 semanas)";
+      else if (selectedFreq === 'mensual') daysPickerTitle.textContent = "Menú Base Semanal (Vigencia: hasta 6 semanas)";
     }
 
     if (daysPickerSubtitle) {
-      if (selectedFreq === 'diario') daysPickerSubtitle.textContent = "Selecciona el día específico en el que deseas recibir tu pedido.";
-      else if (selectedFreq === 'flexible') daysPickerSubtitle.textContent = "Puedes elegir días de esta semana y de la próxima según tu preferencia.";
+      if (selectedFreq === 'diario') daysPickerSubtitle.textContent = "Selecciona el día específico en el que deseas recibir tu bowl.";
+      else if (selectedFreq === 'flexible') daysPickerSubtitle.textContent = "Elige libremente los 3 días de entrega entre esta semana y la siguiente.";
       else if (selectedFreq === 'semanal') daysPickerSubtitle.textContent = "Elige tus 5 fechas libres entre esta semana y la siguiente (ej. 2 esta semana y 3 la próxima).";
       else if (selectedFreq === 'mensual') daysPickerSubtitle.textContent = "Configura tus 5 días tipo. Las variaciones se coordinan libremente por WhatsApp.";
     }
 
     if (daysCountBadge) {
-      daysCountBadge.textContent = `${currentChosen.length} de ${targetCount} fechas elegidas`;
+      daysCountBadge.textContent = `${currentChosen.length} de ${targetCount} fechas seleccionadas`;
     }
 
     if (daysHelperText) {
       if (currentChosen.length === targetCount) {
-        daysHelperText.textContent = "¡Fechas completas! Haz clic sobre cualquier fecha para cambiarla o desmarcarla.";
+        daysHelperText.textContent = "Fechas completas. Puedes hacer clic en cualquier día para cambiarlo o desmarcarlo.";
       } else {
         daysHelperText.textContent = `Selecciona ${targetCount - currentChosen.length} fecha(s) más en el calendario para completar tu plan.`;
       }
     }
 
-    // Render by Week groups
+    // Group available business days by calendar week
     const weekGroups = {};
     poolOfDays.forEach(day => {
       if (!weekGroups[day.weekGroup]) weekGroups[day.weekGroup] = [];
       weekGroups[day.weekGroup].push(day);
     });
 
-    daysButtonsPicker.className = "space-y-3 pt-1";
+    daysButtonsPicker.className = "space-y-4 pt-1";
 
     Object.keys(weekGroups).forEach(groupName => {
       const groupWrapper = document.createElement('div');
-      groupWrapper.className = "space-y-1.5";
+      groupWrapper.className = "p-3.5 sm:p-4 rounded-2xl bg-[#FAF6F0]/60 border border-brand-gold/15 space-y-2.5";
 
       const groupHeader = document.createElement('div');
-      groupHeader.className = "text-[11px] font-bold text-gray-500 uppercase tracking-wider flex items-center gap-1.5";
-      groupHeader.innerHTML = `<span>🗓️</span> <span>${groupName}</span>`;
+      groupHeader.className = "flex items-center justify-between";
+      groupHeader.innerHTML = `
+        <span class="text-[11px] font-extrabold uppercase tracking-widest text-[#8A6F56]">${groupName}</span>
+        <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">${weekGroups[groupName].length} días hábiles</span>
+      `;
       groupWrapper.appendChild(groupHeader);
 
       const daysRow = document.createElement('div');
-      daysRow.className = "grid grid-cols-2 sm:grid-cols-5 gap-2";
+      daysRow.className = "grid grid-cols-2 sm:grid-cols-5 gap-2 sm:gap-2.5";
 
       weekGroups[groupName].forEach(day => {
         const isSelected = currentChosen.includes(day.key);
         const btn = document.createElement('button');
         btn.type = 'button';
         btn.className = isSelected
-          ? 'py-2.5 sm:py-3 px-2 rounded-2xl bg-[#B8935B] text-white border-2 border-[#B8935B] font-bold text-xs flex flex-col items-center justify-center gap-0.5 shadow-sm cursor-pointer transition-all transform scale-102'
-          : 'py-2.5 sm:py-3 px-2 rounded-2xl bg-[#FAF6F0]/70 text-gray-700 border border-gray-200 hover:border-[#B8935B] hover:bg-white font-semibold text-xs flex flex-col items-center justify-center gap-0.5 cursor-pointer transition-all';
+          ? 'relative p-3 rounded-2xl bg-[#B8935B] text-white border-2 border-[#B8935B] font-bold flex flex-col items-center justify-center gap-0.5 shadow-md cursor-pointer transition-all duration-200 transform scale-102'
+          : 'relative p-3 rounded-2xl bg-white text-gray-700 border border-gray-200 hover:border-[#B8935B] hover:bg-[#FAF6F0]/40 font-semibold flex flex-col items-center justify-center gap-0.5 cursor-pointer transition-all duration-200 shadow-2xs';
 
         btn.innerHTML = `
-          <span class="text-xs font-black uppercase tracking-wider flex items-center gap-1">
-            ${isSelected ? '✓ ' : ''}${day.short}
-          </span>
-          <span class="text-[10px] ${isSelected ? 'text-amber-100 font-bold' : 'text-gray-400 font-medium'}">
-            ${day.dateStr.slice(0, 5)}
-          </span>
+          <span class="text-[10px] uppercase font-extrabold tracking-wider ${isSelected ? 'text-amber-100' : 'text-gray-400'}">${day.dayShort}</span>
+          <span class="text-lg sm:text-xl font-black ${isSelected ? 'text-white' : 'text-gray-900'} leading-none my-0.5">${day.dayNum}</span>
+          <span class="text-[10px] font-bold ${isSelected ? 'text-white/90' : 'text-[#8A6F56]'}">${day.monthShort}</span>
+          ${isSelected ? `<div class="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-white text-[#B8935B] text-[10px] font-black flex items-center justify-center shadow-xs">✓</div>` : ''}
         `;
 
         btn.addEventListener('click', () => {
@@ -798,12 +833,10 @@ const availableProteins = [
           } else {
             if (currentChosen.length < targetCount) {
               const newArr = [...currentChosen, day.key];
-              // Sort chronologically
               newArr.sort();
               chosenDateKeysByFreq[selectedFreq] = newArr;
               updatePlanConfiguration();
             } else {
-              // If already reached max, replace the oldest or rotate
               const newArr = [...currentChosen.slice(1), day.key];
               newArr.sort();
               chosenDateKeysByFreq[selectedFreq] = newArr;
@@ -1118,7 +1151,7 @@ const availableProteins = [
         }
         if (obsEl) {
           if (choice.observation) {
-            obsEl.textContent = `📝 Obs: ${choice.observation}`;
+            obsEl.textContent = `Obs: ${choice.observation}`;
             obsEl.classList.remove('hidden');
           } else {
             obsEl.classList.add('hidden');
@@ -1143,7 +1176,7 @@ const availableProteins = [
       if (isAllCompleted && customerName.length > 0) {
         btnConfirmWhatsapp.classList.remove('opacity-50', 'pointer-events-none', 'cursor-not-allowed');
         btnConfirmWhatsapp.classList.add('hover:-translate-y-0.5', 'active:scale-98');
-        validationHelpText.textContent = "¡Menú listo! Haz clic para enviar tu pedido a WhatsApp.";
+        validationHelpText.textContent = "Menú completo. Haz clic para enviar tu pedido por WhatsApp.";
         validationHelpText.className = "text-[11px] text-center text-[#8A6F56] font-bold";
 
         const message = buildWhatsappMessage();
@@ -1221,36 +1254,36 @@ const availableProteins = [
     const lastDate = activePlanDays[activePlanDays.length - 1]?.dateStr || '';
     const dateRangeStr = (firstDate === lastDate) ? firstDate : `${firstDate} al ${lastDate}`;
 
-    let msg = `🥗 *¡FICHA & PEDIDO - MONTALVO CATERING!* \n`;
-    msg += `🔖 *Código de Pedido:* ${orderFolioCode}\n`;
+    let msg = `*MONTALVO CATERING · FICHA & PEDIDO*\n`;
+    msg += `*Folio:* ${orderFolioCode}\n`;
     msg += `----------------------------------------\n`;
-    msg += `👤 *Cliente:* ${customerName}\n`;
+    msg += `*Cliente:* ${customerName}\n`;
     if (customerAddress) {
-      msg += `📍 *Dirección:* ${customerAddress}\n`;
+      msg += `*Dirección:* ${customerAddress}\n`;
     }
-    msg += `📦 *Plan:* ${freqLabel}\n`;
+    msg += `*Plan:* ${freqLabel}\n`;
     if (optionLabel) {
-      msg += `👥 *Modalidad:* ${optionLabel}\n`;
+      msg += `*Modalidad:* ${optionLabel}\n`;
     }
-    msg += `⚖️ *Tamaño:* ${sizeLabel}\n`;
-    msg += `🗓️ *Vigencia / Fechas:* ${dateRangeStr}\n`;
-    msg += `💰 *Total a pagar:* Bs. ${currentPrice}\n`;
+    msg += `*Tamaño:* ${sizeLabel}\n`;
+    msg += `*Vigencia / Fechas:* ${dateRangeStr}\n`;
+    msg += `*Total a pagar:* Bs. ${currentPrice}\n`;
     if (comandaUrl) {
-      msg += `\n📄 *FICHA OFICIAL / COMANDA EN PDF:* \n👉 ${comandaUrl}\n`;
+      msg += `\n*FICHA OFICIAL / COMANDA EN PDF:*\n${comandaUrl}\n`;
     }
     msg += `----------------------------------------\n`;
-    msg += `🗓️ *PROGRAMACIÓN & MENÚ DETALLADO:*\n\n`;
+    msg += `*DETALLE DE ENTREGAS & MENÚ:*\n\n`;
 
     activePlanDays.forEach((day, idx) => {
       const choice = planChoices[day.key] || {};
-      msg += `📅 *ENTREGA ${idx + 1} · ${day.label.toUpperCase()}:*\n`;
-      msg += `  • *Bowl:* ${choice.bowlName || 'Bowl Salteado'}\n`;
-      msg += `  • *Proteína:* ${choice.protein || 'Pollo a la Plancha'}\n`;
-      msg += `  • *Observación del día:* ${choice.observation || 'Ninguna (Estándar)'}\n\n`;
+      msg += `*ENTREGA ${idx + 1} (${day.dateStr}):*\n`;
+      msg += `  • Bowl: ${choice.bowlName || 'Bowl Salteado'}\n`;
+      msg += `  • Proteína: ${choice.protein || 'Pollo a la Plancha'}\n`;
+      msg += `  • Observación: ${choice.observation || 'Estándar'}\n\n`;
     });
 
     msg += `----------------------------------------\n`;
-    msg += `_Configurado desde Montalvo Catering Web_`;
+    msg += `Montalvo Catering · Pedido Web`;
 
     return msg;
   }
