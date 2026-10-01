@@ -6,7 +6,7 @@ import Layout from '../layouts/Layout.astro';
   <div class="min-h-screen bg-gray-100 print:bg-white text-gray-900 py-6 sm:py-10 px-4 sm:px-6">
     
     <!-- Top Action Bar (Hidden during Print) -->
-    <div class="max-w-3xl mx-auto mb-6 flex flex-wrap items-center justify-between gap-3 print:hidden">
+    <div class="max-w-4xl mx-auto mb-6 flex flex-wrap items-center justify-between gap-3 print:hidden">
       <a 
         href="/" 
         class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-gray-600 hover:text-brand-dark bg-white px-4 py-2.5 rounded-xl border border-gray-200 shadow-2xs transition-colors"
@@ -34,109 +34,90 @@ import Layout from '../layouts/Layout.astro';
     <!-- Printable Official Sheet (A4 format feel with moderate margins) -->
     <div class="max-w-4xl mx-auto bg-white border border-gray-200 print:border-none shadow-lg print:shadow-none rounded-3xl print:rounded-none p-5 sm:p-8 text-gray-800 space-y-5 print:space-y-4 print:p-0">
       
-      <!-- Sheet Header: Brand, Logo & Order Folio -->
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b-2 border-brand-gold/30">
-        <div class="flex items-center gap-3.5">
-          <div class="w-14 h-14 rounded-full bg-[#FAF6F0] border border-brand-gold flex flex-col items-center justify-center p-1 shadow-2xs shrink-0">
-            <span class="font-cursive text-brand-dark text-base leading-none">Montalvo</span>
-            <div class="w-8 h-[0.5px] bg-brand-gold my-0.5"></div>
-            <span class="font-sans text-[4.5px] tracking-[0.2em] text-brand-dark font-extrabold uppercase">Catering</span>
-          </div>
-          <div>
-            <h1 class="font-serif font-black text-xl sm:text-2xl text-gray-950 leading-tight">Montalvo Catering</h1>
-            <span class="text-xs font-bold text-[#8A6F56] uppercase tracking-wider block">Alta Cocina Gourmet & Bowls Saludables</span>
-            <span class="text-[11px] text-gray-500 block">Gral. Achá 739, Cochabamba, Bolivia • WhatsApp: +591 72227461</span>
-          </div>
-        </div>
-
-        <div class="text-left sm:text-right bg-[#FAF6F0] sm:bg-transparent p-2.5 sm:p-0 rounded-2xl border sm:border-none border-brand-gold/15">
-          <span class="text-[10px] font-extrabold uppercase tracking-widest text-[#8A6F56] block">Comanda / Ficha Técnica</span>
-          <span id="order-folio" class="font-mono font-black text-sm sm:text-base text-gray-900 block">FOLIO: #MC-2026-0000</span>
-          <span id="order-date" class="text-[11px] sm:text-xs text-gray-500 font-medium block">Fecha: --/--/----</span>
-        </div>
-      </div>
-
-      <!-- Customer & Plan Information Grid (Without price) -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-[#FAF6F0] p-4 rounded-2xl border border-brand-gold/20 text-xs sm:text-sm">
-        <div class="space-y-1">
-          <div>
-            <span class="text-gray-400 font-bold uppercase text-[10px] block">Cliente:</span>
-            <strong id="client-name" class="text-sm sm:text-base text-gray-950 font-black">Cargando...</strong>
-          </div>
-          <div>
-            <span class="text-gray-400 font-bold uppercase text-[10px] block">Dirección de Entrega:</span>
-            <span id="client-address" class="text-gray-700 font-medium">Por confirmar</span>
-          </div>
-        </div>
-
-        <div class="space-y-1 sm:border-l sm:border-brand-gold/20 sm:pl-4">
-          <div>
-            <span class="text-gray-400 font-bold uppercase text-[10px] block">Tipo de Plan:</span>
-            <strong id="client-plan" class="text-gray-900 font-bold">Plan Semanal (5 Bowls)</strong>
-          </div>
-          <div>
-            <span class="text-gray-400 font-bold uppercase text-[10px] block">Porción:</span>
-            <span id="client-size" class="text-gray-700 font-medium">Mediano (~400g)</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Production Table (Exact format matching user specification with repeating header & page info) -->
-      <div class="space-y-3">
-        <div>
-          <h2 class="text-sm sm:text-base font-bold text-gray-900">
-            La orden para producción de cocina & despacho:
-          </h2>
-        </div>
-
-        <div class="overflow-x-auto border-y border-gray-200">
-          <table class="w-full text-left border-collapse text-xs">
-            <thead>
-              <!-- Repeating identification header on multi-page printouts so sheets never get mixed up -->
-              <tr class="hidden print:table-row bg-[#FAF6F0] border-b-2 border-brand-gold/30 text-[10px]">
-                <td colspan="7" class="py-2 px-3">
-                  <div class="flex items-center justify-between text-gray-800">
-                    <div class="flex items-center gap-2">
-                      <strong class="font-serif font-black text-xs text-gray-950">MONTALVO CATERING</strong>
-                      <span class="text-gray-400">|</span>
-                      <span class="text-[9px] font-bold text-[#8A6F56] uppercase">Alta Cocina Gourmet & Bowls</span>
+      <!-- Complete Production Table with Table-Header-Group that repeats on EVERY printed page -->
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse text-xs">
+          <thead>
+            <!-- 1. Full Brand & Order Header (Repeats on every printed page) -->
+            <tr>
+              <th colspan="7" class="p-0 pb-4 font-normal">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b-2 border-brand-gold/30">
+                  <div class="flex items-center gap-3.5">
+                    <div class="w-14 h-14 rounded-full bg-[#FAF6F0] border border-brand-gold flex flex-col items-center justify-center p-1 shadow-2xs shrink-0">
+                      <span class="font-cursive text-brand-dark text-base leading-none">Montalvo</span>
+                      <div class="w-8 h-[0.5px] bg-brand-gold my-0.5"></div>
+                      <span class="font-sans text-[4.5px] tracking-[0.2em] text-brand-dark font-extrabold uppercase">Catering</span>
                     </div>
-                    <div class="flex items-center gap-3 font-semibold">
-                      <span id="rep-order-folio" class="font-mono font-bold text-gray-950">FOLIO: #MC-2026-0000</span>
-                      <span id="rep-order-date" class="text-gray-600">Fecha: --/--/----</span>
-                      <span id="rep-order-client" class="text-gray-950 font-bold">Cliente: --</span>
+                    <div>
+                      <h1 class="font-serif font-black text-xl sm:text-2xl text-gray-950 leading-tight">Montalvo Catering</h1>
+                      <span class="text-xs font-bold text-[#8A6F56] uppercase tracking-wider block">Alta Cocina Gourmet & Bowls Saludables</span>
+                      <span class="text-[11px] text-gray-500 block">Gral. Achá 739, Cochabamba, Bolivia • WhatsApp: +591 72227461</span>
                     </div>
                   </div>
-                </td>
-              </tr>
-              <tr class="border-b border-gray-200 text-gray-900 font-bold text-xs bg-gray-50/80">
-                <th class="py-2.5 px-2.5 sm:px-3 font-bold whitespace-nowrap">Fecha de<br class="hidden sm:inline"> entrega</th>
-                <th class="py-2.5 px-2.5 sm:px-3 font-bold">Cliente</th>
-                <th class="py-2.5 px-2.5 sm:px-3 font-bold">Bol</th>
-                <th class="py-2.5 px-2.5 sm:px-3 font-bold">Proteína</th>
-                <th class="py-2.5 px-2.5 sm:px-3 font-bold">Tamaño</th>
-                <th class="py-2.5 px-2.5 sm:px-3 font-bold">Observaciones</th>
-                <th class="py-2.5 px-2.5 sm:px-3 font-bold text-center">Cantidad</th>
-              </tr>
-            </thead>
-            <tbody id="production-tbody" class="divide-y divide-gray-100 text-gray-800 font-medium text-xs">
-              <!-- Dynamically populated rows -->
-            </tbody>
-            <tfoot>
-              <tr class="border-t-2 border-gray-200 text-[10px] text-gray-600 bg-gray-50/50">
-                <td colspan="7" class="py-2 px-2.5 sm:px-3">
-                  <div class="flex items-center justify-between font-medium">
-                    <span>Montalvo Catering • WhatsApp: +591 72227461 • Cochabamba, Bolivia</span>
-                    <span id="footer-order-folio" class="font-mono font-bold text-gray-800">FOLIO: #MC-2026-0000</span>
-                    <span class="font-bold text-gray-900">
-                      Página <span class="page-current">1</span> de <span class="page-total">1</span>
-                    </span>
+
+                  <div class="text-left sm:text-right bg-[#FAF6F0] sm:bg-transparent p-2.5 sm:p-0 rounded-2xl border sm:border-none border-brand-gold/15">
+                    <span class="text-[10px] font-extrabold uppercase tracking-widest text-[#8A6F56] block">Comanda / Ficha Técnica</span>
+                    <span id="order-folio" class="font-mono font-black text-sm sm:text-base text-gray-900 block">FOLIO: #MC-2026-0000</span>
+                    <span id="order-date" class="text-[11px] sm:text-xs text-gray-500 font-medium block">Fecha: --/--/----</span>
                   </div>
-                </td>
-              </tr>
-            </tfoot>
-          </table>
-        </div>
+                </div>
+              </th>
+            </tr>
+
+            <!-- 2. Customer & Plan Information Grid (Repeats on every printed page for identification) -->
+            <tr>
+              <th colspan="7" class="p-0 pb-4 font-normal">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-[#FAF6F0] p-4 rounded-2xl border border-brand-gold/20 text-xs sm:text-sm">
+                  <div class="space-y-1">
+                    <div>
+                      <span class="text-gray-400 font-bold uppercase text-[10px] block">Cliente:</span>
+                      <strong id="client-name" class="text-sm sm:text-base text-gray-950 font-black">Cargando...</strong>
+                    </div>
+                    <div>
+                      <span class="text-gray-400 font-bold uppercase text-[10px] block">Dirección de Entrega:</span>
+                      <span id="client-address" class="text-gray-700 font-medium">Por confirmar</span>
+                    </div>
+                  </div>
+
+                  <div class="space-y-1 sm:border-l sm:border-brand-gold/20 sm:pl-4">
+                    <div>
+                      <span class="text-gray-400 font-bold uppercase text-[10px] block">Tipo de Plan:</span>
+                      <strong id="client-plan" class="text-gray-900 font-bold">Plan Semanal (5 Bowls)</strong>
+                    </div>
+                    <div>
+                      <span class="text-gray-400 font-bold uppercase text-[10px] block">Porción:</span>
+                      <span id="client-size" class="text-gray-700 font-medium">Mediano (~400g)</span>
+                    </div>
+                  </div>
+                </div>
+              </th>
+            </tr>
+
+            <!-- 3. Section Title -->
+            <tr>
+              <th colspan="7" class="p-0 pb-2 text-left">
+                <h2 class="text-xs sm:text-sm font-bold text-gray-900">
+                  La orden para producción de cocina & despacho:
+                </h2>
+              </th>
+            </tr>
+
+            <!-- 4. Table Column Headers -->
+            <tr class="border-y border-gray-200 text-gray-900 font-bold text-xs bg-gray-50/80">
+              <th class="py-2.5 px-2.5 sm:px-3 font-bold whitespace-nowrap">Fecha de<br class="hidden sm:inline"> entrega</th>
+              <th class="py-2.5 px-2.5 sm:px-3 font-bold">Cliente</th>
+              <th class="py-2.5 px-2.5 sm:px-3 font-bold">Bol</th>
+              <th class="py-2.5 px-2.5 sm:px-3 font-bold">Proteína</th>
+              <th class="py-2.5 px-2.5 sm:px-3 font-bold">Tamaño</th>
+              <th class="py-2.5 px-2.5 sm:px-3 font-bold">Observaciones</th>
+              <th class="py-2.5 px-2.5 sm:px-3 font-bold text-center">Cantidad</th>
+            </tr>
+          </thead>
+
+          <tbody id="production-tbody" class="divide-y divide-gray-100 text-gray-800 font-medium text-xs">
+            <!-- Dynamically populated rows -->
+          </tbody>
+        </table>
       </div>
 
       <!-- Kitchen Production Notes & Quality Signature -->
@@ -194,9 +175,6 @@ import Layout from '../layouts/Layout.astro';
     thead {
       display: table-header-group !important;
     }
-    tfoot {
-      display: table-footer-group !important;
-    }
     tr {
       page-break-inside: avoid !important;
       break-inside: avoid !important;
@@ -204,24 +182,6 @@ import Layout from '../layouts/Layout.astro';
     .print-avoid-break {
       page-break-inside: avoid !important;
       break-inside: avoid !important;
-    }
-    .page-current::after {
-      content: counter(page);
-    }
-    .page-total::after {
-      content: counter(pages);
-    }
-    .page-current {
-      font-size: 0;
-    }
-    .page-current::after {
-      font-size: 10px;
-    }
-    .page-total {
-      font-size: 0;
-    }
-    .page-total::after {
-      font-size: 10px;
     }
   }
 </style>
@@ -395,11 +355,6 @@ import Layout from '../layouts/Layout.astro';
     const clientSize = document.getElementById('client-size');
     const tbody = document.getElementById('production-tbody');
 
-    const repOrderFolio = document.getElementById('rep-order-folio');
-    const repOrderDate = document.getElementById('rep-order-date');
-    const repOrderClient = document.getElementById('rep-order-client');
-    const footerOrderFolio = document.getElementById('footer-order-folio');
-
     const formattedDate = order.date || new Date().toLocaleDateString('es-BO');
     const clientStr = order.name || 'Cliente';
 
@@ -410,16 +365,10 @@ import Layout from '../layouts/Layout.astro';
     if (clientPlan) clientPlan.textContent = order.plan || 'Plan Semanal (5 Bowls)';
     if (clientSize) clientSize.textContent = order.size || 'Mediano (~400g de balance)';
 
-    if (repOrderFolio) repOrderFolio.textContent = folio;
-    if (repOrderDate) repOrderDate.textContent = `Fecha: ${formattedDate}`;
-    if (repOrderClient) repOrderClient.textContent = `Cliente: ${clientStr}`;
-    if (footerOrderFolio) footerOrderFolio.textContent = folio;
-
     if (tbody && order.items) {
       tbody.innerHTML = '';
       const fallbackDates = getFallbackDates();
       const sizeText = order.sizeShort || 'Mediano';
-      const clientStr = order.name || 'Cliente';
 
       order.items.forEach((item, idx) => {
         const bowlType = (item.bowlId === 'fresco' || (item.bowlName && item.bowlName.includes('Fresco'))) ? 'Bowl Fresco' : 'Bowl Salteado';
