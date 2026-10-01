@@ -87,27 +87,27 @@ import Layout from '../layouts/Layout.astro';
         </div>
       </div>
 
-      <!-- Production Table (5 Days) -->
-      <div class="space-y-3">
-        <div class="flex items-center justify-between">
-          <h2 class="font-serif font-bold text-lg text-gray-900">
-            Detalle del Menú Semanal (Producción en Cocina)
+      <!-- Production Table (Exact format matching user specification) -->
+      <div class="space-y-4">
+        <div>
+          <h2 class="text-base sm:text-lg font-bold text-gray-900">
+            La orden para producción quedaría así, por ejemplo:
           </h2>
-          <span class="text-[11px] font-bold text-gray-400 uppercase tracking-wider">5 Servicios</span>
         </div>
 
-        <div class="overflow-x-auto border border-gray-200 rounded-2xl">
+        <div class="overflow-x-auto border-y border-gray-200">
           <table class="w-full text-left border-collapse text-xs sm:text-sm">
             <thead>
-              <tr class="bg-[#FAF6F0] border-b border-gray-200 text-[#8A6F56] font-bold uppercase text-[11px] tracking-wider">
-                <th class="py-3 px-4 w-24">Día</th>
-                <th class="py-3 px-4">Bowl Seleccionado</th>
-                <th class="py-3 px-4">Proteína</th>
-                <th class="py-3 px-4">Base & Vegetales</th>
-                <th class="py-3 px-4 text-center w-20 print:w-16">Estado</th>
+              <tr class="border-b border-gray-200 text-gray-900 font-bold text-xs sm:text-sm">
+                <th class="py-4 px-3 sm:px-4 font-bold whitespace-nowrap">Fecha de<br class="hidden sm:inline"> entrega</th>
+                <th class="py-4 px-3 sm:px-4 font-bold">Cliente</th>
+                <th class="py-4 px-3 sm:px-4 font-bold">Bol</th>
+                <th class="py-4 px-3 sm:px-4 font-bold">Proteína</th>
+                <th class="py-4 px-3 sm:px-4 font-bold">Tamaño</th>
+                <th class="py-4 px-3 sm:px-4 font-bold text-center">Cantidad</th>
               </tr>
             </thead>
-            <tbody id="production-tbody" class="divide-y divide-gray-100">
+            <tbody id="production-tbody" class="divide-y divide-gray-100 text-gray-800 font-medium">
               <!-- Dynamically populated rows -->
             </tbody>
           </table>
@@ -255,6 +255,27 @@ import Layout from '../layouts/Layout.astro';
     }
   }
 
+  function getWeekDates() {
+    const today = new Date();
+    const day = today.getDay();
+    let diff = (day === 0) ? 1 : (day === 6 ? 2 : (1 - day));
+    if (day === 5 && today.getHours() >= 14) diff += 7;
+
+    const monday = new Date(today);
+    monday.setDate(today.getDate() + diff);
+
+    const dates = [];
+    for (let i = 0; i < 5; i++) {
+      const d = new Date(monday);
+      d.setDate(monday.getDate() + i);
+      const dd = String(d.getDate()).padStart(2, '0');
+      const mm = String(d.getMonth() + 1).padStart(2, '0');
+      const yyyy = d.getFullYear();
+      dates.push(`${dd}/${mm}/${yyyy}`);
+    }
+    return dates;
+  }
+
   function renderOrderSheet(order) {
     if (!order) {
       renderFallback();
@@ -277,41 +298,40 @@ import Layout from '../layouts/Layout.astro';
     if (orderDate) orderDate.textContent = `Fecha: ${order.date || new Date().toLocaleDateString('es-BO')}`;
     if (clientName) clientName.textContent = order.name || 'Cliente';
     if (clientAddress) clientAddress.textContent = order.address || 'Entrega coordinada por WhatsApp';
-    if (clientSize) clientSize.textContent = order.size || 'Mediano (~400g)';
+    if (clientSize) clientSize.textContent = order.size || 'Mediano (~400g de balance)';
     if (clientTotal) clientTotal.textContent = `Bs. ${order.total || '110'}`;
 
     if (tbody && order.choices) {
       tbody.innerHTML = '';
+      const weekDates = getWeekDates();
 
-      ['lun', 'mar', 'mie', 'jue', 'vie'].forEach(key => {
+      ['lun', 'mar', 'mie', 'jue', 'vie'].forEach((key, idx) => {
         const item = order.choices[key] || {};
-        const dayMeta = daysLabel[key];
-        const bowlId = item.bowlId || 'salteado';
-        const bowlInfo = availableBowlsInfo[bowlId] || availableBowlsInfo.salteado;
-        const protein = item.protein || 'Pollo a la Plancha';
+        const bowlType = (item.bowlId === 'fresco') ? 'Fresco' : 'Salteado';
+        const proteinName = item.protein || 'Pollo a la Plancha';
+        const dateStr = weekDates[idx] || '05/10/2026';
+        const clientStr = order.name || 'Nombre del cliente';
 
         const tr = document.createElement('tr');
-        tr.className = "hover:bg-gray-50 transition-colors";
+        tr.className = "hover:bg-gray-50/80 transition-colors";
         tr.innerHTML = `
-          <td class="py-3 px-4 font-bold text-gray-900 align-top">
-            <span class="block">${dayMeta.name}</span>
-            <span class="text-[10px] text-gray-400 font-normal">${dayMeta.num}</span>
+          <td class="py-4 px-3 sm:px-4 font-mono text-xs sm:text-sm text-gray-900 font-semibold whitespace-nowrap">
+            ${dateStr}
           </td>
-          <td class="py-3 px-4 align-top">
-            <strong class="text-gray-950 font-bold block">${item.bowlName || bowlInfo.name}</strong>
-            <span class="text-[11px] text-gray-500">${bowlId === 'salteado' ? '🔥 Wok Caliente' : '🍃 Ensalada Fresca'}</span>
+          <td class="py-4 px-3 sm:px-4 text-gray-900 font-medium">
+            ${clientStr}
           </td>
-          <td class="py-3 px-4 align-top">
-            <span class="inline-block px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-800 border border-emerald-200 font-bold text-xs">
-              ${protein}
-            </span>
+          <td class="py-4 px-3 sm:px-4 font-bold text-gray-950">
+            ${bowlType}
           </td>
-          <td class="py-3 px-4 text-xs text-gray-600 align-top">
-            <div><strong class="text-gray-800">Carb:</strong> ${bowlInfo.carb}</div>
-            <div><strong class="text-gray-800">Veg:</strong> ${bowlInfo.veg}</div>
+          <td class="py-4 px-3 sm:px-4 text-gray-800 font-medium">
+            ${proteinName}
           </td>
-          <td class="py-3 px-4 text-center align-middle">
-            <div class="w-5 h-5 rounded border-2 border-gray-300 mx-auto print:border-gray-500"></div>
+          <td class="py-4 px-3 sm:px-4 text-gray-600 font-medium">
+            Mediano
+          </td>
+          <td class="py-4 px-3 sm:px-4 text-center font-bold text-gray-950">
+            1
           </td>
         `;
         tbody.appendChild(tr);
