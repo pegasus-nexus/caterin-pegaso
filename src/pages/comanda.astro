@@ -91,19 +91,20 @@ import Layout from '../layouts/Layout.astro';
       <div class="space-y-4">
         <div>
           <h2 class="text-base sm:text-lg font-bold text-gray-900">
-            La orden para producción quedaría así, por ejemplo:
+            La orden para producción de cocina & despacho:
           </h2>
         </div>
 
         <div class="overflow-x-auto border-y border-gray-200">
           <table class="w-full text-left border-collapse text-xs sm:text-sm">
             <thead>
-              <tr class="border-b border-gray-200 text-gray-900 font-bold text-xs sm:text-sm">
+              <tr class="border-b border-gray-200 text-gray-900 font-bold text-xs sm:text-sm bg-gray-50/50">
                 <th class="py-4 px-3 sm:px-4 font-bold whitespace-nowrap">Fecha de<br class="hidden sm:inline"> entrega</th>
                 <th class="py-4 px-3 sm:px-4 font-bold">Cliente</th>
                 <th class="py-4 px-3 sm:px-4 font-bold">Bol</th>
                 <th class="py-4 px-3 sm:px-4 font-bold">Proteína</th>
                 <th class="py-4 px-3 sm:px-4 font-bold">Tamaño</th>
+                <th class="py-4 px-3 sm:px-4 font-bold">Observaciones</th>
                 <th class="py-4 px-3 sm:px-4 font-bold text-center">Cantidad</th>
               </tr>
             </thead>
@@ -121,6 +122,7 @@ import Layout from '../layouts/Layout.astro';
           <p class="leading-relaxed">
             • Mantener cadena de frío para el Bowl Fresco.<br>
             • Servir el Bowl Salteado con vegetales crujientes al wok en punto al dente.<br>
+            • Respetar estrictamente las observaciones nutricionales y alergias indicadas por el cliente.<br>
             • Verificar el empaque sellado hermético antes de la entrega.
           </p>
         </div>
@@ -158,60 +160,32 @@ import Layout from '../layouts/Layout.astro';
 </style>
 
 <script is:inline>
-  const availableBowlsInfo = {
-    salteado: {
-      name: "Bowl Salteado",
-      carb: "Quinua Real con sofrito de cebolla y pimentón",
-      veg: "Vegetales salteados al wok (zanahoria, calabacín, cebolla)"
-    },
-    fresco: {
-      name: "Bowl Fresco",
-      carb: "Carbohidrato del día (menú semanal)",
-      veg: "Ensalada fresca: lechuga, zanahoria, tomate, pepino, apio"
-    }
-  };
-
-  const daysLabel = {
-    lun: { name: "Lunes", num: "Día 01" },
-    mar: { name: "Martes", num: "Día 02" },
-    mie: { name: "Miércoles", num: "Día 03" },
-    jue: { name: "Jueves", num: "Día 04" },
-    vie: { name: "Viernes", num: "Día 05" }
-  };
-
-  const ALL_DAY_INDICES = {
-    'lun': 0,
-    'mar': 1,
-    'mie': 2,
-    'jue': 3,
-    'vie': 4
-  };
-
   const proteinDecodeMap = {
     "1": "Pollo a la Plancha",
     "2": "Albóndigas de Carne (Air Fryer)",
     "3": "Huevos Hervidos"
   };
 
-  function decodeCompactPlan(pString, daysList) {
-    const keys = (daysList && daysList.length > 0) ? daysList : ['lun', 'mar', 'mie', 'jue', 'vie'];
-    const choices = {};
+  function decodeCompactPlan(pString, datesCount, obsList) {
+    const choices = [];
     const cleaned = (pString || '').replace(/[^a-zA-Z0-9]/g, '');
+    const count = datesCount > 0 ? datesCount : 5;
 
-    for (let i = 0; i < keys.length; i++) {
-      const key = keys[i];
+    for (let i = 0; i < count; i++) {
       const bChar = cleaned[i * 2] || 's';
       const pChar = cleaned[i * 2 + 1] || '1';
 
       const bowlId = (bChar === 'f') ? 'fresco' : 'salteado';
       const bowlName = (bowlId === 'fresco') ? 'Bowl Fresco' : 'Bowl Salteado';
       const protein = proteinDecodeMap[pChar] || 'Pollo a la Plancha';
+      const observation = (obsList && obsList[i]) ? obsList[i].trim() : '';
 
-      choices[key] = {
+      choices.push({
         bowlId,
         bowlName,
-        protein
-      };
+        protein,
+        observation
+      });
     }
     return choices;
   }
@@ -247,6 +221,8 @@ import Layout from '../layouts/Layout.astro';
       const urlParams = new URLSearchParams(window.location.search);
       const rawData = urlParams.get('data');
       const compactCode = urlParams.get('p');
+      const datesQuery = urlParams.get('dt');
+      const obsQuery = urlParams.get('obs');
       const daysQuery = urlParams.get('d');
       const clientQuery = urlParams.get('c');
       const dirQuery = urlParams.get('dir');
@@ -263,10 +239,13 @@ import Layout from '../layouts/Layout.astro';
       const planStr = planTitles[plQuery] || 'Plan Semanal (5 Bowls)';
       const modalStr = (plQuery === 'diario') ? '' : (opQuery === 'grupal' ? ' • Grupal (3+ pers.)' : ' • Individual');
 
-      const parsedDaysList = daysQuery ? daysQuery.split(',').filter(Boolean) : ['lun', 'mar', 'mie', 'jue', 'vie'];
+      const parsedDatesList = datesQuery ? datesQuery.split(',').filter(Boolean) : (daysQuery ? daysQuery.split(',').filter(Boolean) : null);
+      const parsedObsList = obsQuery ? obsQuery.split('|') : [];
 
       if (compactCode || clientQuery) {
         // Compact Short URL Format
+        const decodedItems = decodeCompactPlan(compactCode || 's1s1s1s1s1', parsedDatesList ? parsedDatesList.length : 5, parsedObsList);
+        
         order = {
           folio: folioQuery ? `#MC-${new Date().getFullYear()}-${folioQuery}` : null,
           name: clientQuery || 'Cliente Particular',
@@ -274,17 +253,21 @@ import Layout from '../layouts/Layout.astro';
           plan: `${planStr}${modalStr}`,
           size: sizeStr,
           sizeShort: sizeShort,
-          daysList: parsedDaysList,
+          datesList: parsedDatesList,
           total: calcPrice.toString(),
           date: new Date().toLocaleDateString('es-BO'),
-          choices: decodeCompactPlan(compactCode || 's1s1s1s1s1', parsedDaysList)
+          items: decodedItems
         };
       } else if (rawData) {
         // Legacy Base64 Format
         const decodedStr = decodeURIComponent(escape(atob(decodeURIComponent(rawData))));
-        order = JSON.parse(decodedStr);
-        order.daysList = order.choices ? Object.keys(order.choices) : ['lun', 'mar', 'mie', 'jue', 'vie'];
-        order.sizeShort = (order.size && order.size.includes('Grande')) ? 'Grande' : 'Mediano';
+        const parsed = JSON.parse(decodedStr);
+        order = {
+          ...parsed,
+          items: Object.keys(parsed.choices || {}).map(k => parsed.choices[k]),
+          datesList: null,
+          sizeShort: (parsed.size && parsed.size.includes('Grande')) ? 'Grande' : 'Mediano'
+        };
       } else {
         // Fallback to local storage
         const local = localStorage.getItem('montalvo_weekly_plan_v2');
@@ -296,10 +279,10 @@ import Layout from '../layouts/Layout.astro';
             plan: 'Plan Semanal (5 Bowls)',
             size: 'Mediano (~400g de balance)',
             sizeShort: 'Mediano',
-            daysList: ['lun', 'mar', 'mie', 'jue', 'vie'],
+            datesList: null,
             total: '110',
             date: new Date().toLocaleDateString('es-BO'),
-            choices: parsed.weeklyChoices || {}
+            items: Object.keys(parsed.weeklyChoices || {}).map(k => parsed.weeklyChoices[k])
           };
         }
       }
@@ -311,23 +294,19 @@ import Layout from '../layouts/Layout.astro';
     }
   }
 
-  function getWeekDates() {
+  function getFallbackDates() {
     const today = new Date();
-    const day = today.getDay();
-    let diff = (day === 0) ? 1 : (day === 6 ? 2 : (1 - day));
-    if (day === 5 && today.getHours() >= 14) diff += 7;
-
-    const monday = new Date(today);
-    monday.setDate(today.getDate() + diff);
-
     const dates = [];
-    for (let i = 0; i < 5; i++) {
-      const d = new Date(monday);
-      d.setDate(monday.getDate() + i);
-      const dd = String(d.getDate()).padStart(2, '0');
-      const mm = String(d.getMonth() + 1).padStart(2, '0');
-      const yyyy = d.getFullYear();
-      dates.push(`${dd}/${mm}/${yyyy}`);
+    let cur = new Date(today);
+    while (dates.length < 5) {
+      const dow = cur.getDay();
+      if (dow >= 1 && dow <= 5) {
+        const dd = String(cur.getDate()).padStart(2, '0');
+        const mm = String(cur.getMonth() + 1).padStart(2, '0');
+        const yyyy = cur.getFullYear();
+        dates.push(`${dd}/${mm}/${yyyy}`);
+      }
+      cur.setDate(cur.getDate() + 1);
     }
     return dates;
   }
@@ -338,7 +317,6 @@ import Layout from '../layouts/Layout.astro';
       return;
     }
 
-    // Consistent folio from URL or fallback
     const hash = Math.floor(1000 + Math.random() * 9000);
     const folio = order.folio || `#MC-${new Date().getFullYear()}-${hash}`;
 
@@ -359,24 +337,22 @@ import Layout from '../layouts/Layout.astro';
     if (clientSize) clientSize.textContent = order.size || 'Mediano (~400g de balance)';
     if (clientTotal) clientTotal.textContent = `Bs. ${order.total || '110'}`;
 
-    if (tbody && order.choices) {
+    if (tbody && order.items) {
       tbody.innerHTML = '';
-      const weekDates = getWeekDates();
-      const daysToRender = order.daysList || Object.keys(order.choices);
-      const sizeText = order.sizeShort || (order.size && order.size.includes('Grande') ? 'Grande' : 'Mediano');
+      const fallbackDates = getFallbackDates();
+      const sizeText = order.sizeShort || 'Mediano';
+      const clientStr = order.name || 'Cliente';
 
-      daysToRender.forEach((key) => {
-        const item = order.choices[key] || {};
-        const bowlType = (item.bowlId === 'fresco' || (item.bowlName && item.bowlName.includes('Fresco'))) ? 'Fresco' : 'Salteado';
+      order.items.forEach((item, idx) => {
+        const bowlType = (item.bowlId === 'fresco' || (item.bowlName && item.bowlName.includes('Fresco'))) ? 'Bowl Fresco' : 'Bowl Salteado';
         const proteinName = item.protein || 'Pollo a la Plancha';
-        const dayIdx = ALL_DAY_INDICES[key] ?? 0;
-        const dateStr = weekDates[dayIdx] || '05/10/2026';
-        const clientStr = order.name || 'Nombre del cliente';
+        const dateStr = (order.datesList && order.datesList[idx]) ? order.datesList[idx] : (fallbackDates[idx] || 'Próximo día');
+        const observationText = item.observation ? item.observation.trim() : '';
 
         const tr = document.createElement('tr');
         tr.className = "hover:bg-gray-50/80 transition-colors";
         tr.innerHTML = `
-          <td class="py-4 px-3 sm:px-4 font-mono text-xs sm:text-sm text-gray-900 font-semibold whitespace-nowrap">
+          <td class="py-4 px-3 sm:px-4 font-mono text-xs sm:text-sm text-gray-950 font-bold whitespace-nowrap">
             ${dateStr}
           </td>
           <td class="py-4 px-3 sm:px-4 text-gray-900 font-medium">
@@ -390,6 +366,9 @@ import Layout from '../layouts/Layout.astro';
           </td>
           <td class="py-4 px-3 sm:px-4 text-gray-600 font-medium">
             ${sizeText}
+          </td>
+          <td class="py-4 px-3 sm:px-4">
+            ${observationText ? `<span class="inline-block px-2.5 py-1 bg-amber-50 text-amber-900 border border-amber-200/80 rounded-lg text-xs font-semibold">⚠️ ${observationText}</span>` : `<span class="text-gray-400 italic text-xs">Estándar</span>`}
           </td>
           <td class="py-4 px-3 sm:px-4 text-center font-bold text-gray-950">
             1
