@@ -236,6 +236,20 @@ const availableProteins = [
               </div>
             </div>
 
+            <!-- Period Range Badge & Reset Dates -->
+            <div class="flex items-center justify-between text-[11px] bg-[#FAF6F0] px-3.5 py-2 rounded-xl border border-brand-gold/15">
+              <span id="plan-period-badge" class="font-bold text-[#8A6F56]">
+                Vigencia del plan: hasta 2 semanas desde tu primera entrega
+              </span>
+              <button 
+                type="button" 
+                id="btn-reset-dates" 
+                class="text-[10px] font-bold text-gray-500 hover:text-rose-600 underline cursor-pointer"
+              >
+                Reiniciar fechas
+              </button>
+            </div>
+
             <!-- Calendar Grid Container (Weekdays row + Days rows) -->
             <div class="space-y-2 pt-1">
               <!-- Weekday Headers (Dom, Lun, Mar, Mié, Jue, Vie, Sáb) -->
@@ -777,13 +791,21 @@ const availableProteins = [
     tabContentNutricion?.classList.remove('hidden');
   });
 
-  // Render Monthly Calendar Grid (Matching Reference UI)
+  const planPeriodDays = {
+    diario: 14,
+    flexible: 14,
+    semanal: 14,
+    mensual: 42
+  };
+
+  // Render Monthly Calendar Grid (Matching Reference UI & Strict Plan Period)
   function renderMonthlyCalendarGrid() {
     if (!calendarDaysGrid) return;
     calendarDaysGrid.innerHTML = '';
 
     const targetCount = planTargetBowls[selectedFreq] || 5;
     const currentChosen = chosenDateKeysByFreq[selectedFreq] || [];
+    const maxPeriod = planPeriodDays[selectedFreq] || 14;
 
     if (daysPickerTitle) {
       if (selectedFreq === 'diario') daysPickerTitle.textContent = "Fecha de entrega (1 Bowl)";
@@ -796,11 +818,39 @@ const availableProteins = [
       daysCountBadge.textContent = `${currentChosen.length} de ${targetCount} fechas seleccionadas`;
     }
 
+    const planPeriodBadge = document.getElementById('plan-period-badge');
+    if (planPeriodBadge) {
+      if (currentChosen.length > 0) {
+        const sorted = [...currentChosen].sort();
+        const firstInfo = getDayInfoFromIso(sorted[0]);
+        const firstDateObj = new Date(sorted[0] + 'T00:00:00');
+        const maxLimitDateObj = new Date(firstDateObj.getTime() + (maxPeriod - 1) * 24 * 60 * 60 * 1000);
+        const maxLimitD = String(maxLimitDateObj.getDate()).padStart(2, '0');
+        const maxLimitM = String(maxLimitDateObj.getMonth() + 1).padStart(2, '0');
+        const maxLimitY = maxLimitDateObj.getFullYear();
+        const limitFormatted = `${maxLimitD}/${maxLimitM}/${maxLimitY}`;
+
+        if (selectedFreq === 'diario') {
+          planPeriodBadge.textContent = `Vigencia: 1 entrega (${firstInfo.dateStr})`;
+        } else {
+          planPeriodBadge.textContent = `Vigencia (máx. ${maxPeriod <= 14 ? '2 semanas' : '6 semanas'}): ${firstInfo.dateStr} al ${limitFormatted}`;
+        }
+      } else {
+        if (selectedFreq === 'diario') {
+          planPeriodBadge.textContent = `Vigencia: elige 1 fecha disponible`;
+        } else {
+          planPeriodBadge.textContent = `Vigencia del plan: hasta ${maxPeriod <= 14 ? '2 semanas' : '6 semanas'} desde tu primera fecha`;
+        }
+      }
+    }
+
     if (daysHelperText) {
       if (currentChosen.length === targetCount) {
         daysHelperText.textContent = "Fechas completas. Puedes hacer clic en cualquier día para cambiarlo o desmarcarlo.";
+      } else if (currentChosen.length === 0) {
+        daysHelperText.textContent = "Haz clic en cualquier día hábil para establecer tu primera fecha de entrega.";
       } else {
-        daysHelperText.textContent = `Selecciona ${targetCount - currentChosen.length} fecha(s) más en el calendario para completar tu plan.`;
+        daysHelperText.textContent = `Selecciona ${targetCount - currentChosen.length} fecha(s) más dentro de tu periodo de vigencia.`;
       }
     }
 
@@ -860,18 +910,35 @@ const availableProteins = [
       const isoKey = `${currentViewYear}-${mPad}-${dPad}`;
       const isSelected = currentChosen.includes(isoKey);
 
+      // Check if candidate date is outside allowed plan period
+      let isOutOfPeriod = false;
+      if (currentChosen.length > 0) {
+        const sorted = [...currentChosen].sort();
+        const earliestDate = new Date(sorted[0] + 'T00:00:00');
+        const latestDate = new Date(sorted[sorted.length - 1] + 'T00:00:00');
+
+        if (!isSelected) {
+          const newMin = Math.min(earliestDate.getTime(), cellDate.getTime());
+          const newMax = Math.max(latestDate.getTime(), cellDate.getTime());
+          const spanDays = Math.round((newMax - newMin) / (1000 * 60 * 60 * 24));
+          if (spanDays >= maxPeriod) {
+            isOutOfPeriod = true;
+          }
+        }
+      }
+
       const cell = document.createElement('div');
       cell.className = "py-1 flex items-center justify-center";
 
-      if (isWeekend || isPast) {
-        cell.innerHTML = `<span class="w-8 sm:w-9 h-9 sm:h-10 flex items-center justify-center text-gray-300 text-xs sm:text-sm font-medium cursor-not-allowed select-none opacity-40">${dayNum}</span>`;
+      if (isWeekend || isPast || isOutOfPeriod) {
+        const reasonTitle = isWeekend ? "Sin entregas en fin de semana" : (isPast ? "Fecha pasada" : `Fuera del periodo de vigencia del plan (máx. ${maxPeriod <= 14 ? '2 semanas' : '6 semanas'})`);
+        cell.innerHTML = `<span class="w-8 sm:w-9 h-9 sm:h-10 flex items-center justify-center text-gray-300 text-xs sm:text-sm font-medium cursor-not-allowed select-none opacity-25" title="${reasonTitle}">${dayNum}</span>`;
       } else {
         const btn = document.createElement('button');
         btn.type = 'button';
         btn.dataset.isoKey = isoKey;
 
         if (isSelected) {
-          // Vertical rounded pill highlight matching reference image
           btn.className = "w-8 sm:w-9 h-10 sm:h-11 mx-auto rounded-full bg-[#34A872] hover:bg-[#2c8e60] text-white font-extrabold text-xs sm:text-sm flex flex-col items-center justify-center shadow-xs cursor-pointer transition-all duration-200 transform scale-105 border-2 border-[#34A872]";
           btn.innerHTML = `<span>${dayNum}</span>`;
         } else {
@@ -903,26 +970,58 @@ const availableProteins = [
   function toggleDateSelection(isoKey) {
     const targetCount = planTargetBowls[selectedFreq] || 5;
     const currentChosen = chosenDateKeysByFreq[selectedFreq] || [];
+    const maxPeriod = planPeriodDays[selectedFreq] || 14;
 
     if (currentChosen.includes(isoKey)) {
-      if (currentChosen.length > 1) {
-        chosenDateKeysByFreq[selectedFreq] = currentChosen.filter(k => k !== isoKey);
-        updatePlanConfiguration();
-      }
+      chosenDateKeysByFreq[selectedFreq] = currentChosen.filter(k => k !== isoKey);
+      updatePlanConfiguration();
     } else {
-      if (currentChosen.length < targetCount) {
+      const candidateDate = new Date(isoKey + 'T00:00:00');
+      if (currentChosen.length === 0) {
+        chosenDateKeysByFreq[selectedFreq] = [isoKey];
+        updatePlanConfiguration();
+      } else if (currentChosen.length < targetCount) {
+        const sorted = [...currentChosen].sort();
+        const earliest = new Date(sorted[0] + 'T00:00:00');
+        const latest = new Date(sorted[sorted.length - 1] + 'T00:00:00');
+        const newMin = Math.min(earliest.getTime(), candidateDate.getTime());
+        const newMax = Math.max(latest.getTime(), candidateDate.getTime());
+        const spanDays = Math.round((newMax - newMin) / (1000 * 60 * 60 * 24));
+
+        if (spanDays >= maxPeriod) {
+          alert(`Para este plan, todas tus fechas deben estar dentro del periodo de vigencia de ${maxPeriod <= 14 ? '2 semanas' : '6 semanas'}.`);
+          return;
+        }
+
         const newArr = [...currentChosen, isoKey];
         newArr.sort();
         chosenDateKeysByFreq[selectedFreq] = newArr;
         updatePlanConfiguration();
       } else {
-        const newArr = [...currentChosen.slice(1), isoKey];
-        newArr.sort();
-        chosenDateKeysByFreq[selectedFreq] = newArr;
-        updatePlanConfiguration();
+        const sorted = [...currentChosen].sort();
+        const remaining = sorted.slice(0, targetCount - 1);
+        const newMin = Math.min(new Date(remaining[0] + 'T00:00:00').getTime(), candidateDate.getTime());
+        const newMax = Math.max(new Date(remaining[remaining.length - 1] + 'T00:00:00').getTime(), candidateDate.getTime());
+        const spanDays = Math.round((newMax - newMin) / (1000 * 60 * 60 * 24));
+
+        if (spanDays < maxPeriod) {
+          const newArr = [...remaining, isoKey];
+          newArr.sort();
+          chosenDateKeysByFreq[selectedFreq] = newArr;
+          updatePlanConfiguration();
+        } else {
+          alert(`Has alcanzado el límite de ${targetCount} fechas para tu plan. Desmarca una fecha para elegir otra.`);
+        }
       }
     }
   }
+
+  // Reset dates button listener
+  document.getElementById('btn-reset-dates')?.addEventListener('click', () => {
+    chosenDateKeysByFreq[selectedFreq] = [];
+    planChoices = {};
+    updatePlanConfiguration();
+  });
 
   // Month navigation buttons
   btnPrevMonth?.addEventListener('click', () => {
