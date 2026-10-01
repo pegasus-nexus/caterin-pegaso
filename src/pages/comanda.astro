@@ -34,79 +34,67 @@ import Layout from '../layouts/Layout.astro';
     <!-- Printable Official Sheet (A4 format feel with moderate margins) -->
     <div class="max-w-4xl mx-auto bg-white border border-gray-200 print:border-none shadow-lg print:shadow-none rounded-3xl print:rounded-none p-5 sm:p-8 text-gray-800 space-y-4 print:space-y-3 print:p-0">
       
-      <!-- Top Brand Header for Screen View & First Impression -->
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-3 border-b-2 border-brand-gold/30 print:hidden">
-        <div class="flex items-center gap-3.5">
-          <div class="w-13 h-13 rounded-full bg-[#FAF6F0] border border-brand-gold flex flex-col items-center justify-center p-1 shadow-2xs shrink-0">
-            <span class="font-cursive text-brand-dark text-base leading-none">Montalvo</span>
-            <div class="w-7 h-[0.5px] bg-brand-gold my-0.5"></div>
-            <span class="font-sans text-[4.5px] tracking-[0.2em] text-brand-dark font-extrabold uppercase">Catering</span>
-          </div>
-          <div>
-            <h1 class="font-serif font-black text-xl text-gray-950 leading-tight">Montalvo Catering</h1>
-            <span class="text-xs font-bold text-[#8A6F56] uppercase tracking-wider block">Alta Cocina Gourmet & Bowls Saludables</span>
-            <span class="text-[11px] text-gray-500 block">Gral. Achá 739, Cochabamba, Bolivia • WhatsApp: +591 72227461</span>
-          </div>
-        </div>
-
-        <div class="text-left sm:text-right bg-[#FAF6F0] sm:bg-transparent p-2.5 sm:p-0 rounded-2xl border sm:border-none border-brand-gold/15">
-          <span class="text-[10px] font-extrabold uppercase tracking-widest text-[#8A6F56] block">Comanda / Ficha Técnica</span>
-          <span id="screen-order-folio" class="font-mono font-black text-base text-gray-900 block">#MC-2026-0000</span>
-          <span id="screen-order-date" class="text-xs text-gray-500 font-medium block">Fecha: --/--/----</span>
-        </div>
-      </div>
-
-      <!-- Customer & Plan Information Summary -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-[#FAF6F0] p-3.5 rounded-2xl border border-brand-gold/20 text-xs sm:text-sm">
-        <div class="space-y-1">
-          <div>
-            <span class="text-gray-400 font-bold uppercase text-[10px] block">Cliente:</span>
-            <strong id="client-name" class="text-sm sm:text-base text-gray-950 font-black">Cargando...</strong>
-          </div>
-          <div>
-            <span class="text-gray-400 font-bold uppercase text-[10px] block">Dirección de Entrega:</span>
-            <span id="client-address" class="text-gray-700 font-medium">Por confirmar</span>
-          </div>
-        </div>
-
-        <div class="space-y-1 sm:border-l sm:border-brand-gold/20 sm:pl-4">
-          <div>
-            <span class="text-gray-400 font-bold uppercase text-[10px] block">Tipo de Plan:</span>
-            <strong id="client-plan" class="text-gray-900 font-bold">Plan Semanal (5 Bowls)</strong>
-          </div>
-          <div>
-            <span class="text-gray-400 font-bold uppercase text-[10px] block">Porción:</span>
-            <span id="client-size" class="text-gray-700 font-medium">Mediano (~400g)</span>
-          </div>
-        </div>
-      </div>
-
       <!-- Production Table with Table-Header-Group that repeats on EVERY printed page -->
       <div class="overflow-x-auto">
         <table class="w-full text-left border-collapse">
           <thead>
-            <!-- Repeating Top Identification Header Bar on EVERY printed page -->
-            <tr class="bg-[#FAF6F0] border-y-2 border-brand-gold/40 text-gray-900">
-              <th colspan="7" class="py-2.5 px-3 font-normal">
-                <div class="flex flex-wrap items-center justify-between gap-2">
-                  <div class="flex items-center gap-2">
-                    <strong class="font-serif font-black text-sm tracking-wide text-gray-950 uppercase">MONTALVO CATERING</strong>
-                    <span class="text-brand-gold font-bold">|</span>
-                    <span class="text-xs font-bold text-[#8A6F56] uppercase tracking-wider">ALTA COCINA GOURMET & BOWLS</span>
+            <!-- 1. Full Brand Header matching reference image (Repeats on every page) -->
+            <tr>
+              <th colspan="7" class="p-0 pb-4 font-normal">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b-2 border-brand-gold/30">
+                  <div class="flex items-center gap-3.5">
+                    <div class="w-14 h-14 rounded-full bg-[#FAF6F0] border border-brand-gold flex flex-col items-center justify-center p-1 shadow-2xs shrink-0">
+                      <span class="font-cursive text-brand-dark text-base leading-none">Montalvo</span>
+                      <div class="w-8 h-[0.5px] bg-brand-gold my-0.5"></div>
+                      <span class="font-sans text-[4.5px] tracking-[0.2em] text-brand-dark font-extrabold uppercase">Catering</span>
+                    </div>
+                    <div>
+                      <h1 class="font-serif font-black text-xl sm:text-2xl text-gray-950 leading-tight">Montalvo Catering</h1>
+                      <span class="text-xs font-bold text-[#8A6F56] uppercase tracking-wider block">Alta Cocina Gourmet & Bowls Saludables</span>
+                      <span class="text-[11px] text-gray-500 block">Gral. Achá 739, Cochabamba, Bolivia • WhatsApp: +591 72227461</span>
+                    </div>
                   </div>
-                  <div class="flex flex-wrap items-center gap-2.5 text-xs sm:text-sm font-semibold">
-                    <span id="order-folio" class="font-mono font-bold text-gray-950">#MC-2026-0000</span>
-                    <span class="text-gray-400 font-normal">|</span>
-                    <span id="order-date" class="text-gray-700">Fecha: --/--/----</span>
-                    <span class="text-gray-400 font-normal">|</span>
-                    <span class="text-gray-950 font-bold">Cliente: <span id="header-client-name">--</span></span>
+
+                  <div class="text-left sm:text-right bg-[#FAF6F0] sm:bg-transparent p-2.5 sm:p-0 rounded-2xl border sm:border-none border-brand-gold/15">
+                    <span class="text-[10px] font-extrabold uppercase tracking-widest text-[#8A6F56] block">Comanda / Ficha Técnica</span>
+                    <span id="order-folio" class="font-mono font-black text-sm sm:text-base text-gray-900 block">#MC-2026-0000</span>
+                    <span id="order-date" class="text-[11px] sm:text-xs text-gray-500 font-medium block">Fecha: --/--/----</span>
                   </div>
                 </div>
               </th>
             </tr>
 
-            <!-- Table Column Headers (1 size larger: text-sm) -->
-            <tr class="border-b-2 border-gray-300 text-gray-950 font-bold text-sm bg-gray-100/90">
+            <!-- 2. Customer & Plan Information Summary (Repeats on every page) -->
+            <tr>
+              <th colspan="7" class="p-0 pb-3 font-normal">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-[#FAF6F0] p-3.5 rounded-2xl border border-brand-gold/20 text-xs sm:text-sm">
+                  <div class="space-y-1">
+                    <div>
+                      <span class="text-gray-400 font-bold uppercase text-[10px] block">Cliente:</span>
+                      <strong id="client-name" class="text-sm sm:text-base text-gray-950 font-black">Cargando...</strong>
+                    </div>
+                    <div>
+                      <span class="text-gray-400 font-bold uppercase text-[10px] block">Dirección de Entrega:</span>
+                      <span id="client-address" class="text-gray-700 font-medium">Por confirmar</span>
+                    </div>
+                  </div>
+
+                  <div class="space-y-1 sm:border-l sm:border-brand-gold/20 sm:pl-4">
+                    <div>
+                      <span class="text-gray-400 font-bold uppercase text-[10px] block">Tipo de Plan:</span>
+                      <strong id="client-plan" class="text-gray-900 font-bold">Plan Semanal (5 Bowls)</strong>
+                    </div>
+                    <div>
+                      <span class="text-gray-400 font-bold uppercase text-[10px] block">Porción:</span>
+                      <span id="client-size" class="text-gray-700 font-medium">Mediano (~400g)</span>
+                    </div>
+                  </div>
+                </div>
+              </th>
+            </tr>
+
+            <!-- 3. Table Column Headers (text-sm font-bold) -->
+            <tr class="border-y-2 border-gray-300 text-gray-950 font-bold text-sm bg-gray-100/90">
               <th class="py-3 px-3 font-bold whitespace-nowrap">Fecha de<br class="hidden sm:inline"> entrega</th>
               <th class="py-3 px-3 font-bold">Cliente</th>
               <th class="py-3 px-3 font-bold">Bol</th>
@@ -351,11 +339,8 @@ import Layout from '../layouts/Layout.astro';
     const folio = order.folio || `#MC-${new Date().getFullYear()}-${hash}`;
 
     const orderFolio = document.getElementById('order-folio');
-    const screenOrderFolio = document.getElementById('screen-order-folio');
     const orderDate = document.getElementById('order-date');
-    const screenOrderDate = document.getElementById('screen-order-date');
     const clientName = document.getElementById('client-name');
-    const headerClientName = document.getElementById('header-client-name');
     const clientAddress = document.getElementById('client-address');
     const clientPlan = document.getElementById('client-plan');
     const clientSize = document.getElementById('client-size');
@@ -365,11 +350,8 @@ import Layout from '../layouts/Layout.astro';
     const clientStr = order.name || 'Cliente';
 
     if (orderFolio) orderFolio.textContent = folio;
-    if (screenOrderFolio) screenOrderFolio.textContent = folio;
     if (orderDate) orderDate.textContent = `Fecha: ${formattedDate}`;
-    if (screenOrderDate) screenOrderDate.textContent = `Fecha: ${formattedDate}`;
     if (clientName) clientName.textContent = clientStr;
-    if (headerClientName) headerClientName.textContent = clientStr;
     if (clientAddress) clientAddress.textContent = order.address || 'Entrega coordinada por WhatsApp';
     if (clientPlan) clientPlan.textContent = order.plan || 'Plan Semanal (5 Bowls)';
     if (clientSize) clientSize.textContent = order.size || 'Mediano (~400g de balance)';
