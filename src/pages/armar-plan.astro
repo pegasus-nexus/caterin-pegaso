@@ -381,20 +381,34 @@ const availableProteins = [
                         class="bowl-radio absolute opacity-0" 
                       />
                       
-                      <div class="flex items-center justify-between mb-2">
-                        <div class="flex items-center gap-3">
-                          <div class="w-9 h-9 rounded-xl bg-[#FAF6F0] flex items-center justify-center shrink-0">
-                            <Fragment set:html={bowl.icon} />
+                      <div>
+                        <div class="flex items-center justify-between mb-3">
+                          <div class="flex items-center gap-3">
+                            <div class="w-9 h-9 rounded-xl bg-[#FAF6F0] flex items-center justify-center shrink-0">
+                              <Fragment set:html={bowl.icon} />
+                            </div>
+                            <div>
+                              <span class="font-extrabold text-base text-gray-900 block">{bowl.name}</span>
+                              <span class="text-xs text-gray-400 font-medium block">{bowl.tagline}</span>
+                            </div>
                           </div>
-                          <div>
-                            <span class="font-extrabold text-base text-gray-900 block">{bowl.name}</span>
-                            <span class="text-xs text-gray-400 font-medium block">{bowl.tagline}</span>
+
+                          <!-- Check Circle -->
+                          <div class="bowl-check-circle w-6 h-6 rounded-full border-2 border-gray-300 group-hover:border-[#B8935B] flex items-center justify-center text-white text-xs font-bold transition-all shrink-0">
+                            <span class="hidden">✓</span>
                           </div>
                         </div>
 
-                        <!-- Check Circle -->
-                        <div class="bowl-check-circle w-6 h-6 rounded-full border-2 border-gray-300 group-hover:border-[#B8935B] flex items-center justify-center text-white text-xs font-bold transition-all shrink-0">
-                          <span class="hidden">✓</span>
+                        <!-- Ingredients breakdown inside the card -->
+                        <div class="pt-3 border-t border-gray-100/90 space-y-1.5 text-xs">
+                          <div class="flex items-start gap-1.5">
+                            <strong class="text-gray-900 font-bold shrink-0">Carbohidrato:</strong>
+                            <span class="text-gray-600 font-medium">{bowl.carb}</span>
+                          </div>
+                          <div class="flex items-start gap-1.5">
+                            <strong class="text-gray-900 font-bold shrink-0">Vegetales:</strong>
+                            <span class="text-gray-600 font-medium">{bowl.veg}</span>
+                          </div>
                         </div>
                       </div>
                     </label>
@@ -474,24 +488,6 @@ const availableProteins = [
                     <button type="button" class="obs-tag-btn text-[11px] font-semibold bg-[#FAF6F0] hover:bg-[#B8935B] hover:text-white text-gray-700 px-2.5 py-1 rounded-lg border border-brand-gold/20 transition-colors cursor-pointer" data-tag="Aderezo aparte">
                       + Aderezo aparte
                     </button>
-                  </div>
-                </div>
-              </div>
-
-              <!-- INGREDIENTES BASE INCLUIDOS BOX -->
-              <div class="p-5 sm:p-6 rounded-2xl bg-[#FAF6F0] border border-brand-gold/20 space-y-3">
-                <span class="block text-xs font-black uppercase tracking-wider text-[#8A6F56]">
-                  Ingredientes Base Incluidos:
-                </span>
-                
-                <div class="space-y-2 text-xs sm:text-sm text-gray-700">
-                  <div class="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-2">
-                    <strong class="text-gray-900 shrink-0">Carbohidrato del día:</strong>
-                    <span id="base-carb-desc" class="font-bold text-gray-900">Quinua con sofrito de cebolla y pimentón</span>
-                  </div>
-                  <div class="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-2">
-                    <strong class="text-gray-900 shrink-0">Ensalada / Vegetales:</strong>
-                    <span id="base-veg-desc" class="text-gray-600 font-medium">Cebolla, pimentón, calabacín y zanahoria salteados al wok</span>
                   </div>
                 </div>
               </div>
