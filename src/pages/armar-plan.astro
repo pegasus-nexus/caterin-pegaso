@@ -35,48 +35,13 @@ const availableProteins = [
 
 // Opciones de carbohidrato para Bowl Fresco
 const availableCarbsFresco = [
-  {
-    id: "Trigo Pelado",
-    name: "Trigo Pelado",
-    badge: "Fibra & Minerales",
-    desc: "Grano entero tradicional de cocción perfecta, ideal para ensaladas frescas y platos calientes."
-  },
-  {
-    id: "Quinua Real",
-    name: "Quinua Real",
-    badge: "Proteína completa",
-    desc: "Superalimento andino que provee energía constante y un perfil proteico inigualable."
-  },
-  {
-    id: "Garbanzos Seleccionados",
-    name: "Garbanzos Seleccionados",
-    badge: "Proteína vegetal",
-    desc: "Cremosos y cocidos en su punto exacto, ricos en hierro y fibra para saciedad."
-  },
-  {
-    id: "Lentejas Orgánicas",
-    name: "Lentejas Orgánicas",
-    badge: "Hierro & Proteínas",
-    desc: "Deliciosa fuente de hierro y fibra, ideal para complementar tu plato balanceado."
-  },
-  {
-    id: "Porotos Negros",
-    name: "Porotos Negros",
-    badge: "Antioxidantes & Energía",
-    desc: "Granos negros tiernos cargados de antioxidantes naturales y carbohidratos de absorción lenta."
-  },
-  {
-    id: "Arroz Blanco Premium",
-    name: "Arroz Blanco Premium",
-    badge: "Energía inmediata",
-    desc: "Arroz blanco de textura suelta y ligera, ideal para recargas rápidas de energía."
-  },
-  {
-    id: "Mote de Maíz",
-    name: "Mote de Maíz",
-    badge: "Energía & Tradición",
-    desc: "Maíz blanco gigante cocido a la perfección, un carbohidrato tradicional rico en fibra y energía natural."
-  }
+  { id: "Trigo Pelado", name: "Trigo Pelado", badge: "Fibra & Minerales" },
+  { id: "Quinua Real", name: "Quinua Real", badge: "Proteína completa" },
+  { id: "Garbanzos Seleccionados", name: "Garbanzos Seleccionados", badge: "Proteína vegetal" },
+  { id: "Lentejas Orgánicas", name: "Lentejas Orgánicas", badge: "Hierro & Proteínas" },
+  { id: "Porotos Negros", name: "Porotos Negros", badge: "Antioxidantes & Energía" },
+  { id: "Arroz Blanco Premium", name: "Arroz Blanco Premium", badge: "Energía inmediata" },
+  { id: "Mote de Maíz", name: "Mote de Maíz", badge: "Energía & Tradición" }
 ];
 ---
 
@@ -459,7 +424,7 @@ const availableCarbsFresco = [
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                   {availableCarbsFresco.map((carb) => (
-                    <label class="carb-option-card relative flex items-start justify-between p-3.5 rounded-2xl border-2 border-gray-200 hover:border-[#B8935B]/60 bg-white cursor-pointer transition-all group">
+                    <label class="carb-option-card relative flex items-center justify-between p-3.5 rounded-2xl border-2 border-gray-200 hover:border-[#B8935B]/60 bg-white cursor-pointer transition-all group">
                       <input 
                         type="radio" 
                         name="selected-carb" 
@@ -467,20 +432,17 @@ const availableCarbsFresco = [
                         class="carb-radio absolute opacity-0" 
                       />
 
-                      <div class="flex items-start gap-3 min-w-0 pr-2">
+                      <div class="flex items-center gap-3 min-w-0 pr-2">
                         <!-- Check Circle -->
-                        <div class="carb-check-circle w-5 h-5 rounded-full border-2 border-gray-300 group-hover:border-[#B8935B] flex items-center justify-center text-white text-[10px] font-bold transition-all shrink-0 mt-0.5">
+                        <div class="carb-check-circle w-5 h-5 rounded-full border-2 border-gray-300 group-hover:border-[#B8935B] flex items-center justify-center text-white text-[10px] font-bold transition-all shrink-0">
                           <span class="hidden">✓</span>
                         </div>
                         
-                        <div class="min-w-0">
-                          <div class="flex items-center gap-1.5 flex-wrap mb-1">
-                            <span class="font-extrabold text-sm text-gray-900 block leading-snug">{carb.name}</span>
-                            <span class="text-[9px] font-bold uppercase px-2 py-0.5 rounded-md bg-[#FAF6F0] text-[#8A6F56] border border-brand-gold/25">
-                              {carb.badge}
-                            </span>
-                          </div>
-                          <span class="text-[11px] text-gray-500 font-medium block leading-relaxed">{carb.desc}</span>
+                        <div class="flex items-center gap-2 flex-wrap min-w-0">
+                          <span class="font-extrabold text-sm text-gray-900 block leading-snug">{carb.name}</span>
+                          <span class="text-[9px] font-bold uppercase px-2 py-0.5 rounded-md bg-[#FAF6F0] text-[#8A6F56] border border-brand-gold/25 shrink-0">
+                            {carb.badge}
+                          </span>
                         </div>
                       </div>
                     </label>
