@@ -21,7 +21,7 @@ const availableBowls = [
     name: "Bowl Fresco",
     tagline: "Fresco, ligero y crujiente",
     icon: `<svg class="w-5 h-5 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>`,
-    carb: "Carbohidrato del día (según menú semanal)",
+    carb: "Carbohidrato del día",
     carbList: [
       "Trigo Pelado",
       "Quinua Real",
@@ -402,7 +402,7 @@ const availableProteins = [
                             {bowl.carbList && (
                               <div class="mt-1 p-2 bg-[#FAF6F0] rounded-xl border border-[#B8935B]/20">
                                 <span class="text-[10px] font-extrabold uppercase tracking-wider text-[#8A6F56] block mb-1">
-                                  Pueden ser (rotativo semanal):
+                                  Pueden ser:
                                 </span>
                                 <div class="flex flex-wrap gap-1">
                                   {bowl.carbList.map((carbItem) => (
