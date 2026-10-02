@@ -672,12 +672,12 @@ const availableProteins = [
     };
   }
 
-  // Pre-generate initial delivery dates starting from today or tomorrow
+  // Pre-generate initial delivery dates starting from today (before 10:00 AM) or next business day
   function generateInitialKeys() {
     const keys = [];
     const now = new Date();
     let cur = new Date(now);
-    if (now.getHours() >= 15) {
+    if (now.getHours() >= 10) {
       cur.setDate(cur.getDate() + 1);
     }
     while (keys.length < 30) {
@@ -864,7 +864,7 @@ const availableProteins = [
     const todayYear = today.getFullYear();
     const todayMonth = today.getMonth();
     const todayDate = today.getDate();
-    const isPastCutoff = today.getHours() >= 15;
+    const isPastCutoff = today.getHours() >= 10;
 
     if (btnPrevMonth) {
       const isCurrentOrPast = (currentViewYear < todayYear) || (currentViewYear === todayYear && currentViewMonth <= todayMonth);
@@ -932,7 +932,11 @@ const availableProteins = [
       cell.className = "py-1 flex items-center justify-center";
 
       if (isWeekend || isPast || isOutOfPeriod) {
-        const reasonTitle = isWeekend ? "Sin entregas en fin de semana" : (isPast ? "Fecha pasada" : `Fuera del periodo de vigencia del plan (máx. ${maxPeriod <= 14 ? '2 semanas' : '6 semanas'})`);
+        const reasonTitle = isWeekend 
+          ? "Sin entregas en fin de semana" 
+          : ((dayNum === todayDate && isPastCutoff) 
+            ? "Pedidos para el mismo día cierran a las 10:00 AM" 
+            : (isPast ? "Fecha pasada" : `Fuera del periodo de vigencia del plan (máx. ${maxPeriod <= 14 ? '2 semanas' : '6 semanas'})`));
         cell.innerHTML = `<span class="w-8 sm:w-9 h-9 sm:h-10 flex items-center justify-center text-gray-300 text-xs sm:text-sm font-medium cursor-not-allowed select-none opacity-25" title="${reasonTitle}">${dayNum}</span>`;
       } else {
         const btn = document.createElement('button');
