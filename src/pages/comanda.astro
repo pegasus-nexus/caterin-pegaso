@@ -3,7 +3,7 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="Ficha de Pedido & Comanda | Montalvo Catering">
-  <div class="min-h-screen bg-gray-100 print:bg-white text-gray-900 py-8 sm:py-12 px-4 sm:px-6 print:p-0">
+  <div class="min-h-screen bg-gray-100 print:bg-white print:min-h-0 print:h-auto text-gray-900 py-8 sm:py-12 px-4 sm:px-6 print:p-0">
     
     <!-- Top Action Bar (Hidden during Print) -->
     <div class="max-w-4xl mx-auto mb-6 flex flex-wrap items-center justify-between gap-3 print:hidden">
@@ -31,8 +31,8 @@ import Layout from '../layouts/Layout.astro';
       </div>
     </div>
 
-    <!-- Printable Official Sheet (A4 format feel with moderate margins) -->
-    <div class="max-w-4xl mx-auto bg-white border border-gray-200 print:border-none shadow-lg print:shadow-none rounded-3xl print:rounded-none p-6 sm:p-10 text-gray-800 space-y-5 print:space-y-4 print:p-0">
+    <!-- Printable Official Sheet (A4 format with optimized print height) -->
+    <div class="max-w-4xl mx-auto bg-white border border-gray-200 print:border-none shadow-lg print:shadow-none rounded-3xl print:rounded-none p-6 sm:p-8 text-gray-800 space-y-4 print:space-y-2.5 print:p-0">
       
       <!-- Production Table with Table-Header-Group that repeats on EVERY printed page -->
       <div class="overflow-x-auto print:overflow-visible">
@@ -40,25 +40,25 @@ import Layout from '../layouts/Layout.astro';
           <thead class="print-header-group">
             <!-- 1. Full Brand Header matching reference image (Repeats on every page) -->
             <tr>
-              <th colspan="7" class="p-0 pb-4 font-normal">
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b-2 border-brand-gold/30">
-                  <div class="flex items-center gap-3.5">
-                    <div class="w-14 h-14 rounded-full bg-[#FAF6F0] border border-brand-gold flex flex-col items-center justify-center p-1 shadow-2xs shrink-0">
-                      <span class="font-cursive text-brand-dark text-base leading-none">Montalvo</span>
-                      <div class="w-8 h-[0.5px] bg-brand-gold my-0.5"></div>
-                      <span class="font-sans text-[4.5px] tracking-[0.2em] text-brand-dark font-extrabold uppercase">Catering</span>
+              <th colspan="7" class="p-0 pb-3 print:pb-2 font-normal">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 print:pb-2 border-b-2 border-brand-gold/30">
+                  <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-full bg-[#FAF6F0] border border-brand-gold flex flex-col items-center justify-center p-1 shadow-2xs shrink-0">
+                      <span class="font-cursive text-brand-dark text-sm leading-none">Montalvo</span>
+                      <div class="w-7 h-[0.5px] bg-brand-gold my-0.5"></div>
+                      <span class="font-sans text-[4px] tracking-[0.2em] text-brand-dark font-extrabold uppercase">Catering</span>
                     </div>
                     <div>
-                      <h1 class="font-serif font-black text-xl sm:text-2xl text-gray-950 leading-tight">Montalvo Catering</h1>
-                      <span class="text-xs font-bold text-[#8A6F56] uppercase tracking-wider block">Alta Cocina Gourmet & Bowls Saludables</span>
-                      <span class="text-[11px] text-gray-500 block">Gral. Achá 739, Cochabamba, Bolivia • WhatsApp: +591 72227461</span>
+                      <h1 class="font-serif font-black text-lg sm:text-xl text-gray-950 leading-tight">Montalvo Catering</h1>
+                      <span class="text-[11px] font-bold text-[#8A6F56] uppercase tracking-wider block">Alta Cocina Gourmet & Bowls Saludables</span>
+                      <span class="text-[10.5px] text-gray-500 block">Gral. Achá 739, Cochabamba, Bolivia • WhatsApp: +591 72227461</span>
                     </div>
                   </div>
 
-                  <div class="text-left sm:text-right bg-[#FAF6F0] sm:bg-transparent p-2.5 sm:p-0 rounded-2xl border sm:border-none border-brand-gold/15">
-                    <span class="text-[10px] font-extrabold uppercase tracking-widest text-[#8A6F56] block">Comanda / Ficha Técnica</span>
-                    <span id="order-folio" class="font-mono font-black text-sm sm:text-base text-gray-900 block">#MC-2026-0000</span>
-                    <span id="order-date" class="text-[11px] sm:text-xs text-gray-500 font-medium block">Fecha: --/--/----</span>
+                  <div class="text-left sm:text-right bg-[#FAF6F0] sm:bg-transparent p-2 sm:p-0 rounded-xl border sm:border-none border-brand-gold/15">
+                    <span class="text-[9.5px] font-extrabold uppercase tracking-widest text-[#8A6F56] block">Comanda / Ficha Técnica</span>
+                    <span id="order-folio" class="font-mono font-black text-sm text-gray-900 block">#MC-2026-0000</span>
+                    <span id="order-date" class="text-[11px] text-gray-500 font-medium block">Fecha: --/--/----</span>
                   </div>
                 </div>
               </th>
@@ -66,27 +66,27 @@ import Layout from '../layouts/Layout.astro';
 
             <!-- 2. Customer & Plan Information Summary (Repeats on every page) -->
             <tr>
-              <th colspan="7" class="p-0 pb-3 font-normal">
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-[#FAF6F0] p-3.5 rounded-2xl border border-brand-gold/20 text-xs sm:text-sm">
-                  <div class="space-y-1">
+              <th colspan="7" class="p-0 pb-2.5 print:pb-2 font-normal">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 bg-[#FAF6F0] p-3 print:p-2 rounded-xl border border-brand-gold/20 text-xs">
+                  <div class="space-y-0.5">
                     <div>
-                      <span class="text-gray-400 font-bold uppercase text-[10px] block">Cliente:</span>
-                      <strong id="client-name" class="text-sm sm:text-base text-gray-950 font-black">Cargando...</strong>
+                      <span class="text-gray-400 font-bold uppercase text-[9.5px] block">Cliente:</span>
+                      <strong id="client-name" class="text-sm text-gray-950 font-black">Cargando...</strong>
                     </div>
                     <div>
-                      <span class="text-gray-400 font-bold uppercase text-[10px] block">Dirección de Entrega:</span>
-                      <span id="client-address" class="text-gray-700 font-medium">Por confirmar</span>
+                      <span class="text-gray-400 font-bold uppercase text-[9.5px] block">Dirección de Entrega:</span>
+                      <span id="client-address" class="text-gray-700 font-medium text-[11.5px]">Por confirmar</span>
                     </div>
                   </div>
 
-                  <div class="space-y-1 sm:border-l sm:border-brand-gold/20 sm:pl-4">
+                  <div class="space-y-0.5 sm:border-l sm:border-brand-gold/20 sm:pl-3">
                     <div>
-                      <span class="text-gray-400 font-bold uppercase text-[10px] block">Tipo de Plan:</span>
-                      <strong id="client-plan" class="text-gray-900 font-bold">Plan Semanal (5 Bowls)</strong>
+                      <span class="text-gray-400 font-bold uppercase text-[9.5px] block">Tipo de Plan:</span>
+                      <strong id="client-plan" class="text-gray-900 font-bold text-[12px]">Plan Semanal (5 Bowls)</strong>
                     </div>
                     <div>
-                      <span class="text-gray-400 font-bold uppercase text-[10px] block">Porción:</span>
-                      <span id="client-size" class="text-gray-700 font-medium">Mediano (~400g)</span>
+                      <span class="text-gray-400 font-bold uppercase text-[9.5px] block">Porción:</span>
+                      <span id="client-size" class="text-gray-700 font-medium text-[11.5px]">Mediano (~400g)</span>
                     </div>
                   </div>
                 </div>
@@ -94,44 +94,44 @@ import Layout from '../layouts/Layout.astro';
             </tr>
 
             <!-- 3. Table Column Headers (text-sm font-bold) -->
-            <tr class="border-y-2 border-gray-300 text-gray-950 font-bold text-sm bg-gray-100/90">
-              <th class="py-3 px-3 font-bold whitespace-nowrap">Fecha de<br class="hidden sm:inline"> entrega</th>
-              <th class="py-3 px-3 font-bold">Cliente</th>
-              <th class="py-3 px-3 font-bold">Bol</th>
-              <th class="py-3 px-3 font-bold">Proteína</th>
-              <th class="py-3 px-3 font-bold">Tamaño</th>
-              <th class="py-3 px-3 font-bold">Observaciones</th>
-              <th class="py-3 px-3 font-bold text-center">Cantidad</th>
+            <tr class="border-y-2 border-gray-300 text-gray-950 font-bold text-xs sm:text-sm bg-gray-100/90">
+              <th class="py-2 px-2.5 font-bold whitespace-nowrap">Fecha de<br class="hidden sm:inline"> entrega</th>
+              <th class="py-2 px-2.5 font-bold">Cliente</th>
+              <th class="py-2 px-2.5 font-bold">Bol</th>
+              <th class="py-2 px-2.5 font-bold">Proteína</th>
+              <th class="py-2 px-2.5 font-bold">Tamaño</th>
+              <th class="py-2 px-2.5 font-bold">Observaciones</th>
+              <th class="py-2 px-2.5 font-bold text-center">Cantidad</th>
             </tr>
           </thead>
 
-          <tbody id="production-tbody" class="divide-y divide-gray-200 text-gray-800 font-medium text-sm">
-            <!-- Dynamically populated rows with text-sm (1 size larger) -->
+          <tbody id="production-tbody" class="divide-y divide-gray-200 text-gray-800 font-medium text-xs sm:text-sm">
+            <!-- Dynamically populated rows -->
           </tbody>
         </table>
       </div>
 
       <!-- Kitchen Production Notes & Quality Signature -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-3 border-t border-gray-200 text-xs text-gray-500 print-avoid-break">
-        <div class="space-y-1 bg-gray-50 p-3.5 rounded-xl border border-gray-100 text-[11px]">
-          <strong class="text-gray-800 font-bold block uppercase text-[10px] tracking-wider">Instrucciones para Cocina & Despacho:</strong>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-2 border-t border-gray-200 text-xs text-gray-500 print-avoid-break">
+        <div class="space-y-0.5 bg-gray-50 p-2.5 rounded-xl border border-gray-100 text-[10.5px]">
+          <strong class="text-gray-800 font-bold block uppercase text-[9.5px] tracking-wider">Instrucciones para Cocina & Despacho:</strong>
           <p class="leading-relaxed text-gray-600">
             • Mantener cadena de frío para el Bowl Fresco.<br>
             • Servir el Bowl Salteado con vegetales crujientes al wok en punto al dente.<br>
-            • Respetar estrictamente las observaciones nutricionales y alergias indicadas por el cliente.<br>
+            • Respetar estrictamente las observaciones nutricionales y alergias indicadas.<br>
             • Verificar el empaque sellado hermético antes de la entrega.
           </p>
         </div>
 
-        <div class="flex flex-col justify-end items-center sm:items-end p-3 text-center sm:text-right">
-          <div class="w-44 border-b border-gray-300 pb-1 mb-1"></div>
-          <span class="font-bold text-gray-800 text-[11px]">Responsable de Producción</span>
-          <span class="text-[10px] text-gray-400">Montalvo Catering Gourmet</span>
+        <div class="flex flex-col justify-end items-center sm:items-end p-2 text-center sm:text-right">
+          <div class="w-40 border-b border-gray-300 pb-1 mb-1"></div>
+          <span class="font-bold text-gray-800 text-[10.5px]">Responsable de Producción</span>
+          <span class="text-[9.5px] text-gray-400">Montalvo Catering Gourmet</span>
         </div>
       </div>
 
       <!-- Sheet Footer -->
-      <div class="pt-3 border-t border-gray-200 text-center text-[10px] text-gray-400 flex flex-col sm:flex-row items-center justify-between gap-2 print-avoid-break">
+      <div class="pt-2 border-t border-gray-200 text-center text-[9.5px] text-gray-400 flex flex-col sm:flex-row items-center justify-between gap-1 print-avoid-break">
         <span>© Montalvo Catering • Cochabamba, Bolivia</span>
         <span class="font-mono">Documento digital generado automáticamente desde la web</span>
       </div>
@@ -144,17 +144,17 @@ import Layout from '../layouts/Layout.astro';
 <style>
   @media print {
     @page {
-      margin: 1.6cm 1.2cm 1.6cm 1.2cm;
+      margin: 1.0cm 1.0cm 1.0cm 1.0cm;
       size: A4 portrait;
       @bottom-right {
         content: "Pág. " counter(page) " de " counter(pages);
-        font-size: 8.5pt;
+        font-size: 8pt;
         font-weight: bold;
         color: #4b5563;
       }
       @bottom-left {
         content: "Montalvo Catering · Ficha Técnica";
-        font-size: 8.5pt;
+        font-size: 8pt;
         color: #6b7280;
       }
     }
@@ -162,8 +162,14 @@ import Layout from '../layouts/Layout.astro';
       margin: 0 !important;
       padding: 0 !important;
       background: white !important;
+      min-height: auto !important;
+      height: auto !important;
       -webkit-print-color-adjust: exact !important;
       print-color-adjust: exact !important;
+    }
+    .min-h-screen {
+      min-height: auto !important;
+      height: auto !important;
     }
     .overflow-x-auto {
       overflow: visible !important;
@@ -383,25 +389,25 @@ import Layout from '../layouts/Layout.astro';
         const tr = document.createElement('tr');
         tr.className = "hover:bg-gray-50/80 transition-colors";
         tr.innerHTML = `
-          <td class="py-2.5 px-3 font-mono text-sm text-gray-950 font-bold whitespace-nowrap">
+          <td class="py-1.5 sm:py-2 px-2.5 font-mono text-xs sm:text-sm text-gray-950 font-bold whitespace-nowrap">
             ${dateStr}
           </td>
-          <td class="py-2.5 px-3 text-gray-900 font-medium text-sm">
+          <td class="py-1.5 sm:py-2 px-2.5 text-gray-900 font-medium text-xs sm:text-sm">
             ${clientStr}
           </td>
-          <td class="py-2.5 px-3 font-bold text-gray-950 text-sm">
+          <td class="py-1.5 sm:py-2 px-2.5 font-bold text-gray-950 text-xs sm:text-sm">
             ${bowlType}
           </td>
-          <td class="py-2.5 px-3 text-gray-800 font-medium text-sm">
+          <td class="py-1.5 sm:py-2 px-2.5 text-gray-800 font-medium text-xs sm:text-sm">
             ${proteinName}
           </td>
-          <td class="py-2.5 px-3 text-gray-600 font-medium text-sm">
+          <td class="py-1.5 sm:py-2 px-2.5 text-gray-600 font-medium text-xs sm:text-sm">
             ${sizeText}
           </td>
-          <td class="py-2.5 px-3 text-sm">
+          <td class="py-1.5 sm:py-2 px-2.5 text-xs sm:text-sm">
             ${observationText ? `<span class="text-gray-950 font-semibold">${observationText}</span>` : `<span class="text-gray-400 italic">Estándar</span>`}
           </td>
-          <td class="py-2.5 px-3 text-center font-bold text-gray-950 text-sm">
+          <td class="py-1.5 sm:py-2 px-2.5 text-center font-bold text-gray-950 text-xs sm:text-sm">
             1
           </td>
         `;
