@@ -1078,7 +1078,7 @@ const availableProteins = [
     // Ensure choice keys exist
     activePlanDays.forEach(d => {
       if (!planChoices[d.key]) {
-        planChoices[d.key] = { bowlId: '', bowlName: '', carb: '', protein: '', observation: '' };
+        planChoices[d.key] = { bowlId: '', bowlName: '', protein: '', observation: '' };
       }
     });
 
@@ -1202,54 +1202,6 @@ const availableProteins = [
       summaryDaysList.appendChild(row);
     });
   }
-
-  function selectDay(index) {
-    currentActiveDayIndex = index;
-    const day = activePlanDays[index];
-    if (!day) return;
-    const key = day.key;
-    const choice = planChoices[key] || { bowlId: '', bowlName: '', carb: '', protein: '', observation: '' };
-
-    if (daySelectionBadge) daySelectionBadge.textContent = `${day.label} seleccionado`;
-    if (btnSaveDayText) btnSaveDayText.textContent = `Guardar elección del ${day.short}`;
-
-    // Update Day Tab Buttons UI
-    const count = activePlanDays.length;
-    const padClass = count > 5 ? 'p-2 sm:p-2.5' : 'p-3 sm:p-4';
-
-    document.querySelectorAll('.day-tab-btn').forEach((btn, idx) => {
-      const btnKey = btn.dataset.dayKey;
-      const c = planChoices[btnKey];
-      const isSaved = c && c.bowlId && c.protein && (c.bowlId !== 'fresco' || c.carb);
-      const indicator = btn.querySelector('.day-saved-indicator');
-
-      if (indicator) {
-        if (isSaved) indicator.classList.remove('hidden');
-        else indicator.classList.add('hidden');
-      }
-
-      const shortEl = btn.querySelector('.day-short');
-      const numEl = btn.querySelector('.day-number');
-      const statusEl = btn.querySelector('.day-status-text');
-
-      if (idx === index) {
-        btn.className = `day-tab-btn relative flex flex-col items-center justify-center ${padClass} rounded-2xl border-2 border-[#B8935B] bg-[#FAF6F0] shadow-sm cursor-pointer transition-all duration-200 transform scale-102`;
-        if (numEl) numEl.className = "day-number text-[9px] sm:text-[10px] font-black text-[#8A6F56] uppercase tracking-wider block";
-        if (shortEl) shortEl.className = "day-short text-sm sm:text-base font-black text-gray-950 my-0.5 block leading-tight uppercase";
-        if (statusEl) {
-          statusEl.className = "day-status-text text-[9px] font-bold text-[#B8935B] block";
-          statusEl.textContent = isSaved ? "Listo ✓" : "Eligiendo";
-        }
-      } else {
-        btn.className = `day-tab-btn relative flex flex-col items-center justify-center ${padClass} rounded-2xl border border-gray-200 bg-white hover:border-[#B8935B] cursor-pointer transition-all duration-200`;
-        if (numEl) numEl.className = "day-number text-[9px] sm:text-[10px] font-extrabold text-gray-400 uppercase tracking-wider block";
-        if (shortEl) shortEl.className = "day-short text-sm sm:text-base font-black text-gray-800 my-0.5 block leading-tight uppercase";
-        if (statusEl) {
-          statusEl.className = "day-status-text text-[9px] font-semibold text-gray-400 block";
-          statusEl.textContent = isSaved ? "Listo ✓" : "Elegir";
-        }
-      }
-    });
 
   function selectDay(index) {
     currentActiveDayIndex = index;
