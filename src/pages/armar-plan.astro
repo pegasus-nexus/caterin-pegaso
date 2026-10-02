@@ -32,17 +32,6 @@ const availableProteins = [
   { id: "Albóndigas de Carne (Air Fryer)", name: "Albóndigas de Carne (Air Fryer)", desc: "Preparadas al aire caliente sin exceso de grasas" },
   { id: "Huevos Hervidos", name: "Huevos Hervidos", desc: "2 unidades en punto exacto de cocción" }
 ];
-
-// Opciones de carbohidrato para Bowl Fresco
-const availableCarbsFresco = [
-  { id: "Trigo Pelado", name: "Trigo Pelado", badge: "Fibra & Minerales" },
-  { id: "Quinua Real", name: "Quinua Real", badge: "Proteína completa" },
-  { id: "Garbanzos Seleccionados", name: "Garbanzos Seleccionados", badge: "Proteína vegetal" },
-  { id: "Lentejas Orgánicas", name: "Lentejas Orgánicas", badge: "Hierro & Proteínas" },
-  { id: "Porotos Negros", name: "Porotos Negros", badge: "Antioxidantes & Energía" },
-  { id: "Arroz Blanco Premium", name: "Arroz Blanco Premium", badge: "Energía inmediata" },
-  { id: "Mote de Maíz", name: "Mote de Maíz", badge: "Energía & Tradición" }
-];
 ---
 
 <Layout title="Arma tu Plan & Personaliza tus Bowls | Montalvo Catering">
@@ -411,48 +400,9 @@ const availableCarbsFresco = [
                 </div>
               </div>
 
-              <!-- SECTION 3: ELIGE TUS CARBOHIDRATOS BASE (SOLO PARA BOWL FRESCO) -->
-              <div id="section-carb-fresco" class="space-y-3 pt-2 hidden">
-                <div class="flex items-center justify-between">
-                  <span id="heading-carb-step" class="block text-xs font-extrabold uppercase tracking-wider text-gray-700">
-                    3. Elige tus carbohidratos base
-                  </span>
-                  <span class="text-[11px] text-[#8A6F56] font-bold bg-[#FAF6F0] px-2.5 py-0.5 rounded-full border border-brand-gold/30">
-                    Elige 1 o 2 carbohidratos
-                  </span>
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                  {availableCarbsFresco.map((carb) => (
-                    <label class="carb-option-card relative flex items-center justify-between p-3.5 rounded-2xl border-2 border-gray-200 hover:border-[#B8935B]/60 bg-white cursor-pointer transition-all group">
-                      <input 
-                        type="checkbox" 
-                        name="selected-carb" 
-                        value={carb.id} 
-                        class="carb-checkbox absolute opacity-0" 
-                      />
-
-                      <div class="flex items-center gap-3 min-w-0 pr-2">
-                        <!-- Check Circle -->
-                        <div class="carb-check-circle w-5 h-5 rounded-full border-2 border-gray-300 group-hover:border-[#B8935B] flex items-center justify-center text-white text-[10px] font-bold transition-all shrink-0">
-                          <span class="hidden">✓</span>
-                        </div>
-                        
-                        <div class="flex items-center gap-2 flex-wrap min-w-0">
-                          <span class="font-extrabold text-sm text-gray-900 block leading-snug">{carb.name}</span>
-                          <span class="text-[9px] font-bold uppercase px-2 py-0.5 rounded-md bg-[#FAF6F0] text-[#8A6F56] border border-brand-gold/25 shrink-0">
-                            {carb.badge}
-                          </span>
-                        </div>
-                      </div>
-                    </label>
-                  ))}
-                </div>
-              </div>
-
-              <!-- SECTION PROTEÍNA (PASO 3 o 4 según tipo de bowl) -->
-              <div id="section-protein" class="space-y-3 pt-2">
-                <span id="heading-protein-step" class="block text-xs font-extrabold uppercase tracking-wider text-gray-700">
+              <!-- SECTION 3: ELIGE TU PROTEÍNA -->
+              <div class="space-y-3 pt-2">
+                <span class="block text-xs font-extrabold uppercase tracking-wider text-gray-700">
                   3. Elige tu proteína
                 </span>
 
@@ -482,10 +432,10 @@ const availableCarbsFresco = [
                 </div>
               </div>
 
-              <!-- SECTION OBSERVACIONES DEL DÍA -->
-              <div id="section-observation" class="space-y-3 pt-2">
+              <!-- SECTION 4: OBSERVACIONES DEL DÍA (Personalización & Alergias) -->
+              <div class="space-y-3 pt-2">
                 <div class="flex items-center justify-between">
-                  <span id="heading-obs-step" class="block text-xs font-extrabold uppercase tracking-wider text-gray-700">
+                  <span class="block text-xs font-extrabold uppercase tracking-wider text-gray-700">
                     4. Observación del día <span class="text-gray-400 text-[10px] font-normal font-sans">(Opcional)</span>
                   </span>
                   <span class="text-[11px] text-[#8A6F56] font-semibold flex items-center gap-1.5">
@@ -660,7 +610,7 @@ const availableCarbsFresco = [
   <Footer />
 </Layout>
 
-<script is:inline define:vars={{ baseWhatsappLink, availableBowls, availableProteins, availableCarbsFresco }}>
+<script is:inline define:vars={{ baseWhatsappLink, availableBowls, availableProteins }}>
   const isMobileDev = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
   
   const monthNames = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
@@ -797,9 +747,6 @@ const availableCarbsFresco = [
   const btnNextMonth = document.getElementById('btn-next-month');
   
   const daySelectionBadge = document.getElementById('day-selection-badge');
-  const sectionCarbFresco = document.getElementById('section-carb-fresco');
-  const headingProteinStep = document.getElementById('heading-protein-step');
-  const headingObsStep = document.getElementById('heading-obs-step');
   const dayObservationInput = document.getElementById('day-observation-input');
   const btnSaveDay = document.getElementById('btn-save-day');
   const btnSaveDayText = document.getElementById('btn-save-day-text');
@@ -1304,13 +1251,56 @@ const availableCarbsFresco = [
       }
     });
 
-    // Populate radio/checkbox options and observation for this day
+  function selectDay(index) {
+    currentActiveDayIndex = index;
+    const day = activePlanDays[index];
+    if (!day) return;
+    const key = day.key;
+    const choice = planChoices[key] || { bowlId: '', bowlName: '', protein: '', observation: '' };
+
+    if (daySelectionBadge) daySelectionBadge.textContent = `${day.label} seleccionado`;
+    if (btnSaveDayText) btnSaveDayText.textContent = `Guardar elección del ${day.short}`;
+
+    // Update Day Tab Buttons UI
+    const count = activePlanDays.length;
+    const padClass = count > 5 ? 'p-2 sm:p-2.5' : 'p-3 sm:p-4';
+
+    document.querySelectorAll('.day-tab-btn').forEach((btn, idx) => {
+      const btnKey = btn.dataset.dayKey;
+      const isSaved = planChoices[btnKey] && planChoices[btnKey].bowlId && planChoices[btnKey].protein;
+      const indicator = btn.querySelector('.day-saved-indicator');
+
+      if (indicator) {
+        if (isSaved) indicator.classList.remove('hidden');
+        else indicator.classList.add('hidden');
+      }
+
+      const shortEl = btn.querySelector('.day-short');
+      const numEl = btn.querySelector('.day-number');
+      const statusEl = btn.querySelector('.day-status-text');
+
+      if (idx === index) {
+        btn.className = `day-tab-btn relative flex flex-col items-center justify-center ${padClass} rounded-2xl border-2 border-[#B8935B] bg-[#FAF6F0] shadow-sm cursor-pointer transition-all duration-200 transform scale-102`;
+        if (numEl) numEl.className = "day-number text-[9px] sm:text-[10px] font-black text-[#8A6F56] uppercase tracking-wider block";
+        if (shortEl) shortEl.className = "day-short text-sm sm:text-base font-black text-gray-950 my-0.5 block leading-tight uppercase";
+        if (statusEl) {
+          statusEl.className = "day-status-text text-[9px] font-bold text-[#B8935B] block";
+          statusEl.textContent = isSaved ? "Listo ✓" : "Eligiendo";
+        }
+      } else {
+        btn.className = `day-tab-btn relative flex flex-col items-center justify-center ${padClass} rounded-2xl border border-gray-200 bg-white hover:border-[#B8935B] cursor-pointer transition-all duration-200`;
+        if (numEl) numEl.className = "day-number text-[9px] sm:text-[10px] font-extrabold text-gray-400 uppercase tracking-wider block";
+        if (shortEl) shortEl.className = "day-short text-sm sm:text-base font-black text-gray-800 my-0.5 block leading-tight uppercase";
+        if (statusEl) {
+          statusEl.className = "day-status-text text-[9px] font-semibold text-gray-400 block";
+          statusEl.textContent = isSaved ? "Listo ✓" : "Elegir";
+        }
+      }
+    });
+
+    // Populate radio options and observation for this day
     document.querySelectorAll('.bowl-radio').forEach(r => {
       r.checked = (r.value === choice.bowlId);
-    });
-    const chosenCarbs = choice.carbs || (choice.carb ? choice.carb.split(/\s*[\+,]\s*/) : []);
-    document.querySelectorAll('.carb-checkbox').forEach(chk => {
-      chk.checked = chosenCarbs.includes(chk.value);
     });
     document.querySelectorAll('.protein-radio').forEach(r => {
       r.checked = (r.value === choice.protein);
@@ -1320,19 +1310,7 @@ const availableCarbsFresco = [
       dayObservationInput.value = choice.observation || '';
     }
 
-    // Toggle Section Carb Fresco visibility & step titles
-    if (choice.bowlId === 'fresco') {
-      if (sectionCarbFresco) sectionCarbFresco.classList.remove('hidden');
-      if (headingProteinStep) headingProteinStep.textContent = "4. Elige tu proteína";
-      if (headingObsStep) headingObsStep.innerHTML = '5. Observación del día <span class="text-gray-400 text-[10px] font-normal font-sans">(Opcional)</span>';
-    } else {
-      if (sectionCarbFresco) sectionCarbFresco.classList.add('hidden');
-      if (headingProteinStep) headingProteinStep.textContent = "3. Elige tu proteína";
-      if (headingObsStep) headingObsStep.innerHTML = '4. Observación del día <span class="text-gray-400 text-[10px] font-normal font-sans">(Opcional)</span>';
-    }
-
     updateBowlCardsUI();
-    updateCarbCardsUI();
     updateProteinCardsUI();
     checkCurrentDayCompleteness();
     updatePricingAndSummary();
@@ -1358,32 +1336,6 @@ const availableCarbsFresco = [
           if (baseCarbDesc) baseCarbDesc.textContent = bowlObj.carb;
           if (baseVegDesc) baseVegDesc.textContent = bowlObj.veg;
         }
-      } else {
-        card.classList.remove('border-[#B8935B]', 'bg-[#FAF6F0]', 'shadow-xs');
-        card.classList.add('border-gray-200', 'bg-white');
-        if (circle) {
-          circle.classList.remove('border-[#B8935B]', 'bg-[#B8935B]');
-          circle.classList.add('border-gray-300');
-        }
-        if (checkText) checkText.classList.add('hidden');
-      }
-    });
-  }
-
-  function updateCarbCardsUI() {
-    document.querySelectorAll('.carb-option-card').forEach(card => {
-      const chk = card.querySelector('.carb-checkbox');
-      const circle = card.querySelector('.carb-check-circle');
-      const checkText = circle ? circle.querySelector('span') : null;
-
-      if (chk && chk.checked) {
-        card.classList.remove('border-gray-200', 'bg-white');
-        card.classList.add('border-[#B8935B]', 'bg-[#FAF6F0]', 'shadow-xs');
-        if (circle) {
-          circle.classList.remove('border-gray-300');
-          circle.classList.add('border-[#B8935B]', 'bg-[#B8935B]');
-        }
-        if (checkText) checkText.classList.remove('hidden');
       } else {
         card.classList.remove('border-[#B8935B]', 'bg-[#FAF6F0]', 'shadow-xs');
         card.classList.add('border-gray-200', 'bg-white');
@@ -1425,55 +1377,27 @@ const availableCarbsFresco = [
   function checkCurrentDayCompleteness() {
     const selectedBowlRadio = document.querySelector('.bowl-radio:checked');
     const selectedProteinRadio = document.querySelector('.protein-radio:checked');
-    const checkedCarbBoxes = Array.from(document.querySelectorAll('.carb-checkbox:checked'));
     const day = activePlanDays[currentActiveDayIndex];
     if (!day) return;
     const dayKey = day.key;
     const observationText = dayObservationInput ? dayObservationInput.value.trim() : '';
 
-    let isComplete = false;
-    let carbVal = '';
-    let carbsArr = [];
-
     if (selectedBowlRadio && selectedProteinRadio) {
-      if (selectedBowlRadio.value === 'fresco') {
-        if (checkedCarbBoxes.length >= 1) {
-          isComplete = true;
-          carbsArr = checkedCarbBoxes.map(c => c.value);
-          carbVal = carbsArr.join(' + ');
-        }
-      } else {
-        isComplete = true;
-        carbVal = 'Quinua con sofrito de cebolla y pimentón';
-        carbsArr = [carbVal];
+      const bowlObj = availableBowls.find(b => b.id === selectedBowlRadio.value);
+      const bowlName = bowlObj ? bowlObj.name : selectedBowlRadio.value;
+      
+      planChoices[dayKey] = {
+        bowlId: selectedBowlRadio.value,
+        bowlName: bowlName,
+        protein: selectedProteinRadio.value,
+        observation: observationText
+      };
+
+      if (btnSaveDay) {
+        btnSaveDay.classList.remove('opacity-50', 'pointer-events-none');
       }
-
-      if (isComplete) {
-        const bowlObj = availableBowls.find(b => b.id === selectedBowlRadio.value);
-        const bowlName = bowlObj ? bowlObj.name : selectedBowlRadio.value;
-        
-        planChoices[dayKey] = {
-          bowlId: selectedBowlRadio.value,
-          bowlName: bowlName,
-          carb: carbVal,
-          carbs: carbsArr,
-          protein: selectedProteinRadio.value,
-          observation: observationText
-        };
-
-        if (btnSaveDay) {
-          btnSaveDay.classList.remove('opacity-50', 'pointer-events-none');
-        }
-        if (btnApplyAllDays) {
-          btnApplyAllDays.classList.remove('opacity-50', 'pointer-events-none');
-        }
-      } else {
-        if (btnSaveDay) {
-          btnSaveDay.classList.add('opacity-50', 'pointer-events-none');
-        }
-        if (btnApplyAllDays) {
-          btnApplyAllDays.classList.add('opacity-50', 'pointer-events-none');
-        }
+      if (btnApplyAllDays) {
+        btnApplyAllDays.classList.remove('opacity-50', 'pointer-events-none');
       }
     } else {
       if (btnSaveDay) {
@@ -1515,13 +1439,11 @@ const availableCarbsFresco = [
       const choice = planChoices[day.key];
       const descEl = document.getElementById(`summary-desc-${day.key}`);
       const obsEl = document.getElementById(`summary-obs-${day.key}`);
-      const isSaved = choice && choice.bowlId && choice.protein && (choice.bowlId !== 'fresco' || choice.carb);
       
-      if (isSaved) {
+      if (choice && choice.bowlId && choice.protein) {
         completedCount++;
         if (descEl) {
-          const carbText = (choice.bowlId === 'fresco' && choice.carb) ? ` (${choice.carb})` : '';
-          descEl.textContent = `${choice.bowlName}${carbText} • ${choice.protein}`;
+          descEl.textContent = `${choice.bowlName} • ${choice.protein}`;
           descEl.className = "text-[11px] font-bold text-[#8A6F56] block truncate summary-day-desc";
         }
         if (obsEl) {
@@ -1633,10 +1555,6 @@ const availableCarbsFresco = [
 
       const datesParam = activePlanDays.map(d => d.dateStr).join(',');
       const obsParam = activePlanDays.map(d => (planChoices[d.key]?.observation || '').replace(/\|/g, ' ')).join('|');
-      const carbsParam = activePlanDays.map(d => {
-        const c = planChoices[d.key];
-        return (c?.bowlId === 'fresco' ? (c.carb || 'Trigo Pelado') : 'Quinua sofrito').replace(/\|/g, ' ');
-      }).join('|');
 
       const params = new URLSearchParams();
       params.set('c', customerName);
@@ -1644,7 +1562,6 @@ const availableCarbsFresco = [
       params.set('f', window._mcFolioNumber.toString());
       params.set('p', planCode);
       params.set('dt', datesParam);
-      params.set('cb', carbsParam);
       if (obsParam.replace(/\|/g, '').length > 0) {
         params.set('obs', obsParam);
       }
@@ -1678,9 +1595,8 @@ const availableCarbsFresco = [
 
     activePlanDays.forEach((day, idx) => {
       const choice = planChoices[day.key] || {};
-      const carbSuffix = (choice.bowlId === 'fresco' && choice.carb) ? ` (${choice.carb})` : '';
       msg += `*ENTREGA ${idx + 1} (${day.dateStr}):*\n`;
-      msg += `  • Bowl: ${choice.bowlName || 'Bowl Salteado'}${carbSuffix}\n`;
+      msg += `  • Bowl: ${choice.bowlName || 'Bowl Salteado'}\n`;
       msg += `  • Proteína: ${choice.protein || 'Pollo a la Plancha'}\n`;
       msg += `  • Observación: ${choice.observation || 'Estándar'}\n\n`;
     });
@@ -1745,34 +1661,8 @@ const availableCarbsFresco = [
 
   // Bowl radio selection
   document.querySelectorAll('.bowl-radio').forEach(radio => {
-    radio.addEventListener('change', (e) => {
-      const isFresco = (e.target.value === 'fresco');
-      if (sectionCarbFresco) {
-        if (isFresco) {
-          sectionCarbFresco.classList.remove('hidden');
-          if (headingProteinStep) headingProteinStep.textContent = "4. Elige tu proteína";
-          if (headingObsStep) headingObsStep.innerHTML = '5. Observación del día <span class="text-gray-400 text-[10px] font-normal font-sans">(Opcional)</span>';
-        } else {
-          sectionCarbFresco.classList.add('hidden');
-          if (headingProteinStep) headingProteinStep.textContent = "3. Elige tu proteína";
-          if (headingObsStep) headingObsStep.innerHTML = '4. Observación del día <span class="text-gray-400 text-[10px] font-normal font-sans">(Opcional)</span>';
-        }
-      }
+    radio.addEventListener('change', () => {
       updateBowlCardsUI();
-      checkCurrentDayCompleteness();
-      updatePricingAndSummary();
-    });
-  });
-
-  // Carb checkbox selection (allows 1 or 2 carbs)
-  document.querySelectorAll('.carb-checkbox').forEach(chk => {
-    chk.addEventListener('change', () => {
-      const checkedBoxes = Array.from(document.querySelectorAll('.carb-checkbox:checked'));
-      if (checkedBoxes.length > 2) {
-        // If 3 are selected, uncheck the first selected
-        checkedBoxes[0].checked = false;
-      }
-      updateCarbCardsUI();
       checkCurrentDayCompleteness();
       updatePricingAndSummary();
     });
@@ -1792,14 +1682,11 @@ const availableCarbsFresco = [
     const curDay = activePlanDays[currentActiveDayIndex];
     if (!curDay) return;
     const curChoice = planChoices[curDay.key];
-    const isCurValid = curChoice && curChoice.bowlId && curChoice.protein && (curChoice.bowlId !== 'fresco' || curChoice.carb);
-    if (isCurValid) {
+    if (curChoice && curChoice.bowlId && curChoice.protein) {
       activePlanDays.forEach(d => {
         planChoices[d.key] = {
           bowlId: curChoice.bowlId,
           bowlName: curChoice.bowlName,
-          carb: curChoice.carb || (curChoice.bowlId === 'fresco' ? 'Trigo Pelado' : 'Quinua con sofrito de cebolla y pimentón'),
-          carbs: curChoice.carbs ? [...curChoice.carbs] : (curChoice.bowlId === 'fresco' ? ['Trigo Pelado'] : ['Quinua con sofrito de cebolla y pimentón']),
           protein: curChoice.protein,
           observation: curChoice.observation || ''
         };
@@ -1838,9 +1725,7 @@ const availableCarbsFresco = [
     let nextIdx = -1;
     for (let i = 0; i < activePlanDays.length; i++) {
       const k = activePlanDays[i].key;
-      const c = planChoices[k];
-      const isComplete = c && c.bowlId && c.protein && (c.bowlId !== 'fresco' || c.carb);
-      if (!isComplete) {
+      if (!planChoices[k] || !planChoices[k].bowlId || !planChoices[k].protein) {
         nextIdx = i;
         break;
       }
