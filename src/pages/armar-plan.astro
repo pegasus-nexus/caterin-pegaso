@@ -400,13 +400,13 @@ const availableProteins = [
                               <span class="text-gray-600 font-medium">{bowl.carb}</span>
                             </div>
                             {bowl.carbList && (
-                              <div class="mt-1 p-2 bg-[#FAF6F0] rounded-xl border border-[#B8935B]/20">
-                                <span class="text-[10px] font-extrabold uppercase tracking-wider text-[#8A6F56] block mb-1">
+                              <div class="mt-1 space-y-1">
+                                <span class="text-[10px] font-bold uppercase tracking-wider text-gray-400 block">
                                   Pueden ser:
                                 </span>
                                 <div class="flex flex-wrap gap-1">
                                   {bowl.carbList.map((carbItem) => (
-                                    <span class="inline-flex items-center text-[10px] bg-white text-gray-700 font-semibold px-2 py-0.5 rounded-md border border-gray-200 shadow-2xs">
+                                    <span class="inline-flex items-center text-[10.5px] text-gray-600 bg-gray-50/80 font-medium px-2 py-0.5 rounded-md border border-gray-200/70">
                                       {carbItem}
                                     </span>
                                   ))}
