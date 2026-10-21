@@ -93,19 +93,19 @@ import Layout from '../layouts/Layout.astro';
               </th>
             </tr>
 
-            <!-- 3. Table Column Headers (text-sm font-bold) -->
-            <tr class="border-y-2 border-gray-300 text-gray-950 font-bold text-xs sm:text-sm bg-gray-100/90 column-headers">
-              <th class="py-1 px-2 font-bold whitespace-nowrap w-[15%]">Fecha de entrega</th>
-              <th class="py-1 px-2 font-bold whitespace-nowrap w-[16%]">Cliente</th>
-              <th class="py-1 px-2 font-bold whitespace-nowrap w-[16%]">Bol</th>
-              <th class="py-1 px-2 font-bold w-[25%]">Proteína</th>
-              <th class="py-1 px-2 font-bold whitespace-nowrap w-[11%]">Tamaño</th>
-              <th class="py-1 px-2 font-bold w-[12%]">Observaciones</th>
-              <th class="py-1 px-2 font-bold text-center whitespace-nowrap w-[5%]">Cantidad</th>
+            <!-- 3. Table Column Headers (text-xs sm:text-sm font-bold) -->
+            <tr class="border-y border-gray-300 text-gray-950 font-bold text-xs bg-gray-100/90 column-headers">
+              <th class="py-1 px-1.5 font-bold whitespace-nowrap">Fecha de entrega</th>
+              <th class="py-1 px-1.5 font-bold whitespace-nowrap">Cliente</th>
+              <th class="py-1 px-1.5 font-bold whitespace-nowrap">Bol</th>
+              <th class="py-1 px-1.5 font-bold whitespace-nowrap">Proteína</th>
+              <th class="py-1 px-1.5 font-bold whitespace-nowrap">Tamaño</th>
+              <th class="py-1 px-1.5 font-bold">Observaciones</th>
+              <th class="py-1 px-1.5 font-bold text-center whitespace-nowrap">Cantidad</th>
             </tr>
           </thead>
 
-          <tbody id="production-tbody" class="divide-y divide-gray-200 text-gray-800 font-medium text-xs sm:text-sm">
+          <tbody id="production-tbody" class="divide-y divide-gray-200/80 text-gray-800 font-medium text-xs sm:text-[13px]">
             <!-- Dynamically populated rows -->
           </tbody>
         </table>
@@ -142,6 +142,17 @@ import Layout from '../layouts/Layout.astro';
 </Layout>
 
 <style>
+  #production-tbody td {
+    padding-top: 2px !important;
+    padding-bottom: 2px !important;
+    line-height: 1.15 !important;
+  }
+  .column-headers th {
+    padding-top: 3px !important;
+    padding-bottom: 3px !important;
+    line-height: 1.15 !important;
+  }
+
   @media print {
     @page {
       margin: 1.0cm 1.0cm 1.0cm 1.0cm;
@@ -195,11 +206,11 @@ import Layout from '../layouts/Layout.astro';
     }
     #production-tbody td,
     .column-headers th {
-      padding-top: 3px !important;
-      padding-bottom: 3px !important;
-      padding-left: 6px !important;
-      padding-right: 6px !important;
-      line-height: 1.25 !important;
+      padding-top: 1.5px !important;
+      padding-bottom: 1.5px !important;
+      padding-left: 4px !important;
+      padding-right: 4px !important;
+      line-height: 1.15 !important;
     }
   }
 </style>
@@ -397,25 +408,25 @@ import Layout from '../layouts/Layout.astro';
         const tr = document.createElement('tr');
         tr.className = "hover:bg-gray-50/80 transition-colors";
         tr.innerHTML = `
-          <td class="py-1 px-2 font-mono text-xs sm:text-sm text-gray-950 font-bold whitespace-nowrap">
+          <td class="py-0.5 px-1.5 font-mono text-xs sm:text-[13px] text-gray-950 font-bold whitespace-nowrap">
             ${dateStr}
           </td>
-          <td class="py-1 px-2 text-gray-900 font-medium text-xs sm:text-sm whitespace-nowrap">
+          <td class="py-0.5 px-1.5 text-gray-900 font-medium text-xs sm:text-[13px] whitespace-nowrap">
             ${clientStr}
           </td>
-          <td class="py-1 px-2 font-bold text-gray-950 text-xs sm:text-sm whitespace-nowrap">
+          <td class="py-0.5 px-1.5 font-bold text-gray-950 text-xs sm:text-[13px] whitespace-nowrap">
             ${bowlType}
           </td>
-          <td class="py-1 px-2 text-gray-800 font-medium text-xs sm:text-sm leading-tight">
+          <td class="py-0.5 px-1.5 text-gray-800 font-medium text-xs sm:text-[13px] whitespace-nowrap">
             ${proteinName}
           </td>
-          <td class="py-1 px-2 text-gray-600 font-medium text-xs sm:text-sm whitespace-nowrap">
+          <td class="py-0.5 px-1.5 text-gray-600 font-medium text-xs sm:text-[13px] whitespace-nowrap">
             ${sizeText}
           </td>
-          <td class="py-1 px-2 text-xs sm:text-sm leading-tight">
+          <td class="py-0.5 px-1.5 text-xs sm:text-[13px] leading-tight">
             ${observationText ? `<span class="text-gray-950 font-semibold">${observationText}</span>` : `<span class="text-gray-400 italic">Estándar</span>`}
           </td>
-          <td class="py-1 px-2 text-center font-bold text-gray-950 text-xs sm:text-sm whitespace-nowrap">
+          <td class="py-0.5 px-1.5 text-center font-bold text-gray-950 text-xs sm:text-[13px] whitespace-nowrap">
             1
           </td>
         `;
